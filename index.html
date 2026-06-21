@@ -25,7 +25,7 @@
             --font-serif: 'Lora', serif;
             --font-sans: 'Inter', sans-serif;
             
-            --transition: all 0.3s ease; /* Transición más rápida y ligera */
+            --transition: all 0.3s ease; /* Transición rápida y ligera */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -694,13 +694,13 @@
     <!-- Mensaje Flotante -->
     <div id="toast">Notificación</div>
 
-    <!-- FIREBASE MODULAR JS -->
+    <!-- FIREBASE MODULAR JS CON TU CONFIGURACIÓN EXACTA -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // TUS CREDENCIALES EXACTAS DE FIREBASE
+        // TUS CREDENCIALES DE FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyAiSgVMEnOD8f07X4lt3qLb7LEvqLQ3JHU",
             authDomain: "tzompantli-2026.firebaseapp.com",
@@ -719,6 +719,7 @@
             console.log("Firebase init error:", e);
         }
 
+        // Helper para colecciones en Firestore
         const getCol = (name) => collection(db, name);
 
         const TZOMPANTLI_ITEMS = [
@@ -777,19 +778,26 @@
                 }, 500); 
             },
 
+            // FORZA EL SCROLL AL PRINCIPIO AL NAVEGAR ENTRE SCENAS
             navigate(sceneId) {
                 if(this.state.activeScene) document.getElementById(this.state.activeScene).classList.remove('active');
                 const scene = document.getElementById(sceneId);
                 scene.classList.add('active');
                 this.state.activeScene = sceneId;
+                
+                // Forzar el scroll hasta arriba dentro de la escena
+                scene.scrollTop = 0; 
+                // Y forzar el scroll de la ventana por si acaso
                 window.scrollTo(0,0);
             },
 
+            // FORZA EL SCROLL AL PRINCIPIO AL VOLVER AL MENÚ PRINCIPAL
             backToMain() {
                 if(this.state.activeScene) {
                     document.getElementById(this.state.activeScene).classList.remove('active');
                     this.state.activeScene = null;
                 }
+                window.scrollTo(0,0);
             },
 
             renderTzompantli() {
