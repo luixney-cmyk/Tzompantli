@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tzompantli 2026 | Memoria, Territorio y Sabores de Nayarit</title>
+    <!-- Fuentes Premium: Cinzel (Títulos/Ceremonial), Lora (Lectura larga/Museo), Inter (UI limpia) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;800&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Paleta Premium y Solemne */
+            --black: #030303;
+            --black-soft: #0c0c0c;
+            --wine: #3d0c13;
+            --wine-dark: #1f0408;
+            --gold: #cfaa67;
+            --gold-glow: rgba(207, 170, 103, 0.25);
+            --cempasuchil: #e87b1c;
+            --bone: #e3dac9;
+            --bone-dark: #9e9584;
+            --text-main: var(--bone);
+            --text-muted: #9e9584;
+            
+            --font-title: 'Cinzel', serif;
+            --font-serif: 'Lora', serif;
+            --font-sans: 'Inter', sans-serif;
+            
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--black);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Ruido sutil para textura de "lienzo/museo" */
+        body::before {
+            content: '';
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
+            opacity: 0.02; pointer-events: none; z-index: 9999;
+        }
+
+        /* Custom Scrollbar Elegante */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--black); }
+        ::-webkit-scrollbar-thumb { background: rgba(207, 170, 103, 0.3); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+        /* Tipografía Base */
+        h1, h2, h3, h4, .title-font { font-family: var(--font-title); font-weight: 500; letter-spacing: 2px; }
+        .serif-font { font-family: var(--font-serif); }
+        
+        /* Botones Premium */
+        button {
+            background: transparent; border: 1px solid rgba(207, 170, 103, 0.4); color: var(--gold);
+            padding: 14px 28px; font-family: var(--font-title); font-size: 0.95rem; font-weight: 500;
+            cursor: pointer; transition: var(--transition); letter-spacing: 2px;
+            text-transform: uppercase; border-radius: 2px; position: relative; overflow: hidden;
+        }
+        button::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(207, 170, 103, 0.2), transparent);
+            transition: var(--transition);
+        }
+        button:hover::after { left: 100%; }
+        button:hover { background: rgba(207, 170, 103, 0.05); border-color: var(--gold); box-shadow: 0 0 20px var(--gold-glow); transform: translateY(-2px); }
+        
+        button.btn-primary { background: rgba(61, 12, 19, 0.8); border-color: var(--wine); color: var(--bone); backdrop-filter: blur(5px); }
+        button.btn-primary:hover { background: var(--wine); border-color: var(--gold); color: var(--bone); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        
+        /* Inputs y Formularios Premium */
+        input, select, textarea {
+            width: 100%; padding: 14px 16px; margin-bottom: 25px;
+            background: rgba(10, 10, 10, 0.6); border: 1px solid rgba(207, 170, 103, 0.15);
+            border-bottom: 1px solid rgba(207, 170, 103, 0.4);
+            color: var(--bone); font-family: var(--font-sans); transition: var(--transition);
+            border-radius: 2px; font-size: 0.95rem; backdrop-filter: blur(5px);
+        }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--gold); background: rgba(20, 20, 20, 0.8); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        label { display: block; margin-bottom: 8px; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; font-family: var(--font-title); }
+
+        /* Clases Utilitarias */
+        .hidden { display: none !important; opacity: 0; pointer-events: none; }
+        .fade-in { animation: cinematicFadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .fade-out { animation: fadeOut 0.8s forwards; }
+        
+        @keyframes cinematicFadeIn { from { opacity: 0; transform: translateY(15px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+        /* --- SCENE: INTRO (Cinemática) --- */
+        #intro {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 100; text-align: center; overflow: hidden; background: var(--black);
+        }
+        
+        /* Fondo con zoom lento */
+        .intro-bg {
+            position: absolute; top: -5%; left: -5%; width: 110%; height: 110%;
+            background: url('fondo.png') center/cover no-repeat;
+            animation: ambientZoom 40s linear infinite alternate;
+            opacity: 0.6;
+        }
+        @keyframes ambientZoom { 0% { transform: scale(1); } 100% { transform: scale(1.08); } }
+        
+        /* Gradiente para legibilidad dramática */
+        .intro-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(3,3,3,0.3) 0%, rgba(3,3,3,0.95) 100%),
+                        linear-gradient(180deg, rgba(3,3,3,0.8) 0%, transparent 40%, rgba(3,3,3,0.9) 100%);
+        }
+        
+        .intro-content { position: relative; z-index: 2; max-width: 900px; padding: 30px; }
+        .intro-title { 
+            font-size: clamp(3.5rem, 10vw, 7.5rem); color: var(--bone); 
+            text-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(207, 170, 103, 0.2); 
+            margin-bottom: 0; opacity: 0; animation: cinematicText 2.5s 0.3s forwards; line-height: 1; 
+            letter-spacing: 5px;
+        }
+        
+        .intro-year-row { display: flex; justify-content: center; align-items: center; gap: clamp(20px, 5vw, 60px); margin: 20px 0 30px; opacity: 0; animation: cinematicText 2.5s 0.8s forwards; }
+        .logo-img { height: clamp(50px, 6vw, 85px); width: auto; object-fit: contain; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)) brightness(0.9) sepia(0.2) hue-rotate(-10deg); opacity: 0.8; }
+        .intro-year { font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--gold); font-family: var(--font-title); font-weight: 400; margin: 0; line-height: 1; letter-spacing: 4px; text-shadow: 0 5px 20px rgba(0,0,0,0.8); }
+
+        .intro-subtitle { font-size: clamp(1.2rem, 3vw, 1.8rem); color: var(--bone-dark); font-family: var(--font-serif); font-style: italic; margin-bottom: 40px; opacity: 0; animation: cinematicText 2.5s 1.5s forwards; letter-spacing: 1px; }
+        .intro-inst { font-size: 0.8rem; color: rgba(227, 218, 201, 0.5); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 60px; opacity: 0; animation: cinematicText 2.5s 2.2s forwards; }
+        .intro-btn { opacity: 0; animation: cinematicText 2.5s 3s forwards; }
+        
+        @keyframes cinematicText { from { opacity: 0; filter: blur(12px); transform: translateY(20px) scale(0.98); } to { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); } }
+
+        /* --- MAIN TZOMPANTLI (Fondo principal) --- */
+        #main-tzompantli {
+            min-height: 100vh; padding: 120px 20px 80px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: linear-gradient(rgba(10, 10, 10, 0.85), rgba(31, 4, 8, 0.95)), url('fondo.png') center/cover no-repeat fixed;
+            position: relative;
+        }
+        
+        .corner-logo { position: absolute; top: 40px; height: 60px; width: auto; object-fit: contain; opacity: 0.4; transition: var(--transition); z-index: 10; filter: brightness(0.8) sepia(0.3); }
+        .corner-logo:hover { opacity: 0.8; filter: drop-shadow(0 0 15px var(--gold-glow)); transform: scale(1.05); }
+        .logo-left { left: 40px; }
+        .logo-right { right: 40px; }
+
+        .main-instruction { font-family: var(--font-serif); font-style: italic; color: var(--bone-dark); font-size: 1.5rem; margin-bottom: 60px; text-align: center; font-weight: 400; letter-spacing: 1px; }
+        
+        .tzompantli-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;
+            width: 100%; max-width: 1100px; padding: 0 20px;
+        }
+
+        /* Tarjetas estilo Placas Ceremoniales (antes .skull-item) */
+        .skull-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+            cursor: pointer; transition: var(--transition); position: relative;
+            padding: 40px 30px; background: rgba(12, 12, 12, 0.65);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(207, 170, 103, 0.15); border-top: 2px solid rgba(207, 170, 103, 0.4);
+            border-radius: 3px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+        .skull-item::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(207, 170, 103, 0.08) 0%, transparent 100%);
+            opacity: 0; transition: var(--transition); pointer-events: none;
+        }
+        .skull-item:hover { transform: translateY(-8px); border-color: rgba(207, 170, 103, 0.5); border-top-color: var(--gold); background: rgba(18, 18, 18, 0.85); box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 30px var(--gold-glow); }
+        .skull-item:hover::before { opacity: 1; }
+        
+        .skull-title { font-family: var(--font-title); font-size: 1.6rem; color: var(--gold); margin-bottom: 12px; letter-spacing: 3px; font-weight: 500; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+        .skull-subtitle { font-size: 0.85rem; color: var(--bone-dark); text-transform: uppercase; letter-spacing: 2px; font-family: var(--font-sans); }
+
+        /* --- SCENE CONTAINER (Salas del museo) --- */
+        .scene {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(to bottom, var(--black) 0%, var(--black-soft) 100%);
+            z-index: 50; overflow-y: auto; padding: 60px 20px; 
+            opacity: 0; pointer-events: none; transition: opacity 0.8s ease;
+        }
+        /* Añadir textura sutil a las escenas internas */
+        .scene::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('fondo.png') center/cover no-repeat;
+            opacity: 0.03; pointer-events: none; mix-blend-mode: luminosity;
+        }
+        .scene.active { opacity: 1; pointer-events: auto; }
+        
+        .scene-header { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto 60px; border-bottom: 1px solid rgba(207, 170, 103, 0.2); padding-bottom: 25px; position: relative; z-index: 2; }
+        .btn-back { display: inline-flex; align-items: center; gap: 12px; font-size: 0.85rem; border: none; padding: 0; color: var(--text-muted); background: transparent; }
+        .btn-back:hover { background: transparent; color: var(--gold); box-shadow: none; transform: translateX(-8px); }
+        
+        .scene-content { max-width: 1000px; margin: 0 auto; padding-bottom: 100px; position: relative; z-index: 2; }
+        .scene-title { font-size: clamp(2.5rem, 6vw, 4rem); color: var(--gold); margin-bottom: 50px; text-align: center; letter-spacing: 4px; text-shadow: 0 5px 20px rgba(0,0,0,0.5); }
+
+        /* Componentes de Diseño Interno */
+        .premium-card { background: rgba(12, 12, 12, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(207, 170, 103, 0.1); border-radius: 3px; padding: 40px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .text-block { border-left: 2px solid var(--gold); padding-left: 25px; margin-bottom: 40px; }
+        .quote { font-family: var(--font-serif); font-size: 1.6rem; font-style: italic; color: var(--bone); text-align: center; margin: 60px auto; padding: 0 30px; line-height: 1.5; max-width: 800px; color: var(--gold); text-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        @media(max-width: 768px) { .grid-2 { grid-template-columns: 1fr; gap: 20px; } }
+        
+        /* Bloques de Convocatoria */
+        .rule-block { padding: 30px; background: rgba(15, 15, 15, 0.6); border-left: 2px solid rgba(207, 170, 103, 0.3); margin-bottom: 25px; border-radius: 0 3px 3px 0; transition: var(--transition); }
+        .rule-block:hover { border-left-color: var(--gold); background: rgba(20, 20, 20, 0.8); box-shadow: 0 5px 20px rgba(0,0,0,0.2); transform: translateX(5px); }
+        .rule-title { color: var(--gold); margin-bottom: 15px; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .rule-number { color: var(--wine); font-size: 1.8rem; opacity: 0.8; font-family: var(--font-serif); font-style: italic; }
+        
+        form { max-width: 800px; margin: 0 auto; }
+        .form-row { display: flex; gap: 30px; }
+        .form-row > div { flex: 1; }
+        @media(max-width: 600px) { .form-row { flex-direction: column; gap: 0; } }
+        
+        .checkbox-group { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 30px; cursor: pointer; padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 2px; }
+        .checkbox-group input { width: auto; margin: 2px 0 0 0; accent-color: var(--gold); transform: scale(1.2); }
+        .checkbox-group label { color: var(--bone-dark); text-transform: none; letter-spacing: 0.5px; font-family: var(--font-sans); }
+        
+        .receipt { text-align: center; padding: 60px 40px; background: var(--wine-dark); border: 1px solid rgba(207, 170, 103, 0.3); border-top: 3px solid var(--gold); max-width: 600px; margin: 0 auto; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+        .receipt::after { content:''; position:absolute; top:10px; left:10px; right:10px; bottom:10px; border: 1px solid rgba(207, 170, 103, 0.1); pointer-events: none; }
+        .folio-number { font-family: var(--font-title); font-size: 3.5rem; color: var(--gold); margin: 30px 0; letter-spacing: 6px; text-shadow: 0 0 20px rgba(207, 170, 103, 0.2); }
+        
+        /* Línea del Tiempo (Programa) */
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 20px 0; }
+        .timeline::before { content: ''; position: absolute; left: 120px; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent, rgba(207, 170, 103, 0.5), transparent); }
+        @media(max-width: 600px) { .timeline::before { left: 80px; } }
+        
+        .tl-item { position: relative; padding-left: 170px; margin-bottom: 50px; display: flex; align-items: center; }
+        @media(max-width: 600px) { .tl-item { padding-left: 110px; } }
+        .tl-time { position: absolute; left: 0; top: 50%; transform: translateY(-50%); color: var(--gold); font-family: var(--font-title); font-size: 1.2rem; width: 100px; text-align: right; letter-spacing: 2px; }
+        @media(max-width: 600px) { .tl-time { width: 60px; font-size: 1rem; } }
+        .tl-dot { position: absolute; left: 116px; top: 50%; transform: translateY(-50%); width: 9px; height: 9px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 15px var(--gold); }
+        @media(max-width: 600px) { .tl-dot { left: 76px; } }
+        .tl-content { background: rgba(15, 15, 15, 0.8); padding: 25px 30px; border-radius: 2px; width: 100%; border: 1px solid rgba(255,255,255,0.03); border-left: 2px solid transparent; transition: var(--transition); font-family: var(--font-serif); font-size: 1.1rem; }
+        .tl-item:hover .tl-content { border-left-color: var(--gold); background: rgba(20, 20, 20, 0.95); transform: translateX(5px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 0.9rem; background: rgba(10,10,10,0.5); }
+        th, td { padding: 18px 20px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        th { color: var(--gold); font-family: var(--font-title); text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.8rem; background: rgba(0,0,0,0.3); }
+        tr:hover td { background: rgba(255,255,255,0.02); }
+
+        .login-overlay { max-width: 450px; margin: 100px auto; background: rgba(15,15,15,0.8); backdrop-filter: blur(10px); padding: 50px; border: 1px solid rgba(207, 170, 103, 0.2); text-align: center; border-radius: 3px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+
+        .admin-nav { display: flex; gap: 15px; margin-bottom: 40px; overflow-x: auto; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .admin-nav button { font-size: 0.85rem; padding: 10px 20px; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); }
+        .admin-nav button:hover, .admin-nav button.active-tab { background: transparent; color: var(--gold); border-bottom-color: var(--gold); box-shadow: none; transform: none; }
+        
+        .admin-section { display: none; }
+        .admin-section.active { display: block; animation: cinematicFadeIn 0.6s forwards; }
+
+        .footer-phrase { text-align: center; padding: 60px 20px 40px; font-family: var(--font-serif); font-style: italic; color: rgba(227, 218, 201, 0.4); font-size: 1.1rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: auto; letter-spacing: 1px; }
+
+        /* Botón de Audio Refinado */
+        .audio-btn { position: fixed; bottom: 40px; left: 40px; z-index: 1000; background: rgba(10,10,10,0.6); backdrop-filter: blur(8px); border: 1px solid rgba(207, 170, 103, 0.3); color: var(--gold); width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: var(--transition); box-shadow: 0 5px 20px rgba(0,0,0,0.5); font-size: 1.2rem; }
+        .audio-btn:hover { background: rgba(20,20,20,0.9); border-color: var(--gold); transform: scale(1.05); box-shadow: 0 5px 25px var(--gold-glow); }
+
+        #toast { position: fixed; bottom: 40px; right: 40px; background: rgba(12, 12, 12, 0.9); backdrop-filter: blur(10px); color: var(--gold); border: 1px solid var(--gold); padding: 18px 30px; border-radius: 3px; font-family: var(--font-sans); font-weight: 500; letter-spacing: 1px; transform: translateY(100px); opacity: 0; transition: var(--transition); z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        #toast.show { transform: translateY(0); opacity: 1; }
+
+        /* Media Queries Extras para Responsividad */
+        @media(max-width: 768px) {
+            .corner-logo { height: 45px; top: 20px; }
+            .logo-left { left: 20px; }
+            .logo-right { right: 20px; }
+            #main-tzompantli { padding-top: 100px; }
+            .audio-btn { bottom: 20px; left: 20px; width: 45px; height: 45px; }
+            #toast { bottom: 20px; right: 20px; padding: 15px 20px; font-size: 0.9rem; }
+            .premium-card, .rule-block, .receipt { padding: 25px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- INTRO SCENE -->
+    <div id="intro">
+        <div class="intro-bg"></div>
+        <div class="intro-overlay"></div>
+        <div class="intro-content">
+            <h1 class="intro-title">TZOMPANTLI</h1>
+            <div class="intro-year-row">
+                <img src="unidad.png" alt="UATyG" class="logo-img" onerror="this.src='unidad.jpg'">
+                <div class="intro-year">2026</div>
+                <img src="cetyg.png" alt="CETyG" class="logo-img" onerror="this.src='cetyg.jpg'">
+            </div>
+            <div class="intro-subtitle">Memoria, Territorio y Sabores de Nayarit</div>
+            <div class="intro-inst">Unidad Académica de Turismo y Gastronomía<br>Universidad Autónoma de Nayarit</div>
+            <button class="intro-btn" onclick="App.enterTzompantli()">Entrar al Tzompantli</button>
+        </div>
+    </div>
+
+    <!-- MAIN TZOMPANTLI -->
+    <div id="main-tzompantli" class="hidden">
+        <img src="unidad.png" alt="UATyG" class="corner-logo logo-left" onerror="this.src='unidad.jpg'">
+        <img src="cetyg.png" alt="CETyG" class="corner-logo logo-right" onerror="this.src='cetyg.jpg'">
+
+        <h2 class="main-instruction fade-in">Elige una puerta para entrar a la memoria.</h2>
+        <div class="tzompantli-grid" id="skull-grid">
+            <!-- Rendered by JS as ceremonial plaques -->
+        </div>
+        <div class="footer-phrase fade-in" style="margin-top: 80px;">Nuestra mayor ofrenda es mantener viva la memoria de nuestra tierra.</div>
+    </div>
+
+    <!-- Botón de Audio -->
+    <div class="audio-btn hidden" id="audio-toggle" onclick="App.audio.toggle()">
+        <span id="audio-icon">🔊</span>
+    </div>
+
+    <!-- SCENE: ORIGEN -->
+    <div id="scene-origen" class="scene">
+        <div class="scene-header">
+            <button class="btn-back" onclick="App.backToMain()"><span>&#8592;</span> Volver</button>
+        </div>
+        <div class="scene-content">
+            <h2 class="scene-title">¿Qué es el Tzompantli?</h2>
+            
+            <div class="premium-card grid-2" style="background: transparent; border: none; box-shadow: none; padding: 0;">
+                <div>
+                    <div class="text-block">
+                        <h3 class="title-font" style="color:var(--gold); margin-bottom:15px;">Raíz Mesoamericana</h3>
+                        <p class="serif-font" style="color:var(--bone-dark);">El tzompantli era un altar donde se empalaban los cráneos de los sacrificados. Lejos de ser un monumento al terror, era una ofrenda a los dioses, un recordatorio de la fragilidad de la vida y la inevitabilidad del ciclo muerte-renacimiento.</p>
+                    </div>
+                    <div class="text-block">
+                        <h3 class="title-font" style="color:var(--gold); margin-bottom:15px;">Resignificación</h3>
+                        <p class="serif-font" style="color:var(--bone-dark);">En la Unidad Académica de Turismo y Gastronomía, transformamos esta estructura en un altar colectivo de saberes, memoria y comunidad. Cada cráneo aquí no representa una pérdida, sino una puerta a nuestras tradiciones.</p>
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: column; justify-content: center;">
+                    <div class="quote">
+                        "La muerte no aparece como final, sino como memoria que permanece."
+                    </div>
+                    <p class="serif-font" style="text-align:center; color:var(--text-muted); max-width: 400px; margin: 0 auto;">
+                        Este 2026, invitamos a la comunidad universitaria a explorar el territorio nayarita a través de sus ofrendas, donde el cempasúchil guía, el copal purifica y el pan de muerto alimenta el recuerdo.
+                    </p>
+                </div>
+            </div>
+
+            <!-- BLOQUE: Historia viva en la UATyG -->
+            <div class="quote" style="margin-top: 20px; margin-bottom: 50px; font-size: 1.4rem; max-width: 900px;">
+                "Más de tres décadas de memoria universitaria convertidas en altares, sabores, territorio y comunidad."
+            </div>
+
+            <div class="premium-card">
+                <h3 class="title-font" style="color:var(--gold); text-align:center; margin-bottom:30px; font-size: 1.7rem; letter-spacing: 2px;">Historia viva en la UATyG</h3>
+                
+                <p class="serif-font" style="color:var(--bone-dark); margin-bottom: 20px; text-align: justify; font-size: 1.05rem;">
+                    El Tzompantli es una de las tradiciones culturales más representativas de la Unidad Académica de Turismo y Gastronomía. Durante más de tres décadas, generaciones de estudiantes, docentes y comunidad universitaria han participado en esta actividad cercana al Día de Muertos, convirtiendo los espacios de la Unidad en un territorio de memoria, altares, flores, aromas, alimentos, relatos y convivencia.
+                </p>
+                
+                <p class="serif-font" style="color:var(--bone-dark); margin-bottom: 20px; text-align: justify; font-size: 1.05rem;">
+                    Para la UATyG, el Tzompantli no es solo un concurso de altares. Es una experiencia que une la gastronomía, el turismo, la cultura y el territorio. Desde la Gastronomía, permite reconocer los sabores, ingredientes, recetas, oficios y personas que han preservado la memoria alimentaria de Nayarit. Desde el Turismo, invita a interpretar los municipios, comunidades, paisajes, tradiciones y formas de vida que dan identidad al estado.
+                </p>
+                
+                <p class="serif-font" style="color:var(--bone-dark); margin-bottom: 35px; text-align: justify; font-size: 1.05rem;">
+                    La edición 2026 busca recuperar la fuerza histórica de esta tradición y darle un sentido más profundo: cada altar deberá partir de una persona fallecida que haya dejado huella en los saberes, sabores, oficios, territorios o memorias de Nayarit.
+                </p>
+                
+                <p class="serif-font" style="color:var(--gold); font-style: italic; text-align: center; margin: 0; font-size: 1.15rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+                    Porque en la UATyG, el Tzompantli no solo recuerda a quienes ya partieron: también recuerda lo que somos y lo que tenemos la responsabilidad de preservar.
+                </p>
+            </div>
+
+        </div>
+        <div class="footer-phrase">Nuestra mayor ofrenda es mantener viva la memoria de nuestra tierra.</div>
+    </div>
+
+    <!-- SCENE: CONVOCATORIA -->
+    <div id="scene-convocatoria" class="scene">
+        <div class="scene-header">
+            <button class="btn-back" onclick="App.backToMain()"><span>&#8592;</span> Volver</button>
+        </div>
+        <div class="scene-content">
+            <h2 class="scene-title">Convocatoria 2026</h2>
+            <div style="text-align:center; margin-bottom: 60px;">
+                <button class="btn-primary" onclick="App.navigate('scene-grupo')" style="padding: 16px 40px; font-size: 1.1rem;">Inscribir mi grupo</button>
+            </div>
+            
+            <div class="premium-card">
+                <h3 class="title-font" style="color:var(--gold); text-align:center; margin-bottom:20px; font-size:1.8rem; letter-spacing: 3px;">Altares a quienes preservaron los saberes y sabores de Nayarit</h3>
+                <p class="serif-font" style="text-align:center; margin-bottom:40px; color:var(--bone-dark); font-size: 1.1rem; max-width: 800px; margin-inline: auto;">La Unidad Académica de Turismo y Gastronomía de la Universidad Autónoma de Nayarit, a través del Comité Estudiantil CETyG, convoca a la comunidad estudiantil a participar en el Tzompantli 2026, actividad tradicional dedicada al montaje de altares de muertos. La edición 2026 tendrá como eje central: <strong style="color:var(--gold); font-weight: 500;">Memoria, Territorio y Sabores de Nayarit</strong>.</p>
+            </div>
+                
+            <div class="rule-block">
+                <h4 class="rule-title"><span class="rule-number">1.</span> Sentido de la convocatoria</h4>
+                <p class="serif-font" style="color:var(--bone-dark);">El Tzompantli 2026 no busca únicamente montar altares decorativos. Busca que cada equipo investigue, reconozca y honre la memoria de una persona que haya dejado huella en su comunidad. Cada altar deberá responder claramente: <em style="color:var(--gold);">¿A quién recordamos y por qué su memoria merece permanecer?</em> Esta edición busca rescatar principalmente a aquellas personas que, desde lo cotidiano, conservaron los sabores, saberes y formas de vida de Nayarit.</p>
+            </div>
+
+            <div class="rule-block">
+                <h4 class="rule-title"><span class="rule-number">2.</span> Persona homenajeada</h4>
+                <p class="serif-font" style="color:var(--bone-dark);">Todo altar deberá estar dedicado a una persona fallecida. La persona elegida deberá tener una relación clara con aspectos como: gastronomía tradicional, cocina familiar, oficios tradicionales, agricultura, pesca, producción local, defensa del territorio, cultura popular, o saberes comunitarios (ej. una cocinera tradicional, un pescador, un agricultor, un artesano, etc.).</p>
+            </div>
+
+            <div class="rule-block">
+                <h4 class="rule-title"><span class="rule-number">3.</span> Relación con el territorio</h4>
+                <p class="serif-font" style="color:var(--bone-dark);">La persona homenajeada deberá estar vinculada con un territorio específico de Nayarit. El equipo deberá identificar el municipio, comunidad, barrio, o costa relacionada. El territorio no será el tema principal del altar, sino el contexto que permite entender su importancia.</p>
+            </div>
+
+            <div class="rule-block">
+                <h4 class="rule-title"><span class="rule-number">4.</span> Relación con los saberes y sabores</h4>
+                <p class="serif-font" style="color:var(--bone-dark);">Cada altar deberá mostrar qué saber, sabor, oficio, receta o tradición representa la persona. El altar podrá integrar platillos tradicionales, ingredientes, herramientas de oficio, o fotografías. El objetivo es que el altar cuente una historia.</p>
+            </div>
+
+            <div class="rule-block">
+                <h4 class="rule-title"><span class="rule-number">5.</span> Preguntas guía para los equipos</h4>
+                <ul class="serif-font" style="margin-left:30px; color:var(--bone-dark); list-style-type: square;">
+                    <li style="margin-bottom: 10px;">¿Cuál es el nombre de la persona a quien estará dedicado?</li>
+                    <li style="margin-bottom: 10px;">¿De qué municipio o territorio de Nayarit proviene?</li>
+                    <li style="margin-bottom: 10px;">¿Qué saber, sabor u oficio representa y por qué fue importante?</li>
+                    <li style="margin-bottom: 10px;">¿Qué alimentos o símbolos estarán presentes para contar su historia?</li>
+                </ul>
+            </div>
+
+            <div class="rule-block">
+                <h4 class="rule-title"><span class="rule-number">6.</span> Participantes y Fusiones</h4>
+                <p class="serif-font" style="color:var(--bone-dark); margin-bottom: 15px;">Podrán participar estudiantes inscritos en la Unidad Académica de Turismo y Gastronomía. Cada equipo deberá estar conformado por un mínimo de 15 alumnos y un máximo de 25 alumnos.</p>
+                <ul class="serif-font" style="margin-left:30px; color:var(--bone-dark); list-style-type: square; margin-bottom: 25px;">
+                    <li style="margin-bottom: 10px;"><strong style="color:var(--bone);">Gestión e Innovación del Turismo:</strong> Podrán fusionarse máximo 2 grupos, siempre que exista justificación por cantidad de alumnos.</li>
+                    <li style="margin-bottom: 10px;"><strong style="color:var(--bone);">Gastronomía:</strong> La participación es exclusiva y obligatoriamente por Grupo. No pueden fusionarse grupos ni un alumno puede participar en un grupo al que no pertenezca.</li>
+                </ul>
+                <div style="background:rgba(207, 170, 103, 0.05); border:1px solid rgba(207, 170, 103, 0.3); padding:20px; text-align:center; border-radius: 2px;">
+                    <strong style="color:var(--gold); font-family:var(--font-title); letter-spacing: 2px; font-size: 1.1rem; display: block; margin-bottom: 10px;">Créditos Académicos</strong>
+                    <span class="serif-font" style="color:var(--bone-dark);">La participación oficial en el montaje de altares hace acreedores a los alumnos a <strong>Créditos Académicos del Rubro III</strong>.</span>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="rule-block">
+                    <h4 class="rule-title"><span class="rule-number">7.</span> Jefe de equipo</h4>
+                    <p class="serif-font" style="color:var(--bone-dark);">Cada equipo deberá nombrar a un Representante para el registro, seguimiento y comunicación de acuerdos con el Comité Organizador.</p>
+                </div>
+                <div class="rule-block">
+                    <h4 class="rule-title"><span class="rule-number">8.</span> Tutor académico</h4>
+                    <p class="serif-font" style="color:var(--bone-dark);">Los grupos, una vez registrados en la primera semana, podrán decidir qué profesor será su tutor de Tzompantli. Si el grupo no se registra, se les asignará el docente y no podrán cambiarlo. El docente tutor no podrá ser el presentador oficial del altar.</p>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="rule-block">
+                    <h4 class="rule-title"><span class="rule-number">9.</span> Inscripción y cuota</h4>
+                    <p class="serif-font" style="color:var(--bone-dark);">El registro se realizará en esta plataforma. Efectivo al pago de cuota de recuperación de <strong style="color:var(--gold);">$70.00 M.N. por alumno</strong> con los miembros del Comité CETyG.</p>
+                </div>
+                <div class="rule-block">
+                    <h4 class="rule-title"><span class="rule-number">10.</span> Ficha cultural</h4>
+                    <p class="serif-font" style="color:var(--bone-dark);">Cada equipo deberá entregar una ficha cultural detallando nombre, historia, municipio, sabor/saber, y justificación del altar, la cual deberá ser visible.</p>
+                </div>
+            </div>
+
+            <div class="rule-block" style="border-left-color: rgba(255, 50, 50, 0.5);">
+                <h4 class="rule-title" style="color: var(--bone);"><span class="rule-number" style="color: #c94c4c;">11.</span> Montaje y espacio asignado</h4>
+                <p class="serif-font" style="color:var(--bone-dark); margin-bottom: 15px;">Cada altar será montado en la explanada en un espacio de <strong>2 metros de frente x 3 metros de fondo</strong>.</p>
+                <p class="serif-font" style="color:#e88989; font-weight: 500;">El montaje iniciará estrictamente a las 8:00 hrs de la mañana y concluirá a las 17:00 hrs de la tarde. Sin prórroga ni excusas. Una vez que den las 17:00 hrs, nadie podrá hacer modificaciones.</p>
+            </div>
+
+            <div class="rule-block">
+                <h4 class="rule-title"><span class="rule-number">12.</span> Elementos mínimos</h4>
+                <p class="serif-font" style="color:var(--bone-dark);">Fotografía o representación respetuosa, dedicatoria clara, elementos tradicionales, relación visible con el territorio, elementos gastronómicos y ficha visible.</p>
+            </div>
+
+            <div class="rule-block" style="border-left-color: rgba(255, 50, 50, 0.5);">
+                <h4 class="rule-title" style="color: var(--bone);"><span class="rule-number" style="color: #c94c4c;">13.</span> Seguridad de Fuego</h4>
+                <p class="serif-font" style="color:var(--bone-dark); margin-bottom: 15px;">No se permitirán pantallas, bocinas de gran tamaño ni proyectores.</p>
+                <p class="serif-font" style="color:#e88989; font-weight: 500;">
+                    USO DE VELAS: Solo se permiten veladoras o velas dentro de un cristal. No se permiten velas que no estén contenidas en cristal o que puedan provocar un incendio. Se sugiere preferentemente usar velas eléctricas. Las velas de fuego real solo se podrán prender antes de que el jurado pase.
+                </p>
+            </div>
+
+            <div class="rule-block">
+                <h4 class="rule-title"><span class="rule-number">14.</span> Presentación ante el jurado</h4>
+                <p class="serif-font" style="color:var(--bone-dark);">Cada equipo deberá realizar una presentación oral breve por parte de estudiantes explicando a quién está dedicado, el territorio y los elementos simbólicos.</p>
+            </div>
+
+            <div class="rule-block">
+                <h4 class="rule-title"><span class="rule-number">15.</span> Evaluación general (100 pts)</h4>
+                <p class="serif-font" style="color:var(--bone-dark);">Claridad de memoria (15), investigación (15), territorio (10), integración de saberes (15), elementos tradicionales (15), creatividad (10), presentación (10), orden y seguridad (5), trabajo colaborativo (5).</p>
+            </div>
+
+            <div class="rule-block">
+                <h4 class="rule-title"><span class="rule-number">16.</span> Mercadito</h4>
+                <p class="serif-font" style="color:var(--bone-dark);">Habrá espacios para venta. Interesados deben llenar solicitud en la plataforma. Cupo limitado y preferencia a comunidad UATyG.</p>
+            </div>
+
+            <div class="rule-block" style="border-left-color: rgba(255, 50, 50, 0.5);">
+                <h4 class="rule-title" style="color: var(--bone);"><span class="rule-number" style="color: #c94c4c;">17.</span> Penalizaciones y descalificaciones</h4>
+                <p class="serif-font" style="color:var(--bone-dark); margin-bottom: 15px;">El equipo que no cumpla con la recolección de basura será penalizado con una multa de <strong style="color:#e88989;">$200.00 M.N.</strong></p>
+                <p class="serif-font" style="color:#e88989; font-weight: 500;">Indisciplinas, faltas de respeto o riesgos de seguridad serán motivo de descalificación inmediata por parte del CETyG.</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="rule-block">
+                    <h4 class="rule-title"><span class="rule-number">18.</span> Jurado calificador</h4>
+                    <p class="serif-font" style="color:var(--bone-dark);">Estará conformado por expertos. Los resultados emitidos serán inapelables.</p>
+                </div>
+                <div class="rule-block">
+                    <h4 class="rule-title"><span class="rule-number">19.</span> Cláusula final</h4>
+                    <p class="serif-font" style="color:var(--bone-dark);">Cualquier situación no prevista será atendida y resuelta por el Comité Organizador.</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="footer-phrase">Nuestra mayor ofrenda es mantener viva la memoria de nuestra tierra.</div>
+    </div>
+
+    <!-- SCENE: GRUPO (Inscripción) -->
+    <div id="scene-grupo" class="scene">
+        <div class="scene-header">
+            <button class="btn-back" onclick="App.backToMain()"><span>&#8592;</span> Volver</button>
+        </div>
+        <div class="scene-content">
+            <h2 class="scene-title">Inscribe tu Altar</h2>
+            
+            <div id="grupo-form-container" class="premium-card">
+                <form id="form-grupo" onsubmit="App.forms.submitGrupo(event)">
+                    
+                    <h3 class="title-font" style="color:var(--gold); margin:0 0 25px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:15px; font-size: 1.2rem;">Datos Académicos</h3>
+
+                    <div class="form-row">
+                        <div>
+                            <label>Licenciatura</label>
+                            <select name="licenciatura" id="licenciatura_select" required onchange="App.forms.handleLicenciaturaChange()">
+                                <option value="">Selecciona...</option>
+                                <option value="Gastronomía">Gastronomía</option>
+                                <option value="Gestión e Innovación del Turismo">Gestión e Innovación del Turismo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div>
+                            <label>Semestre</label>
+                            <select name="semestre" required>
+                                <option value="">Selecciona...</option>
+                                <option value="1ro">1ro</option><option value="2do">2do</option><option value="3ro">3ro</option>
+                                <option value="4to">4to</option><option value="5to">5to</option><option value="6to">6to</option>
+                                <option value="7mo">7mo</option><option value="8vo">8vo</option><option value="9no">9no</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Grupo (Ej. A, B, C)</label>
+                            <input type="text" name="grupo" required placeholder="Letra del grupo">
+                        </div>
+                    </div>
+
+                    <!-- Solo aparece si eligen Gestión e Innovación del Turismo -->
+                    <div id="fusion_container" class="hidden" style="background: rgba(207, 170, 103, 0.05); padding: 25px; border-left: 2px solid var(--gold); margin-bottom: 30px; border-radius: 2px;">
+                        <div class="checkbox-group" style="margin-bottom: 0; background: transparent; border: none; padding: 0;">
+                            <input type="checkbox" name="fusion" id="fus" onchange="document.getElementById('fus_group').style.display = this.checked ? 'block' : 'none'">
+                            <label for="fus" style="color:var(--gold); font-size: 0.95rem;">¿Se fusionará con otro grupo?</label>
+                        </div>
+                        <div id="fus_group" style="display:none; margin-top:20px;">
+                            <label>Indique el Semestre y Grupo con el que se fusiona (Máximo 1 grupo extra):</label>
+                            <input type="text" name="grupo_fusion" placeholder="Ej. 3ro B" style="margin-bottom: 0;">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div>
+                            <label>Turno</label>
+                            <select name="turno" required>
+                                <option value="Matutino">Matutino</option>
+                                <option value="Vespertino">Vespertino</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Docente Tutor Propuesto</label>
+                            <input type="text" name="tutor" required placeholder="Nombre completo">
+                        </div>
+                    </div>
+
+                    <h3 class="title-font" style="color:var(--gold); margin:40px 0 25px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:15px; font-size: 1.2rem;">Datos del Representante</h3>
+                    <div class="form-row">
+                        <div><label>Nombre Completo</label><input type="text" name="rep_nombre" required></div>
+                        <div><label>Teléfono</label><input type="tel" name="rep_tel" required></div>
+                    </div>
+                    <div><label>Correo Universitario</label><input type="email" name="rep_correo" required></div>
+
+                    <h3 class="title-font" style="color:var(--gold); margin:40px 0 25px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:15px; font-size: 1.2rem;">Concepto del Altar</h3>
+                    <div class="form-row">
+                        <div><label>Tema o Título del Altar</label><input type="text" name="tema" required></div>
+                        <div><label>Municipio de Nayarit relacionado</label><input type="text" name="municipio" required></div>
+                    </div>
+                    
+                    <label>A quién(es) o a qué se dedica (Persona homenajeada)</label>
+                    <input type="text" name="dedicatoria" required>
+                    
+                    <label>Breve justificación cultural e integración gastronómica (Max 500 caract.)</label>
+                    <textarea name="justificacion" rows="4" required placeholder="Explica la historia..."></textarea>
+
+                    <div class="checkbox-group" style="margin-top:40px;">
+                        <input type="checkbox" required id="reglas">
+                        <label for="reglas" style="color:var(--gold); font-size: 0.9rem; line-height: 1.5;">Acepto las reglas de participación, el horario estricto de 8:00 a 17:00, el uso exclusivo de velas en cristal, las medidas de altar y la cuota de recuperación.</label>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width:100%; margin-top:10px; font-size:1.1rem; padding: 18px;">Formalizar Registro del Altar</button>
+                </form>
+            </div>
+
+            <div id="grupo-receipt" class="receipt hidden fade-in">
+                <h3 class="title-font" style="color: var(--bone);">Registro Ceremonial Completado</h3>
+                <p class="serif-font" style="color: var(--bone-dark); margin-top: 15px;">Tu inscripción ha sido resguardada por el comité.</p>
+                <div class="folio-number" id="grupo-folio-display">TZ26-0000</div>
+                <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:30px; max-width: 400px; margin-inline: auto;">Guarda este folio de identificación para cualquier aclaración o para conocer tu ubicación en el plano cartográfico.</p>
+                <button onclick="window.print()">Imprimir Constancia</button>
+            </div>
+        </div>
+        <div class="footer-phrase">Nuestra mayor ofrenda es mantener viva la memoria de nuestra tierra.</div>
+    </div>
+
+    <!-- SCENE: MERCADITO -->
+    <div id="scene-mercadito" class="scene">
+        <div class="scene-header">
+            <button class="btn-back" onclick="App.backToMain()"><span>&#8592;</span> Volver</button>
+        </div>
+        <div class="scene-content">
+            <h2 class="scene-title">Mercadito de Ánimas</h2>
+            <p class="serif-font" style="text-align:center; max-width:600px; margin:0 auto 50px; color:var(--bone-dark); font-size: 1.1rem;">
+                Espacio dedicado a la venta de alimentos, bebidas tradicionales y artesanías. Prioridad para estudiantes de la UATyG. Cupo limitado.
+            </p>
+
+            <div id="merc-form-container" class="premium-card">
+                <form id="form-mercadito" onsubmit="App.forms.submitMercadito(event)">
+                    <div class="form-row">
+                        <div>
+                            <label>Responsable / Nombre del Puesto</label>
+                            <input type="text" name="responsable" required>
+                        </div>
+                        <div>
+                            <label>Tipo de Participante</label>
+                            <select name="tipo" required>
+                                <option value="Estudiante UATyG">Estudiante UATyG</option>
+                                <option value="Docente/Administrativo">Docente/Administrativo</option>
+                                <option value="Externo">Externo (Invitado)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <label>Producto Principal a Vender</label>
+                    <input type="text" name="producto" required>
+                    
+                    <label>Descripción breve</label>
+                    <input type="text" name="descripcion" required>
+
+                    <div class="form-row">
+                        <div><label>Teléfono</label><input type="tel" name="telefono" required></div>
+                        <div><label>Correo</label><input type="email" name="correo" required></div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" name="electricidad" id="m_elec">
+                        <label for="m_elec">Necesito electricidad (Sujeto a disponibilidad y valoración)</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" name="mesa" id="m_mesa">
+                        <label for="m_mesa">Solicito préstamo de tablón (Sujeto a disponibilidad limitada)</label>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width:100%; margin-top:20px; padding: 18px; font-size: 1.1rem;">Solicitar Espacio Comercial</button>
+                </form>
+            </div>
+
+            <div id="merc-receipt" class="receipt hidden fade-in">
+                <h3 class="title-font" style="color: var(--bone);">Solicitud Recibida</h3>
+                <p class="serif-font" style="color: var(--bone-dark); margin-top: 15px;">El comité evaluará tu solicitud para el Mercadito.</p>
+                <div class="folio-number" id="merc-folio-display">MK26-0000</div>
+                <button onclick="window.print()">Imprimir Comprobante</button>
+            </div>
+        </div>
+        <div class="footer-phrase">Nuestra mayor ofrenda es mantener viva la memoria de nuestra tierra.</div>
+    </div>
+
+    <!-- SCENE: PROGRAMA -->
+    <div id="scene-programa" class="scene">
+        <div class="scene-header">
+            <button class="btn-back" onclick="App.backToMain()"><span>&#8592;</span> Volver</button>
+        </div>
+        <div class="scene-content">
+            <h2 class="scene-title">Programa Cultural</h2>
+            <div class="timeline" id="timeline-container">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+        <div class="footer-phrase">Nuestra mayor ofrenda es mantener viva la memoria de nuestra tierra.</div>
+    </div>
+
+    <!-- SCENE: SABORES -->
+    <div id="scene-sabores" class="scene">
+        <div class="scene-header">
+            <button class="btn-back" onclick="App.backToMain()"><span>&#8592;</span> Volver</button>
+        </div>
+        <div class="scene-content">
+            <h2 class="scene-title">Sabores de Ánimas</h2>
+            <h3 class="title-font" style="text-align:center; color:var(--text-muted); margin-top:-40px; margin-bottom:60px; font-size: 1.2rem; letter-spacing: 3px;">Concurso de Pan de Muerto con Identidad Nayarita</h3>
+            
+            <div class="grid-2">
+                <div class="premium-card">
+                    <h3 class="title-font" style="color:var(--gold); margin-bottom:20px; font-size: 1.4rem;">Dinámica</h3>
+                    <p class="serif-font" style="color:var(--bone-dark); margin-bottom: 20px;">Evento paralelo al montaje de altares. Buscamos el pan de muerto que mejor represente la fusión de la técnica tradicional con ingredientes endémicos de Nayarit (arrayán, nanche, café de Compostela, jamaica, sal de San Blas, etc).</p>
+                    <p class="serif-font" style="color:var(--bone); padding-left: 15px; border-left: 2px solid var(--gold);"><strong>Exhibición:</strong> Durante el evento, en zona especial asignada.</p>
+                </div>
+                <div class="premium-card">
+                    <h3 class="title-font" style="color:var(--gold); margin-bottom:25px; font-size: 1.4rem;">Criterios de Evaluación</h3>
+                    <ul class="serif-font" style="list-style:none; padding:0; color:var(--bone-dark);">
+                        <li style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding:15px 0;"><span>Sabor y textura</span> <span style="color:var(--gold); font-weight:600; font-family: var(--font-sans);">30 pts</span></li>
+                        <li style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding:15px 0;"><span>Técnica de panadería</span> <span style="color:var(--gold); font-weight:600; font-family: var(--font-sans);">20 pts</span></li>
+                        <li style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding:15px 0;"><span>Identidad local / narrativa</span> <span style="color:var(--gold); font-weight:600; font-family: var(--font-sans);">20 pts</span></li>
+                        <li style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.05); padding:15px 0;"><span>Presentación visual</span> <span style="color:var(--gold); font-weight:600; font-family: var(--font-sans);">15 pts</span></li>
+                        <li style="display:flex; justify-content:space-between; padding:15px 0 0;"><span>Viabilidad comercial</span> <span style="color:var(--gold); font-weight:600; font-family: var(--font-sans);">15 pts</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-phrase">Nuestra mayor ofrenda es mantener viva la memoria de nuestra tierra.</div>
+    </div>
+
+    <!-- PANEL COMITÉ -->
+    <div id="btn-secret-admin" style="position:fixed; bottom:10px; right:10px; width:20px; height:20px; opacity:0; cursor:pointer; z-index:1000;" onclick="App.navigate('scene-admin')"></div>
+    
+    <div id="scene-admin" class="scene" style="background:var(--black);">
+        <div class="scene-header">
+            <button class="btn-back" onclick="App.backToMain()"><span>&#8592;</span> Salir</button>
+            <span style="font-family:var(--font-title); color:var(--gold); letter-spacing: 2px;">PANEL CETYG</span>
+        </div>
+        
+        <div class="scene-content" style="max-width:1200px;">
+            <div id="admin-login" class="login-overlay fade-in">
+                <h3 class="title-font" style="margin-bottom:30px; color:var(--gold); font-size: 1.5rem;">Acceso Comité</h3>
+                <input type="password" id="admin-pw" placeholder="Clave de acceso">
+                <button onclick="App.admin.login()" style="width:100%; padding: 15px;">Ingresar al sistema</button>
+            </div>
+
+            <div id="admin-dashboard" class="hidden fade-in">
+                <div class="admin-nav">
+                    <button class="active-tab" onclick="App.admin.showTab('ad-resumen'); document.querySelectorAll('.admin-nav button').forEach(b=>b.classList.remove('active-tab')); this.classList.add('active-tab');">Resumen</button>
+                    <button onclick="App.admin.showTab('ad-grupos'); document.querySelectorAll('.admin-nav button').forEach(b=>b.classList.remove('active-tab')); this.classList.add('active-tab');">Altares</button>
+                    <button onclick="App.admin.showTab('ad-mercadito'); document.querySelectorAll('.admin-nav button').forEach(b=>b.classList.remove('active-tab')); this.classList.add('active-tab');">Mercadito</button>
+                    <button onclick="App.admin.showTab('ad-programa'); document.querySelectorAll('.admin-nav button').forEach(b=>b.classList.remove('active-tab')); this.classList.add('active-tab');">Programa</button>
+                </div>
+
+                <div id="ad-resumen" class="admin-section active">
+                    <div class="grid-2">
+                        <div class="premium-card" style="text-align: center;">
+                            <h3 class="title-font" style="color:var(--text-muted); font-size: 1.1rem; margin-bottom: 20px;">Altares Inscritos</h3>
+                            <div style="font-size:5rem; color:var(--gold); font-family:var(--font-title); line-height: 1; margin-bottom: 30px;" id="stat-grupos">0</div>
+                            <button onclick="App.admin.exportCSV('grupos')" style="font-size:0.8rem; width: 100%;">Descargar CSV</button>
+                        </div>
+                        <div class="premium-card" style="text-align: center;">
+                            <h3 class="title-font" style="color:var(--text-muted); font-size: 1.1rem; margin-bottom: 20px;">Puestos Mercadito</h3>
+                            <div style="font-size:5rem; color:var(--gold); font-family:var(--font-title); line-height: 1; margin-bottom: 30px;" id="stat-mercadito">0</div>
+                            <button onclick="App.admin.exportCSV('mercadito')" style="font-size:0.8rem; width: 100%;">Descargar CSV</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="ad-grupos" class="admin-section">
+                    <div class="premium-card" style="padding: 20px; overflow-x:auto;">
+                        <table id="table-ad-grupos">
+                            <thead><tr><th>Folio</th><th>Lic/Grupo</th><th>Fusión</th><th>Tema</th><th>Representante</th><th>Acción</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="ad-mercadito" class="admin-section">
+                    <div class="premium-card" style="padding: 20px; overflow-x:auto;">
+                        <table id="table-ad-mercadito">
+                            <thead><tr><th>Folio</th><th>Resp.</th><th>Producto</th><th>Tipo</th><th>Req.</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="ad-programa" class="admin-section">
+                    <div class="premium-card">
+                        <h3 class="title-font" style="color:var(--gold); margin-bottom:15px;">Editor de Programa</h3>
+                        <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:25px;">Formato JSON estricto. Mantén la estructura para no romper la línea de tiempo visual.</p>
+                        <textarea id="json-programa" rows="15" style="font-family:monospace; font-size:0.9rem; background: rgba(0,0,0,0.5);"></textarea>
+                        <button class="btn-primary" onclick="App.admin.saveProgram()" style="width: 100%; padding: 15px;">Actualizar Programa Público</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensaje Flotante -->
+    <div id="toast">Notificación</div>
+
+    <script>
+        const TZOMPANTLI_ITEMS = [
+            { id: 'scene-origen', title: 'Origen', subtitle: '¿Qué es el Tzompantli?' },
+            { id: 'scene-convocatoria', title: 'Convocatoria', subtitle: 'Bases de participación' },
+            { id: 'scene-grupo', title: 'Inscríbete', subtitle: 'Registra tu altar' },
+            { id: 'scene-mercadito', title: 'Mercadito', subtitle: 'Registra tu puesto' },
+            { id: 'scene-programa', title: 'Programa', subtitle: 'Actividades culturales' },
+            { id: 'scene-sabores', title: 'Sabores', subtitle: 'Concurso de pan' }
+        ];
+
+        const PROGRAMA_DEFAULT = [
+            { time: "08:00", text: "Inicio de montaje de altares" },
+            { time: "16:00", text: "Apertura del Mercadito de Ánimas" },
+            { time: "17:00", text: "Cierre estricto de montaje. Recorrido libre." },
+            { time: "18:00", text: "Inauguración oficial por autoridades" },
+            { time: "18:30", text: "Presentación de Ballet Folclórico" },
+            { time: "20:00", text: "Música en vivo (Talento Universitario)" },
+            { time: "20:45", text: "Concurso Sabores de Ánimas" },
+            { time: "21:45", text: "Cierre cultural" },
+            { time: "22:00", text: "Desmontaje responsable" }
+        ];
+
+        const App = {
+            state: { activeScene: null },
+            audioFile: null,
+
+            init() {
+                this.renderTzompantli();
+                this.renderTimeline();
+                this.initDB();
+                
+                // Preparar audio
+                this.audioFile = new Audio('audio.mp3');
+                this.audioFile.loop = true;
+            },
+
+            initDB() {
+                if(!localStorage.getItem('tz26_program')) localStorage.setItem('tz26_program', JSON.stringify(PROGRAMA_DEFAULT));
+                if(!localStorage.getItem('tz26_groups')) localStorage.setItem('tz26_groups', JSON.stringify([]));
+                if(!localStorage.getItem('tz26_mercadito')) localStorage.setItem('tz26_mercadito', JSON.stringify([]));
+            },
+
+            audio: {
+                playing: false,
+                toggle() {
+                    if(!App.audioFile) return;
+                    if(this.playing) {
+                        App.audioFile.pause();
+                        document.getElementById('audio-icon').innerText = '🔇';
+                        this.playing = false;
+                    } else {
+                        App.audioFile.play().catch(e => console.log("Audio play prevented"));
+                        document.getElementById('audio-icon').innerText = '🔊';
+                        this.playing = true;
+                    }
+                }
+            },
+
+            enterTzompantli() {
+                document.getElementById('intro').classList.add('fade-out');
+                setTimeout(() => {
+                    document.getElementById('intro').classList.add('hidden');
+                    document.getElementById('main-tzompantli').classList.remove('hidden');
+                    
+                    // Iniciar audio y mostrar botón
+                    document.getElementById('audio-toggle').classList.remove('hidden');
+                    App.audio.toggle();
+                }, 800);
+            },
+
+            navigate(sceneId) {
+                if(this.state.activeScene) {
+                    document.getElementById(this.state.activeScene).classList.remove('active');
+                }
+                if(sceneId === 'scene-programa') this.renderTimeline();
+
+                const scene = document.getElementById(sceneId);
+                scene.classList.add('active');
+                this.state.activeScene = sceneId;
+                window.scrollTo(0,0);
+            },
+
+            backToMain() {
+                if(this.state.activeScene) {
+                    document.getElementById(this.state.activeScene).classList.remove('active');
+                    this.state.activeScene = null;
+                }
+            },
+
+            renderTzompantli() {
+                const grid = document.getElementById('skull-grid');
+                grid.innerHTML = '';
+                TZOMPANTLI_ITEMS.forEach((item, index) => {
+                    const delay = index * 0.1;
+                    const div = document.createElement('div');
+                    div.className = 'skull-item fade-in';
+                    div.style.animationDelay = `${delay}s`;
+                    div.onclick = () => this.navigate(item.id);
+                    div.innerHTML = `
+                        <div class="skull-title">${item.title}</div>
+                        <div class="skull-subtitle">${item.subtitle}</div>
+                    `;
+                    grid.appendChild(div);
+                });
+            },
+
+            renderTimeline() {
+                const prog = JSON.parse(localStorage.getItem('tz26_program'));
+                const container = document.getElementById('timeline-container');
+                container.innerHTML = '';
+                prog.forEach(item => {
+                    container.innerHTML += `
+                        <div class="tl-item">
+                            <div class="tl-time">${item.time}</div>
+                            <div class="tl-dot"></div>
+                            <div class="tl-content">${item.text}</div>
+                        </div>
+                    `;
+                });
+            },
+
+            toast(msg) {
+                const t = document.getElementById('toast');
+                t.innerText = msg;
+                t.classList.add('show');
+                setTimeout(() => t.classList.remove('show'), 3500);
+            },
+
+            utils: {
+                genFolio(prefix) {
+                    const random = Math.floor(1000 + Math.random() * 9000);
+                    return `${prefix}-${random}`;
+                }
+            },
+
+            forms: {
+                handleLicenciaturaChange() {
+                    const val = document.getElementById('licenciatura_select').value;
+                    const fusContainer = document.getElementById('fusion_container');
+                    const fusCheck = document.getElementById('fus');
+                    
+                    if (val === 'Gestión e Innovación del Turismo') {
+                        fusContainer.classList.remove('hidden');
+                    } else {
+                        fusContainer.classList.add('hidden');
+                        fusCheck.checked = false;
+                        document.getElementById('fus_group').style.display = 'none';
+                    }
+                },
+                submitGrupo(e) {
+                    e.preventDefault();
+                    const fd = new FormData(e.target);
+                    const data = Object.fromEntries(fd.entries());
+                    data.folio = App.utils.genFolio('TZ26');
+                    
+                    let groups = JSON.parse(localStorage.getItem('tz26_groups'));
+                    groups.push(data);
+                    localStorage.setItem('tz26_groups', JSON.stringify(groups));
+
+                    document.getElementById('grupo-form-container').classList.add('hidden');
+                    document.getElementById('grupo-folio-display').innerText = data.folio;
+                    document.getElementById('grupo-receipt').classList.remove('hidden');
+                    App.toast('Altar registrado con éxito');
+                },
+                submitMercadito(e) {
+                    e.preventDefault();
+                    const fd = new FormData(e.target);
+                    const data = Object.fromEntries(fd.entries());
+                    data.folio = App.utils.genFolio('MK26');
+                    
+                    let merc = JSON.parse(localStorage.getItem('tz26_mercadito'));
+                    merc.push(data);
+                    localStorage.setItem('tz26_mercadito', JSON.stringify(merc));
+
+                    document.getElementById('merc-form-container').classList.add('hidden');
+                    document.getElementById('merc-folio-display').innerText = data.folio;
+                    document.getElementById('merc-receipt').classList.remove('hidden');
+                    App.toast('Solicitud registrada con éxito');
+                }
+            },
+
+            admin: {
+                login() {
+                    if(document.getElementById('admin-pw').value === 'CETYG2026') {
+                        document.getElementById('admin-login').classList.add('hidden');
+                        document.getElementById('admin-dashboard').classList.remove('hidden');
+                        this.refreshData();
+                    } else { App.toast('Clave incorrecta'); }
+                },
+                showTab(id) {
+                    document.querySelectorAll('.admin-section').forEach(el => el.classList.remove('active'));
+                    document.getElementById(id).classList.add('active');
+                },
+                refreshData() {
+                    const groups = JSON.parse(localStorage.getItem('tz26_groups'));
+                    const merc = JSON.parse(localStorage.getItem('tz26_mercadito'));
+                    const prog = JSON.parse(localStorage.getItem('tz26_program'));
+
+                    document.getElementById('stat-grupos').innerText = groups.length;
+                    document.getElementById('stat-mercadito').innerText = merc.length;
+                    
+                    const tbG = document.querySelector('#table-ad-grupos tbody');
+                    tbG.innerHTML = '';
+                    groups.forEach((g,i) => {
+                        const fusionStr = g.fusion ? g.grupo_fusion : 'No';
+                        tbG.innerHTML += `<tr>
+                            <td style="color:var(--gold); font-weight: 500;">${g.folio}</td>
+                            <td>${g.licenciatura}<br><small style="color:var(--text-muted);">${g.semestre} ${g.grupo}</small></td>
+                            <td>${fusionStr}</td>
+                            <td>${g.tema}</td>
+                            <td>${g.rep_nombre}</td>
+                            <td><button onclick="if(confirm('¿Eliminar registro?')){ App.admin.deleteGroup(${i}); }" style="padding:4px 8px; font-size:0.7rem; color:#e88989; border-color:rgba(232, 137, 137, 0.3);">Quitar</button></td>
+                        </tr>`;
+                    });
+
+                    const tbM = document.querySelector('#table-ad-mercadito tbody');
+                    tbM.innerHTML = '';
+                    merc.forEach((m,i) => {
+                        let reqs = [];
+                        if(m.electricidad) reqs.push('Luz');
+                        if(m.mesa) reqs.push('Mesa');
+                        tbM.innerHTML += `<tr>
+                            <td style="color:var(--gold); font-weight: 500;">${m.folio}</td>
+                            <td>${m.responsable}</td>
+                            <td>${m.producto}</td>
+                            <td>${m.tipo}</td>
+                            <td>${reqs.join(', ')}</td>
+                        </tr>`;
+                    });
+
+                    document.getElementById('json-programa').value = JSON.stringify(prog, null, 2);
+                },
+                deleteGroup(index) {
+                    let groups = JSON.parse(localStorage.getItem('tz26_groups'));
+                    groups.splice(index, 1);
+                    localStorage.setItem('tz26_groups', JSON.stringify(groups));
+                    this.refreshData();
+                },
+                saveProgram() {
+                    try {
+                        const parsed = JSON.parse(document.getElementById('json-programa').value);
+                        localStorage.setItem('tz26_program', JSON.stringify(parsed));
+                        App.toast('Programa actualizado en la plataforma.');
+                    } catch(e) {
+                        App.toast('Error de sintaxis JSON. Verifica el formato.');
+                    }
+                },
+                exportCSV(type) {
+                    const data = JSON.parse(localStorage.getItem(`tz26_${type}`));
+                    if(!data || data.length === 0) { App.toast('No hay datos registrados aún.'); return; }
+                    
+                    const headers = Object.keys(data[0]);
+                    const csvContent = [
+                        headers.join(','),
+                        ...data.map(row => headers.map(h => `"${row[h] ? String(row[h]).replace(/"/g, '""') : ''}"`).join(','))
+                    ].join('\n');
+
+                    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    const link = document.createElement("a");
+                    const url = URL.createObjectURL(blob);
+                    link.setAttribute("href", url);
+                    link.setAttribute("download", `Tzompantli26_${type}_${new Date().getTime()}.csv`);
+                    link.style.visibility = 'hidden';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            }
+        };
+
+        window.onload = () => App.init();
+    </script>
+</body>
+</html>
