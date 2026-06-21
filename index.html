@@ -25,7 +25,7 @@
             --font-serif: 'Lora', serif;
             --font-sans: 'Inter', sans-serif;
             
-            --transition: all 0.3s ease; /* Transición rápida y ligera */
+            --transition: all 0.3s ease;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -62,7 +62,7 @@
         button.btn-primary { background: rgba(61, 12, 19, 0.8); border-color: var(--wine); color: var(--bone); backdrop-filter: blur(5px); }
         button.btn-primary:hover { background: var(--wine); border-color: var(--gold); color: var(--bone); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         
-        /* Inputs y Formularios Premium */
+        /* Inputs y Formularios */
         input, select, textarea {
             width: 100%; padding: 14px 16px; margin-bottom: 25px;
             background: rgba(10, 10, 10, 0.6); border: 1px solid rgba(207, 170, 103, 0.15);
@@ -73,7 +73,6 @@
         input:focus, select:focus, textarea:focus { outline: none; border-color: var(--gold); background: rgba(20, 20, 20, 0.8); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         label { display: block; margin-bottom: 8px; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; font-family: var(--font-title); }
 
-        /* Clases Utilitarias */
         .hidden { display: none !important; opacity: 0; pointer-events: none; }
         .fade-in { animation: cinematicFadeIn 1s ease forwards; }
         .fade-out { animation: fadeOut 0.5s ease forwards; }
@@ -81,44 +80,36 @@
         @keyframes cinematicFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 
-        /* --- SCENE: INTRO (Cinemática) --- */
+        /* --- SCENE: INTRO --- */
         #intro {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             z-index: 100; text-align: center; overflow: hidden; background: var(--black);
         }
         
-        /* Fondo principal optimizado: sin animaciones pesadas */
         .intro-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: url('fondo.png') center/cover no-repeat;
             opacity: 0.6;
         }
         
-        /* Gradiente para legibilidad dramática */
         .intro-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, rgba(3,3,3,0.3) 0%, rgba(3,3,3,0.95) 100%),
                         linear-gradient(180deg, rgba(3,3,3,0.8) 0%, transparent 40%, rgba(3,3,3,0.9) 100%);
         }
         
-        .intro-content { position: relative; z-index: 2; max-width: 900px; padding: 30px; }
-        .intro-title { 
-            font-size: clamp(3.5rem, 10vw, 7.5rem); color: var(--bone); 
-            text-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(207, 170, 103, 0.2); 
-            margin-bottom: 0; opacity: 0; animation: cinematicFadeIn 1.5s 0.2s forwards; line-height: 1; 
-            letter-spacing: 5px;
-        }
-        
+        .intro-content { position: relative; z-index: 2; max-width: 900px; padding: 20px; width: 100%; }
+        .intro-title { font-size: clamp(3.5rem, 10vw, 7.5rem); color: var(--bone); text-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(207, 170, 103, 0.2); margin-bottom: 0; opacity: 0; animation: cinematicFadeIn 1.5s 0.2s forwards; line-height: 1; letter-spacing: 5px; }
         .intro-year-row { display: flex; justify-content: center; align-items: center; gap: clamp(20px, 5vw, 60px); margin: 20px 0 30px; opacity: 0; animation: cinematicFadeIn 1.5s 0.6s forwards; }
-        .logo-img { height: clamp(50px, 6vw, 85px); width: auto; object-fit: contain; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)) brightness(0.9) sepia(0.2) hue-rotate(-10deg); opacity: 0.8; }
+        .logo-img { height: clamp(40px, 6vw, 75px); width: auto; object-fit: contain; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)) brightness(0.9) sepia(0.2) hue-rotate(-10deg); opacity: 0.8; }
         .intro-year { font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--gold); font-family: var(--font-title); font-weight: 400; margin: 0; line-height: 1; letter-spacing: 4px; text-shadow: 0 5px 20px rgba(0,0,0,0.8); }
-
-        .intro-subtitle { font-size: clamp(1.2rem, 3vw, 1.8rem); color: var(--bone-dark); font-family: var(--font-serif); font-style: italic; margin-bottom: 40px; opacity: 0; animation: cinematicFadeIn 1.5s 1s forwards; letter-spacing: 1px; }
+        .intro-subtitle { font-size: clamp(1.1rem, 3vw, 1.8rem); color: var(--bone-dark); font-family: var(--font-serif); font-style: italic; margin-bottom: 30px; opacity: 0; animation: cinematicFadeIn 1.5s 1s forwards; letter-spacing: 1px; }
+        
         .intro-inst { font-size: 0.8rem; color: rgba(227, 218, 201, 0.5); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 60px; opacity: 0; animation: cinematicFadeIn 1.5s 1.4s forwards; }
         .intro-btn { opacity: 0; animation: cinematicFadeIn 1.5s 1.8s forwards; }
 
-        /* --- MAIN TZOMPANTLI (Fondo principal) --- */
+        /* --- MAIN TZOMPANTLI --- */
         #main-tzompantli {
             min-height: 100vh; padding: 120px 20px 80px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -131,6 +122,16 @@
         .logo-left { left: 40px; }
         .logo-right { right: 40px; }
 
+        /* BLOQUE INFORMATIVO MAIN */
+        .main-event-info {
+            display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;
+            margin-bottom: 30px; font-family: var(--font-title); font-size: 0.85rem; color: var(--gold);
+            letter-spacing: 2px; background: rgba(12, 12, 12, 0.65); padding: 12px 35px;
+            border: 1px solid rgba(207, 170, 103, 0.2); border-radius: 3px; backdrop-filter: blur(5px);
+            text-align: center;
+        }
+        .mei-divider { color: var(--wine); }
+
         .main-instruction { font-family: var(--font-serif); font-style: italic; color: var(--bone-dark); font-size: 1.5rem; margin-bottom: 60px; text-align: center; font-weight: 400; letter-spacing: 1px; }
         
         .tzompantli-grid {
@@ -138,7 +139,6 @@
             width: 100%; max-width: 1100px; padding: 0 20px;
         }
 
-        /* Tarjetas estilo Placas Ceremoniales */
         .skull-item {
             display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
             cursor: pointer; transition: var(--transition); position: relative;
@@ -147,23 +147,17 @@
             border-radius: 3px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
         .skull-item:hover { transform: translateY(-5px); border-color: rgba(207, 170, 103, 0.5); border-top-color: var(--gold); background: rgba(20, 20, 20, 0.9); box-shadow: 0 15px 30px rgba(0,0,0,0.8), 0 0 20px var(--gold-glow); }
-        
         .skull-title { font-family: var(--font-title); font-size: 1.6rem; color: var(--gold); margin-bottom: 12px; letter-spacing: 3px; font-weight: 500; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
         .skull-subtitle { font-size: 0.85rem; color: var(--bone-dark); text-transform: uppercase; letter-spacing: 2px; font-family: var(--font-sans); }
 
-        /* --- SCENE CONTAINER (Salas del museo) --- */
+        /* --- SCENE CONTAINER --- */
         .scene {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: linear-gradient(to bottom, var(--black) 0%, var(--black-soft) 100%);
             z-index: 50; overflow-y: auto; padding: 60px 20px; 
             opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
         }
-        /* Simplificado para rendimiento en celulares */
-        .scene::before {
-            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('fondo.png') center/cover no-repeat;
-            opacity: 0.05; pointer-events: none;
-        }
+        .scene::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('fondo.png') center/cover no-repeat; opacity: 0.05; pointer-events: none; }
         .scene.active { opacity: 1; pointer-events: auto; }
         
         .scene-header { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto 60px; border-bottom: 1px solid rgba(207, 170, 103, 0.2); padding-bottom: 25px; position: relative; z-index: 2; }
@@ -173,15 +167,12 @@
         .scene-content { max-width: 1000px; margin: 0 auto; padding-bottom: 100px; position: relative; z-index: 2; }
         .scene-title { font-size: clamp(2.5rem, 6vw, 4rem); color: var(--gold); margin-bottom: 50px; text-align: center; letter-spacing: 4px; text-shadow: 0 5px 20px rgba(0,0,0,0.5); }
 
-        /* Componentes de Diseño Interno */
         .premium-card { background: rgba(12, 12, 12, 0.85); border: 1px solid rgba(207, 170, 103, 0.1); border-radius: 3px; padding: 40px; margin-bottom: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         .text-block { border-left: 2px solid var(--gold); padding-left: 25px; margin-bottom: 40px; }
         .quote { font-family: var(--font-serif); font-size: 1.6rem; font-style: italic; color: var(--bone); text-align: center; margin: 60px auto; padding: 0 30px; line-height: 1.5; max-width: 800px; color: var(--gold); text-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        @media(max-width: 768px) { .grid-2 { grid-template-columns: 1fr; gap: 20px; } }
         
-        /* Bloques de Convocatoria */
         .rule-block { padding: 30px; background: rgba(15, 15, 15, 0.7); border-left: 2px solid rgba(207, 170, 103, 0.3); margin-bottom: 25px; border-radius: 0 3px 3px 0; transition: var(--transition); }
         .rule-block:hover { border-left-color: var(--gold); background: rgba(20, 20, 20, 0.9); box-shadow: 0 5px 15px rgba(0,0,0,0.4); transform: translateX(5px); }
         .rule-title { color: var(--gold); margin-bottom: 15px; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
@@ -190,7 +181,6 @@
         form { max-width: 800px; margin: 0 auto; }
         .form-row { display: flex; gap: 30px; }
         .form-row > div { flex: 1; }
-        @media(max-width: 600px) { .form-row { flex-direction: column; gap: 0; } }
         
         .checkbox-group { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 30px; cursor: pointer; padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 2px; }
         .checkbox-group input { width: auto; margin: 2px 0 0 0; accent-color: var(--gold); transform: scale(1.2); }
@@ -200,17 +190,11 @@
         .receipt::after { content:''; position:absolute; top:10px; left:10px; right:10px; bottom:10px; border: 1px solid rgba(207, 170, 103, 0.1); pointer-events: none; }
         .folio-number { font-family: var(--font-title); font-size: 3.5rem; color: var(--gold); margin: 30px 0; letter-spacing: 6px; text-shadow: 0 0 20px rgba(207, 170, 103, 0.2); }
         
-        /* Línea del Tiempo (Programa) */
         .timeline { position: relative; max-width: 800px; margin: 0 auto; padding: 20px 0; }
         .timeline::before { content: ''; position: absolute; left: 120px; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent, rgba(207, 170, 103, 0.5), transparent); }
-        @media(max-width: 600px) { .timeline::before { left: 80px; } }
-        
         .tl-item { position: relative; padding-left: 170px; margin-bottom: 50px; display: flex; align-items: center; }
-        @media(max-width: 600px) { .tl-item { padding-left: 110px; } }
         .tl-time { position: absolute; left: 0; top: 50%; transform: translateY(-50%); color: var(--gold); font-family: var(--font-title); font-size: 1.2rem; width: 100px; text-align: right; letter-spacing: 2px; }
-        @media(max-width: 600px) { .tl-time { width: 60px; font-size: 1rem; } }
         .tl-dot { position: absolute; left: 116px; top: 50%; transform: translateY(-50%); width: 9px; height: 9px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 15px var(--gold); }
-        @media(max-width: 600px) { .tl-dot { left: 76px; } }
         .tl-content { background: rgba(15, 15, 15, 0.8); padding: 25px 30px; border-radius: 2px; width: 100%; border: 1px solid rgba(255,255,255,0.03); border-left: 2px solid transparent; transition: var(--transition); font-family: var(--font-serif); font-size: 1.1rem; }
         .tl-item:hover .tl-content { border-left-color: var(--gold); background: rgba(20, 20, 20, 0.95); transform: translateX(5px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
 
@@ -230,15 +214,15 @@
 
         .footer-phrase { text-align: center; padding: 60px 20px 40px; font-family: var(--font-serif); font-style: italic; color: rgba(227, 218, 201, 0.4); font-size: 1.1rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: auto; letter-spacing: 1px; }
 
-        /* Botón de Audio Refinado */
         .audio-btn { position: fixed; bottom: 40px; left: 40px; z-index: 1000; background: rgba(10,10,10,0.8); border: 1px solid rgba(207, 170, 103, 0.3); color: var(--gold); width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: var(--transition); box-shadow: 0 5px 20px rgba(0,0,0,0.5); font-size: 1.2rem; }
         .audio-btn:hover { background: rgba(20,20,20,1); border-color: var(--gold); transform: scale(1.05); box-shadow: 0 5px 20px var(--gold-glow); }
 
         #toast { position: fixed; bottom: 40px; right: 40px; background: rgba(12, 12, 12, 0.95); color: var(--gold); border: 1px solid var(--gold); padding: 18px 30px; border-radius: 3px; font-family: var(--font-sans); font-weight: 500; letter-spacing: 1px; transform: translateY(100px); opacity: 0; transition: var(--transition); z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
         #toast.show { transform: translateY(0); opacity: 1; }
 
-        /* Media Queries Extras para Responsividad */
+        /* Media Queries para Responsividad */
         @media(max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; gap: 20px; }
             .corner-logo { height: 45px; top: 20px; }
             .logo-left { left: 20px; }
             .logo-right { right: 20px; }
@@ -246,12 +230,21 @@
             .audio-btn { bottom: 20px; left: 20px; width: 45px; height: 45px; }
             #toast { bottom: 20px; right: 20px; padding: 15px 20px; font-size: 0.9rem; }
             .premium-card, .rule-block, .receipt { padding: 25px 20px; }
+            .form-row { flex-direction: column; gap: 0; }
+            
+            .main-event-info { flex-direction: column; gap: 5px; padding: 15px; text-align: center; border-radius: 10px; }
+            .mei-divider { display: none; }
+
+            .timeline::before { left: 80px; }
+            .tl-item { padding-left: 110px; }
+            .tl-time { width: 60px; font-size: 1rem; }
+            .tl-dot { left: 76px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- REPRODUCTOR DE AUDIO OCULTO EN HTML -->
+    <!-- REPRODUCTOR DE AUDIO OCULTO -->
     <audio id="bg-audio" src="audio.mp3" loop preload="auto"></audio>
 
     <!-- INTRO SCENE -->
@@ -275,6 +268,15 @@
     <div id="main-tzompantli" class="hidden">
         <img src="unidad.png" alt="UATyG" class="corner-logo logo-left" onerror="this.src='unidad.jpg'">
         <img src="cetyg.png" alt="CETyG" class="corner-logo logo-right" onerror="this.src='cetyg.jpg'">
+
+        <!-- BLOQUE INFORMATIVO MAIN -->
+        <div class="main-event-info fade-in">
+            <span>JUEVES 29 DE OCTUBRE</span>
+            <span class="mei-divider">•</span>
+            <span>EXPLANADA UATYG</span>
+            <span class="mei-divider">•</span>
+            <span>INICIO DEL EVENTO: 17:00 HRS</span>
+        </div>
 
         <h2 class="main-instruction fade-in">Elige una puerta para entrar a la memoria.</h2>
         <div class="tzompantli-grid" id="skull-grid">
@@ -694,13 +696,12 @@
     <!-- Mensaje Flotante -->
     <div id="toast">Notificación</div>
 
-    <!-- FIREBASE MODULAR JS CON TU CONFIGURACIÓN EXACTA -->
+    <!-- FIREBASE MODULAR JS -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // TUS CREDENCIALES DE FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyAiSgVMEnOD8f07X4lt3qLb7LEvqLQ3JHU",
             authDomain: "tzompantli-2026.firebaseapp.com",
@@ -719,7 +720,6 @@
             console.log("Firebase init error:", e);
         }
 
-        // Helper para colecciones en Firestore
         const getCol = (name) => collection(db, name);
 
         const TZOMPANTLI_ITEMS = [
@@ -731,7 +731,6 @@
             { id: 'scene-sabores', title: 'Sabores', subtitle: 'Concurso de pan' }
         ];
 
-        // Definimos el objeto App a nivel global (window) para que el HTML pueda acceder a él
         window.App = {
             state: { activeScene: null },
             dbCache: { grupos: [], mercadito: [], sabores: [] },
@@ -741,7 +740,6 @@
                 
                 if(auth) {
                     onAuthStateChanged(auth, (user) => {
-                        // El usuario invitado inicia sesión automáticamente para poder guardar datos
                         if (!user) signInAnonymously(auth).catch(e => console.log("Login anónimo falló", e));
                     });
                 }
@@ -778,20 +776,15 @@
                 }, 500); 
             },
 
-            // FORZA EL SCROLL AL PRINCIPIO AL NAVEGAR ENTRE SCENAS
             navigate(sceneId) {
                 if(this.state.activeScene) document.getElementById(this.state.activeScene).classList.remove('active');
                 const scene = document.getElementById(sceneId);
                 scene.classList.add('active');
                 this.state.activeScene = sceneId;
-                
-                // Forzar el scroll hasta arriba dentro de la escena
                 scene.scrollTop = 0; 
-                // Y forzar el scroll de la ventana por si acaso
                 window.scrollTo(0,0);
             },
 
-            // FORZA EL SCROLL AL PRINCIPIO AL VOLVER AL MENÚ PRINCIPAL
             backToMain() {
                 if(this.state.activeScene) {
                     document.getElementById(this.state.activeScene).classList.remove('active');
@@ -859,7 +852,6 @@
                     } catch(e) {
                         App.toast('Error de conexión al guardar.');
                         document.getElementById('btn-submit-grupo').innerText = "Formalizar Registro";
-                        console.error(e);
                     }
                 },
                 async submitMercadito(e) {
@@ -936,12 +928,10 @@
                         const snapS = await getDocs(getCol('tz26_sabores'));
                         App.dbCache.sabores = snapS.docs.map(d => d.data());
 
-                        // Actualizar UI Contadores
                         document.getElementById('stat-grupos').innerText = App.dbCache.grupos.length;
                         document.getElementById('stat-mercadito').innerText = App.dbCache.mercadito.length;
                         document.getElementById('stat-sabores').innerText = App.dbCache.sabores.length;
                         
-                        // Actualizar Tablas
                         const tbG = document.querySelector('#table-ad-grupos tbody');
                         tbG.innerHTML = '';
                         App.dbCache.grupos.forEach(g => {
@@ -963,7 +953,6 @@
                         });
                     } catch(e) {
                         App.toast('No tienes permisos de Administrador para leer la base de datos.');
-                        console.error(e);
                     }
                 },
                 exportCSV(colName) {
