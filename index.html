@@ -62,7 +62,7 @@
         button.btn-primary { background: rgba(61, 12, 19, 0.8); border-color: var(--wine); color: var(--bone); backdrop-filter: blur(5px); }
         button.btn-primary:hover { background: var(--wine); border-color: var(--gold); color: var(--bone); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         
-        /* Inputs y Formularios */
+        /* Inputs y Formularios Premium */
         input, select, textarea {
             width: 100%; padding: 14px 16px; margin-bottom: 25px;
             background: rgba(10, 10, 10, 0.6); border: 1px solid rgba(207, 170, 103, 0.15);
@@ -73,6 +73,7 @@
         input:focus, select:focus, textarea:focus { outline: none; border-color: var(--gold); background: rgba(20, 20, 20, 0.8); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         label { display: block; margin-bottom: 8px; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; font-family: var(--font-title); }
 
+        /* Clases Utilitarias */
         .hidden { display: none !important; opacity: 0; pointer-events: none; }
         .fade-in { animation: cinematicFadeIn 1s ease forwards; }
         .fade-out { animation: fadeOut 0.5s ease forwards; }
@@ -100,7 +101,7 @@
         }
         
         .intro-content { position: relative; z-index: 2; max-width: 900px; padding: 20px; width: 100%; }
-        .intro-title { font-size: clamp(3.5rem, 10vw, 7.5rem); color: var(--bone); text-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(207, 170, 103, 0.2); margin-bottom: 0; opacity: 0; animation: cinematicFadeIn 1.5s 0.2s forwards; line-height: 1; letter-spacing: 5px; }
+        .intro-title { font-size: clamp(2rem, 9vw, 7.5rem); color: var(--bone); text-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(207, 170, 103, 0.2); margin-bottom: 0; opacity: 0; animation: cinematicFadeIn 1.5s 0.2s forwards; line-height: 1; letter-spacing: clamp(2px, 1vw, 5px); }
         .intro-year-row { display: flex; justify-content: center; align-items: center; gap: clamp(20px, 5vw, 60px); margin: 20px 0 30px; opacity: 0; animation: cinematicFadeIn 1.5s 0.6s forwards; }
         .logo-img { height: clamp(40px, 6vw, 75px); width: auto; object-fit: contain; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)) brightness(0.9) sepia(0.2) hue-rotate(-10deg); opacity: 0.8; }
         .intro-year { font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--gold); font-family: var(--font-title); font-weight: 400; margin: 0; line-height: 1; letter-spacing: 4px; text-shadow: 0 5px 20px rgba(0,0,0,0.8); }
@@ -220,7 +221,7 @@
         #toast { position: fixed; bottom: 40px; right: 40px; background: rgba(12, 12, 12, 0.95); color: var(--gold); border: 1px solid var(--gold); padding: 18px 30px; border-radius: 3px; font-family: var(--font-sans); font-weight: 500; letter-spacing: 1px; transform: translateY(100px); opacity: 0; transition: var(--transition); z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
         #toast.show { transform: translateY(0); opacity: 1; }
 
-        /* Media Queries para Responsividad */
+        /* Media Queries para Responsividad y Ajustes Móviles */
         @media(max-width: 768px) {
             .grid-2 { grid-template-columns: 1fr; gap: 20px; }
             .corner-logo { height: 45px; top: 20px; }
@@ -239,6 +240,9 @@
             .tl-item { padding-left: 110px; }
             .tl-time { width: 60px; font-size: 1rem; }
             .tl-dot { left: 76px; }
+            
+            /* Ajuste específico para que "TZOMPANTLI" no se corte ni brinque de línea en celular */
+            .intro-title { font-size: 10vw; letter-spacing: 2px; }
         }
     </style>
 </head>
@@ -271,11 +275,11 @@
 
         <!-- BLOQUE INFORMATIVO MAIN -->
         <div class="main-event-info fade-in">
-            <span>JUEVES 29 DE OCTUBRE</span>
+            <span>29 DE NOVIEMBRE</span>
             <span class="mei-divider">•</span>
             <span>EXPLANADA UATYG</span>
             <span class="mei-divider">•</span>
-            <span>INICIO DEL EVENTO: 17:00 HRS</span>
+            <span>RECORRIDO: 17:00 HRS</span>
         </div>
 
         <h2 class="main-instruction fade-in">Elige una puerta para entrar a la memoria.</h2>
@@ -743,6 +747,18 @@
                         if (!user) signInAnonymously(auth).catch(e => console.log("Login anónimo falló", e));
                     });
                 }
+
+                // NUEVO: Controlar el audio cuando la página se minimiza o se cambia de pestaña
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        const audioEl = document.getElementById('bg-audio');
+                        if (audioEl && App.audio.playing) {
+                            audioEl.pause();
+                            document.getElementById('audio-icon').innerText = '🔇';
+                            App.audio.playing = false;
+                        }
+                    }
+                });
             },
 
             audio: {
