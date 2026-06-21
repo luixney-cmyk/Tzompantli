@@ -40,8 +40,6 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Se eliminó el "ruido SVG" que causaba extrema lentitud en celulares */
-
         /* Custom Scrollbar Elegante */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--black); }
@@ -90,7 +88,7 @@
             z-index: 100; text-align: center; overflow: hidden; background: var(--black);
         }
         
-        /* Fondo principal optimizado: sin animaciones pesadas de zoom */
+        /* Fondo principal optimizado: sin animaciones pesadas */
         .intro-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: url('fondo.png') center/cover no-repeat;
@@ -401,8 +399,9 @@
                 <h4 class="rule-title"><span class="rule-number">6.</span> Participantes y Fusiones</h4>
                 <p class="serif-font" style="color:var(--bone-dark); margin-bottom: 15px;">Podrán participar estudiantes inscritos en la Unidad Académica de Turismo y Gastronomía. Cada equipo deberá estar conformado por un mínimo de 15 alumnos y un máximo de 25 alumnos.</p>
                 <ul class="serif-font" style="margin-left:30px; color:var(--bone-dark); list-style-type: square; margin-bottom: 25px;">
-                    <li style="margin-bottom: 10px;"><strong style="color:var(--bone);">Gestión e Innovación del Turismo:</strong> Podrán fusionarse máximo 2 grupos, siempre que exista justificación por cantidad de alumnos.</li>
-                    <li style="margin-bottom: 10px;"><strong style="color:var(--bone);">Gastronomía:</strong> La participación es exclusiva y obligatoriamente por Grupo. No pueden fusionarse grupos ni un alumno puede participar en un grupo al que no pertenezca.</li>
+                    <li style="margin-bottom: 10px;"><strong style="color:var(--bone);">Fusiones permitidas:</strong> Se permite la unión de máximo 2 grupos para alcanzar el mínimo requerido (15 alumnos) sin rebasar el máximo (25 alumnos).</li>
+                    <li style="margin-bottom: 10px;">Las fusiones pueden ser mixtas: Gestión con Gestión, Gastronomía con Gastronomía, o Gestión con Gastronomía.</li>
+                    <li style="margin-bottom: 10px;"><strong style="color:var(--gold);">Plazo estricto:</strong> Si en la primera semana los grupos con menos de 15 alumnos no se han organizado, fusionado libremente ni registrado, el Comité Organizador les asignará obligatoriamente el grupo con el que deberán unirse.</li>
                 </ul>
                 <div style="background:rgba(207, 170, 103, 0.05); border:1px solid rgba(207, 170, 103, 0.3); padding:20px; text-align:center; border-radius: 2px;">
                     <strong style="color:var(--gold); font-family:var(--font-title); letter-spacing: 2px; font-size: 1.1rem; display: block; margin-bottom: 10px;">Créditos Académicos</strong>
@@ -417,7 +416,7 @@
                 </div>
                 <div class="rule-block">
                     <h4 class="rule-title"><span class="rule-number">8.</span> Tutor académico</h4>
-                    <p class="serif-font" style="color:var(--bone-dark);">Los grupos podrán decidir qué profesor será su tutor en la primera semana. Después, será asignado por el Comité. El docente no podrá ser presentador oficial.</p>
+                    <p class="serif-font" style="color:var(--bone-dark);">Los grupos pueden elegir libremente a su tutor durante la primera semana. Para los grupos rezagados, el Comité asignará al tutor junto con su grupo de fusión. El tutor no podrá ser el presentador oral.</p>
                 </div>
             </div>
 
@@ -503,54 +502,89 @@
                     
                     <h3 class="title-font" style="color:var(--gold); margin:0 0 25px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:15px; font-size: 1.2rem;">Datos Académicos</h3>
 
-                    <div class="form-row">
-                        <div>
-                            <label>Licenciatura</label>
-                            <select name="licenciatura" id="licenciatura_select" required onchange="App.forms.handleLicenciaturaChange()">
-                                <option value="">Selecciona...</option>
-                                <option value="Gastronomía">Gastronomía</option>
-                                <option value="Gestión e Innovación del Turismo">Gestión e Innovación del Turismo</option>
-                            </select>
+                    <!-- BOTÓN PRINCIPAL DE FUSIÓN -->
+                    <div class="checkbox-group" style="margin-bottom: 25px; background: rgba(207, 170, 103, 0.05); border-left: 2px solid var(--gold); padding: 20px;">
+                        <input type="checkbox" name="is_fusion" id="fus_toggle" onchange="App.forms.toggleFusion()">
+                        <label for="fus_toggle" style="color:var(--gold); font-size: 1rem; font-weight: 500;">Nos fusionaremos con otro grupo (Para alcanzar el mínimo de 15 alumnos)</label>
+                    </div>
+
+                    <!-- GRUPO 1 (Siempre visible) -->
+                    <div id="grupo1_container">
+                        <h4 class="title-font hidden" id="g1_title" style="color:var(--bone); font-size: 1rem; margin-bottom: 15px;">Datos del Grupo Principal</h4>
+                        <div class="form-row">
+                            <div>
+                                <label>Licenciatura</label>
+                                <select name="licenciatura" required>
+                                    <option value="">Selecciona...</option>
+                                    <option value="Gastronomía">Gastronomía</option>
+                                    <option value="Gestión e Innovación del Turismo">Gestión e Innovación del Turismo</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Turno</label>
+                                <select name="turno" required>
+                                    <option value="Matutino">Matutino</option>
+                                    <option value="Vespertino">Vespertino</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div>
+                                <label>Semestre</label>
+                                <select name="semestre" required>
+                                    <option value="">Selecciona...</option>
+                                    <option value="1ro">1ro</option><option value="2do">2do</option><option value="3ro">3ro</option>
+                                    <option value="4to">4to</option><option value="5to">5to</option><option value="6to">6to</option>
+                                    <option value="7mo">7mo</option><option value="8vo">8vo</option><option value="9no">9no</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Grupo (Ej. A, B, C)</label>
+                                <input type="text" name="grupo" required placeholder="Letra del grupo">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GRUPO 2 (Se muestra solo si hay fusión) -->
+                    <div id="grupo2_container" class="hidden fade-in" style="margin-bottom: 25px; padding-top: 25px; border-top: 1px dashed rgba(207, 170, 103, 0.3);">
+                        <h4 class="title-font" style="color:var(--bone); font-size: 1rem; margin-bottom: 15px;">Datos del Grupo Aliado (Fusión)</h4>
+                        <div class="form-row">
+                            <div>
+                                <label>Licenciatura (Grupo Aliado)</label>
+                                <select name="licenciatura2" id="lic2">
+                                    <option value="">Selecciona...</option>
+                                    <option value="Gastronomía">Gastronomía</option>
+                                    <option value="Gestión e Innovación del Turismo">Gestión e Innovación del Turismo</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Turno (Grupo Aliado)</label>
+                                <select name="turno2" id="turn2">
+                                    <option value="Matutino">Matutino</option>
+                                    <option value="Vespertino">Vespertino</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div>
+                                <label>Semestre (Grupo Aliado)</label>
+                                <select name="semestre2" id="sem2">
+                                    <option value="">Selecciona...</option>
+                                    <option value="1ro">1ro</option><option value="2do">2do</option><option value="3ro">3ro</option>
+                                    <option value="4to">4to</option><option value="5to">5to</option><option value="6to">6to</option>
+                                    <option value="7mo">7mo</option><option value="8vo">8vo</option><option value="9no">9no</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Grupo (Ej. A, B, C)</label>
+                                <input type="text" name="grupo2" id="grup2" placeholder="Letra del grupo">
+                            </div>
                         </div>
                     </div>
 
                     <div class="form-row">
-                        <div>
-                            <label>Semestre</label>
-                            <select name="semestre" required>
-                                <option value="">Selecciona...</option>
-                                <option value="1ro">1ro</option><option value="2do">2do</option><option value="3ro">3ro</option>
-                                <option value="4to">4to</option><option value="5to">5to</option><option value="6to">6to</option>
-                                <option value="7mo">7mo</option><option value="8vo">8vo</option><option value="9no">9no</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label>Grupo (Ej. A, B, C)</label>
-                            <input type="text" name="grupo" required placeholder="Letra del grupo">
-                        </div>
-                    </div>
-
-                    <!-- Solo aparece si eligen Gestión e Innovación del Turismo -->
-                    <div id="fusion_container" class="hidden" style="background: rgba(207, 170, 103, 0.05); padding: 25px; border-left: 2px solid var(--gold); margin-bottom: 30px; border-radius: 2px;">
-                        <div class="checkbox-group" style="margin-bottom: 0; background: transparent; border: none; padding: 0;">
-                            <input type="checkbox" name="fusion" id="fus" onchange="document.getElementById('fus_group').style.display = this.checked ? 'block' : 'none'">
-                            <label for="fus" style="color:var(--gold); font-size: 0.95rem;">¿Se fusionará con otro grupo?</label>
-                        </div>
-                        <div id="fus_group" style="display:none; margin-top:20px;">
-                            <label>Indique el Semestre y Grupo con el que se fusiona (Máximo 1 grupo extra):</label>
-                            <input type="text" name="grupo_fusion" placeholder="Ej. 3ro B" style="margin-bottom: 0;">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div>
-                            <label>Turno</label>
-                            <select name="turno" required>
-                                <option value="Matutino">Matutino</option>
-                                <option value="Vespertino">Vespertino</option>
-                            </select>
-                        </div>
-                        <div>
+                        <div style="width: 100%;">
                             <label>Docente Tutor Propuesto</label>
                             <input type="text" name="tutor" required placeholder="Nombre completo">
                         </div>
@@ -783,7 +817,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div style="text-align: center; margin-top: 40px;">
                 <button class="btn-back" onclick="App.backToMain()"><span>&#8592;</span> Salir</button>
             </div>
@@ -822,9 +856,6 @@
                 this.renderTzompantli();
                 this.renderTimeline();
                 this.initDB();
-                
-                // Nota: El audio ya no se inicializa aquí mediante JS para evitar bloqueos
-                // Se encuentra físicamente en el HTML <audio id="bg-audio">
             },
 
             initDB() {
@@ -844,7 +875,6 @@
                         document.getElementById('audio-icon').innerText = '🔇';
                         this.playing = false;
                     } else {
-                        // El .play() desde un elemento nativo es más seguro contra bloqueos del navegador
                         audioEl.play().then(() => {
                             document.getElementById('audio-icon').innerText = '🔊';
                             this.playing = true;
@@ -858,7 +888,7 @@
             },
 
             enterTzompantli() {
-                // Iniciar audio INMEDIATAMENTE al hacer clic, antes de cualquier animación
+                // Iniciar audio
                 App.audio.toggle();
                 
                 document.getElementById('intro').classList.add('fade-out');
@@ -866,10 +896,8 @@
                 setTimeout(() => {
                     document.getElementById('intro').classList.add('hidden');
                     document.getElementById('main-tzompantli').classList.remove('hidden');
-                    
-                    // Mostrar botón
                     document.getElementById('audio-toggle').classList.remove('hidden');
-                }, 500); // Se redujo el tiempo a 500ms para mayor velocidad
+                }, 500); 
             },
 
             navigate(sceneId) {
@@ -938,17 +966,23 @@
             },
 
             forms: {
-                handleLicenciaturaChange() {
-                    const val = document.getElementById('licenciatura_select').value;
-                    const fusContainer = document.getElementById('fusion_container');
-                    const fusCheck = document.getElementById('fus');
+                toggleFusion() {
+                    const isChecked = document.getElementById('fus_toggle').checked;
+                    const g1Title = document.getElementById('g1_title');
+                    const g2Container = document.getElementById('grupo2_container');
+                    const g2Inputs = g2Container.querySelectorAll('select, input');
                     
-                    if (val === 'Gestión e Innovación del Turismo') {
-                        fusContainer.classList.remove('hidden');
+                    if(isChecked) {
+                        g1Title.classList.remove('hidden');
+                        g2Container.classList.remove('hidden');
+                        g2Inputs.forEach(input => input.setAttribute('required', 'true'));
                     } else {
-                        fusContainer.classList.add('hidden');
-                        fusCheck.checked = false;
-                        document.getElementById('fus_group').style.display = 'none';
+                        g1Title.classList.add('hidden');
+                        g2Container.classList.add('hidden');
+                        g2Inputs.forEach(input => {
+                            input.removeAttribute('required');
+                            input.value = ''; // Limpiar campos si desmarcan
+                        });
                     }
                 },
                 submitGrupo(e) {
@@ -956,6 +990,9 @@
                     const fd = new FormData(e.target);
                     const data = Object.fromEntries(fd.entries());
                     data.folio = App.utils.genFolio('TZ26');
+                    
+                    // Asegurar que guarde boolean de la fusión
+                    data.is_fusion = document.getElementById('fus_toggle').checked;
                     
                     let groups = JSON.parse(localStorage.getItem('tz26_groups'));
                     groups.push(data);
@@ -1006,7 +1043,7 @@
                     const tbG = document.querySelector('#table-ad-grupos tbody');
                     tbG.innerHTML = '';
                     groups.forEach((g,i) => {
-                        const fusionStr = g.fusion ? g.grupo_fusion : 'No';
+                        const fusionStr = g.is_fusion ? `${g.licenciatura2} <br><small>${g.semestre2} ${g.grupo2}</small>` : 'No';
                         tbG.innerHTML += `<tr>
                             <td style="color:var(--gold); font-weight: 500;">${g.folio}</td>
                             <td>${g.licenciatura}<br><small style="color:var(--text-muted);">${g.semestre} ${g.grupo}</small></td>
