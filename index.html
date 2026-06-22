@@ -107,6 +107,9 @@
         button.btn-primary { background: rgba(61, 12, 19, 0.8); border-color: var(--wine); color: var(--bone); backdrop-filter: blur(5px); }
         button.btn-primary:hover { background: var(--wine); border-color: var(--gold); color: var(--bone); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         
+        .btn-download { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 12px 24px; font-family: var(--font-title); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: var(--transition); letter-spacing: 2px; text-transform: uppercase; border-radius: 2px; text-decoration: none; display: inline-block; }
+        .btn-download:hover { background: rgba(207, 170, 103, 0.1); box-shadow: 0 0 15px var(--gold-glow); transform: translateY(-2px); }
+
         input, select, textarea {
             width: 100%; padding: 14px 16px; margin-bottom: 25px;
             background: rgba(10, 10, 10, 0.6); border: 1px solid rgba(207, 170, 103, 0.15);
@@ -122,6 +125,8 @@
         input:focus-visible, select:focus-visible, textarea:focus-visible {
             outline: 2px solid var(--gold); outline-offset: 1px;
         }
+        input[type="file"] { padding: 10px; background: rgba(0,0,0,0.3); border: 1px dashed rgba(207, 170, 103, 0.4); cursor: pointer; }
+        
         label { display: block; margin-bottom: 8px; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; font-family: var(--font-title); }
 
         .hidden { display: none !important; opacity: 0; pointer-events: none; }
@@ -230,19 +235,6 @@
         .checkbox-group input { width: auto; margin: 2px 0 0 0; accent-color: var(--gold); transform: scale(1.2); }
         .checkbox-group label { color: var(--bone-dark); text-transform: none; letter-spacing: 0.5px; font-family: var(--font-sans); }
         
-        .student-block { background: rgba(15, 15, 15, 0.5); border: 1px solid rgba(207, 170, 103, 0.1); padding: 25px 20px 5px; margin-bottom: 20px; border-radius: 2px; border-left: 2px solid var(--gold); }
-        .student-block-title { font-family: var(--font-title); color: var(--gold); font-size: 0.95rem; margin-bottom: 20px; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
-        .student-block-title::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.05); }
-
-        /* MEJORA UX: Paginación de alumnos */
-        .student-page-nav { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 15px 0; margin: 10px 0 25px; 
-            border-top: 1px solid rgba(207, 170, 103, 0.15);
-        }
-        .student-page-nav button { padding: 10px 20px; font-size: 0.8rem; }
-        .student-page-info { font-family: var(--font-title); font-size: 0.85rem; color: var(--gold); letter-spacing: 1px; }
-
         .receipt { text-align: center; padding: 60px 40px; background: var(--wine-dark); border: 1px solid rgba(207, 170, 103, 0.3); border-top: 3px solid var(--gold); max-width: 600px; margin: 0 auto; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
         .receipt::after { content:''; position:absolute; top:10px; left:10px; right:10px; bottom:10px; border: 1px solid rgba(207, 170, 103, 0.1); pointer-events: none; }
         .folio-number { font-family: var(--font-title); font-size: 3.5rem; color: var(--gold); margin: 30px 0; letter-spacing: 6px; text-shadow: 0 0 20px rgba(207, 170, 103, 0.2); }
@@ -584,19 +576,18 @@
                     </div>
 
                     <h3 class="title-font section-heading-spaced">Integrantes del Equipo</h3>
-                    <div class="form-row">
-                        <div style="width: 100%;">
-                            <label for="num-alumnos">Cantidad de alumnos (Mínimo 15, Máximo 25)</label>
-                            <input type="number" id="num-alumnos" name="num_alumnos" min="15" max="25" required aria-required="true" placeholder="Ej. 15" oninput="App.forms.initStudentPages()">
+                    <div class="premium-card" style="background: rgba(207, 170, 103, 0.05); border: 1px solid rgba(207, 170, 103, 0.2); text-align: center; padding: 30px;">
+                        <p class="serif-font text-muted-body mb-20" style="font-size: 0.95rem;">Descarga el formato oficial de Excel (Listados Rubro III), llénalo con los datos de los 15 a 25 integrantes de tu equipo, y súbelo aquí.</p>
+                        
+                        <!-- Coloca el enlace "Raw" de tu archivo en GitHub en el atributo href -->
+                        <a href="https://raw.githubusercontent.com/TU_USUARIO/TU_REPOSITORIO/main/LISTADOS%20RUBRO%20III.xlsx" download="LISTADOS_RUBRO_III.xlsx" class="btn-download" style="margin-bottom: 25px;" target="_blank">
+                            ⬇ Descargar Formato Oficial
+                        </a>
+                        
+                        <div style="text-align: left;">
+                            <label for="archivo-integrantes">Subir formato lleno (Solo .xls, .xlsx)</label>
+                            <input type="file" id="archivo-integrantes" name="archivo_integrantes" accept=".xlsx, .xls" required aria-required="true">
                         </div>
-                    </div>
-                    
-                    <!-- MEJORA UX: Alumnos paginados de 5 en 5 -->
-                    <div id="dynamic-students-list"></div>
-                    <div id="student-page-nav" class="student-page-nav hidden" aria-live="polite">
-                        <button type="button" onclick="App.forms.prevStudentPage()" id="btn-prev-page">&#8592; Anteriores</button>
-                        <span class="student-page-info" id="student-page-info"></span>
-                        <button type="button" onclick="App.forms.nextStudentPage()" id="btn-next-page">Siguientes &#8594;</button>
                     </div>
 
                     <h3 class="title-font section-heading-spaced">Datos del Representante</h3>
@@ -995,7 +986,7 @@
                     const el = form.querySelector(`[name="${name}"]`);
                     if (!el) return;
                     if (el.type === 'checkbox') el.checked = value === 'on' || value === true;
-                    else el.value = value;
+                    else if (el.type !== 'file') el.value = value;
                 });
                 // Restaurar estado de fusión si aplica
                 if (formId === 'form-grupo' && data.is_fusion) {
@@ -1008,7 +999,8 @@
                 const form = document.getElementById(formId);
                 if (!form) return false;
                 const fd = new FormData(form);
-                for (const [, v] of fd.entries()) {
+                for (const [k, v] of fd.entries()) {
+                    if (k === 'archivo_integrantes') continue;
                     if (v && v !== 'Matutino' && v !== 'Estudiante UATyG') return true;
                 }
                 return false;
@@ -1189,73 +1181,6 @@
             },
 
             forms: {
-                /* Paginación de alumnos */
-                _studentTotal: 0,
-                _studentPage: 0,
-                _pageSize: 5,
-
-                initStudentPages() {
-                    const num = parseInt(document.getElementById('num-alumnos').value) || 0;
-                    if (num < 15 || num > 25) {
-                        document.getElementById('dynamic-students-list').innerHTML = '';
-                        document.getElementById('student-page-nav').classList.add('hidden');
-                        return;
-                    }
-                    this._studentTotal = num;
-                    this._studentPage = 0;
-                    this._renderStudentPage();
-                },
-
-                _renderStudentPage() {
-                    const container = document.getElementById('dynamic-students-list');
-                    container.innerHTML = '';
-                    const start = this._studentPage * this._pageSize;
-                    const end = Math.min(start + this._pageSize, this._studentTotal);
-                    const totalPages = Math.ceil(this._studentTotal / this._pageSize);
-
-                    for (let i = start + 1; i <= end; i++) {
-                        const block = document.createElement('div');
-                        block.className = 'student-block fade-in';
-                        block.style.animationDelay = `${(i - start) * 0.05}s`;
-                        /* MEJORA SEGURIDAD: sin innerHTML con datos de usuario; todo por textContent/DOM */
-                        block.innerHTML = `
-                            <div class="student-block-title">Alumno ${i} <span style="color:var(--text-muted); font-size:0.8rem; font-family:var(--font-sans);">(${i} de ${this._studentTotal})</span></div>
-                            <div class="form-row">
-                                <div><label for="al_${i}_ap">Apellidos</label><input type="text" name="al_${i}_apellidos" id="al_${i}_ap" required></div>
-                                <div><label for="al_${i}_nm">Nombre(s)</label><input type="text" name="al_${i}_nombres" id="al_${i}_nm" required></div>
-                            </div>
-                            <div class="form-row">
-                                <div><label for="al_${i}_mat">Matrícula</label><input type="text" name="al_${i}_matricula" id="al_${i}_mat" required></div>
-                                <div>
-                                    <label for="al_${i}_lic">Licenciatura</label>
-                                    <select name="al_${i}_licenciatura" id="al_${i}_lic" required>
-                                        <option value="">Selecciona...</option>
-                                        <option value="Gastronomía">Gastronomía</option>
-                                        <option value="Gestión e Innovación del Turismo">Gestión e Innovación del Turismo</option>
-                                    </select>
-                                </div>
-                                <div><label for="al_${i}_gr">Grupo</label><input type="text" name="al_${i}_grupo" id="al_${i}_gr" required placeholder="Ej. 3ro A"></div>
-                            </div>
-                        `;
-                        container.appendChild(block);
-                    }
-
-                    const nav = document.getElementById('student-page-nav');
-                    nav.classList.remove('hidden');
-                    document.getElementById('student-page-info').textContent =
-                        `Página ${this._studentPage + 1} de ${totalPages} · Alumnos ${start + 1}–${end}`;
-                    document.getElementById('btn-prev-page').disabled = this._studentPage === 0;
-                    document.getElementById('btn-next-page').disabled = this._studentPage >= totalPages - 1;
-                },
-
-                prevStudentPage() {
-                    if (this._studentPage > 0) { this._studentPage--; this._renderStudentPage(); }
-                },
-                nextStudentPage() {
-                    const totalPages = Math.ceil(this._studentTotal / this._pageSize);
-                    if (this._studentPage < totalPages - 1) { this._studentPage++; this._renderStudentPage(); }
-                },
-
                 toggleFusion() {
                     const isChecked = document.getElementById('fus_toggle').checked;
                     const g1Title = document.getElementById('g1_title');
@@ -1293,29 +1218,16 @@
                     const fd = new FormData(e.target);
                     const flatData = Object.fromEntries(fd.entries());
 
-                    /* Empaquetar integrantes que ya fueron llenados (pueden ser parciales por paginación) */
-                    const numAlumnos = parseInt(flatData.num_alumnos) || 0;
-                    const integrantes = [];
-                    for (let i = 1; i <= numAlumnos; i++) {
-                        integrantes.push({
-                            apellidos:    flatData[`al_${i}_apellidos`] || '',
-                            nombres:      flatData[`al_${i}_nombres`]   || '',
-                            matricula:    flatData[`al_${i}_matricula`] || '',
-                            licenciatura: flatData[`al_${i}_licenciatura`] || '',
-                            grupo:        flatData[`al_${i}_grupo`]     || ''
-                        });
-                        delete flatData[`al_${i}_apellidos`];
-                        delete flatData[`al_${i}_nombres`];
-                        delete flatData[`al_${i}_matricula`];
-                        delete flatData[`al_${i}_licenciatura`];
-                        delete flatData[`al_${i}_grupo`];
-                    }
+                    /* Extraemos el nombre del archivo subido como constancia */
+                    const fileInput = document.getElementById('archivo-integrantes');
+                    const fileName = fileInput.files.length > 0 ? fileInput.files[0].name : '';
+                    delete flatData.archivo_integrantes; // No subimos el objeto File directamente a la DB plana
 
                     /* MEJORA SEGURIDAD: folio con UUID */
                     const folio = genFolio('TZ26');
                     const data = {
                         ...flatData,
-                        integrantes,
+                        archivo_adjunto: fileName,
                         folio,
                         is_fusion: document.getElementById('fus_toggle').checked,
                         timestamp: serverTimestamp()
@@ -1334,7 +1246,7 @@
                             ['Licenciatura',  data.licenciatura || ''],
                             ['Semestre / Grupo', `${data.semestre || ''} ${data.grupo || ''}`],
                             ['Tema del Altar', data.tema || ''],
-                            ['Municipio', data.municipio || ''],
+                            ['Archivo subido', fileName || ''],
                             ['Correo', data.rep_correo || ''],
                         ]);
 
@@ -1518,7 +1430,7 @@
                     const data = App.dbCache[collectionKey];
                     if (!data || data.length === 0) { App.toast('No hay datos para exportar'); return; }
 
-                    const headers = Object.keys(data[0]).filter(k => k !== 'timestamp' && k !== 'integrantes');
+                    const headers = Object.keys(data[0]).filter(k => k !== 'timestamp');
                     const csvContent = [
                         headers.join(','),
                         ...data.map(row => headers.map(h => `"${row[h] ? String(row[h]).replace(/"/g, '""') : ''}"`).join(','))
