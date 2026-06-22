@@ -108,12 +108,12 @@
         @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 
         /* --- INTRO & MAIN --- */
-        #intro { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; text-align: center; overflow: hidden; background: var(--black); }
+        #intro { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; text-align: center; overflow: hidden; background: var(--black); }
         .intro-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('fondo.png') center/cover no-repeat; opacity: 0.6; }
         .intro-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(3,3,3,0.3) 0%, rgba(3,3,3,0.95) 100%), linear-gradient(180deg, rgba(3,3,3,0.8) 0%, transparent 40%, rgba(3,3,3,0.9) 100%); }
         .intro-content { position: relative; z-index: 2; max-width: 900px; padding: 20px; width: 100%; }
-        /* Título modificado para evitar desbordamiento en móviles (min 2rem) */
-        .intro-title { font-size: clamp(2rem, 12vw, 7.5rem); color: var(--bone); text-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(207, 170, 103, 0.2); margin-bottom: 0; opacity: 0; animation: cinematicFadeIn 1.5s 0.2s forwards; line-height: 1; letter-spacing: 5px; }
+        /* FIX MÓVIL: Reduje un poco el tamaño máximo y el valor vw para que no se parta la palabra */
+        .intro-title { font-size: clamp(2.5rem, 11vw, 7.5rem); color: var(--bone); text-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(207, 170, 103, 0.2); margin-bottom: 0; opacity: 0; animation: cinematicFadeIn 1.5s 0.2s forwards; line-height: 1; letter-spacing: 5px; }
         .intro-year-row { display: flex; justify-content: center; align-items: center; gap: clamp(15px, 4vw, 60px); margin: 20px 0 30px; opacity: 0; animation: cinematicFadeIn 1.5s 0.6s forwards; }
         .logo-img { height: clamp(40px, 6vw, 75px); width: auto; object-fit: contain; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)) brightness(0.9) sepia(0.2) hue-rotate(-10deg); opacity: 0.8; }
         .intro-year { font-size: clamp(1.8rem, 8vw, 4.5rem); color: var(--gold); font-family: var(--font-title); font-weight: 400; margin: 0; line-height: 1; letter-spacing: 4px; text-shadow: 0 5px 20px rgba(0,0,0,0.8); }
@@ -131,6 +131,7 @@
         .mei-divider { color: var(--wine); }
         .main-instruction { font-family: var(--font-serif); font-style: italic; color: var(--bone-dark); font-size: clamp(1.2rem, 4vw, 1.5rem); margin-bottom: 60px; text-align: center; font-weight: 400; letter-spacing: 1px; }
         
+        /* FIX MÓVIL: Cambié minmax(280px...) a minmax(250px...) para que quepan bien en pantallas estrechas */
         .tzompantli-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; width: 100%; max-width: 1100px; padding: 0 15px; }
         .skull-item { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: var(--transition); position: relative; padding: 40px 30px; background: rgba(12, 12, 12, 0.8); border: 1px solid rgba(207, 170, 103, 0.15); border-top: 2px solid rgba(207, 170, 103, 0.4); border-radius: 3px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         .skull-item:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
@@ -415,7 +416,7 @@
             </div>
             <div class="rule-block">
                 <h4 class="rule-title"><span class="rule-number">12.</span> Evaluación general (100 pts)</h4>
-                <p class="serif-font text-muted-body">Claridad de memoria (15), investigación (15), territorio (10), integración de saberes (15), elementos tradicionales (15), creatividad (10), presentación (10), orden y seguridad (5), trabajo colaborativo (5).</p>
+                <p class="serif-font text-muted-body">Claridad de memoria (15), investigación (15), territorio (10), integración de saberes (15), elementos tradicionales (15), creatividad (10), presentation (10), orden y seguridad (5), trabajo colaborativo (5).</p>
             </div>
             <div class="rule-block" style="border-left-color: rgba(255, 50, 50, 0.5);">
                 <h4 class="rule-title text-bone"><span class="rule-number" style="color: #c94c4c;">13.</span> Penalizaciones y descalificaciones</h4>
@@ -858,7 +859,7 @@
                 </div>
             </div>
             
-            <div style="text-align: center; margin-top: 40px;"><button class="btn-back" onclick="App.backToMain('scene-admin')"><span aria-hidden="true">&#8592;</span> Salir</button></div>
+            <div style="text-align: center; margin-top: 40px;"><button class="btn-back" onclick="App.admin.closeDetail(); App.backToMain('scene-admin')"><span aria-hidden="true">&#8592;</span> Salir</button></div>
         </div>
     </div>
 
@@ -901,7 +902,6 @@
 
         const getCol = (name) => collection(db, name);
 
-        // -- UTILIDADES DE VALIDACIÓN Y SEGURIDAD --
         window.Utils = {
             escText(str) {
                 if (str === null || str === undefined) return '';
@@ -1005,7 +1005,6 @@
             init() {
                 this.renderTzompantli();
                 
-                // --- FIX: DEBOUNCE PARA AUTOGUARDADO (Soluciona el problema de lag/sonido) ---
                 ['form-grupo', 'form-mercadito', 'form-sabores'].forEach(fId => {
                     const form = document.getElementById(fId);
                     if (!form) return;
@@ -1014,7 +1013,7 @@
                     const debouncedSave = () => {
                         const fd = new FormData(form);
                         const data = Object.fromEntries(fd.entries());
-                        delete data.archivo_integrantes; // No guardar el objeto File en memoria
+                        delete data.archivo_integrantes; 
                         FormCache.save(fId, data);
                     };
 
