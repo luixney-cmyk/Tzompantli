@@ -221,7 +221,6 @@
         #toast { position: fixed; bottom: 40px; right: 40px; background: rgba(12, 12, 12, 0.95); color: var(--gold); border: 1px solid var(--gold); padding: 18px 30px; border-radius: 3px; font-family: var(--font-sans); font-weight: 500; letter-spacing: 1px; transform: translateY(100px); opacity: 0; transition: var(--transition); z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
         #toast.show { transform: translateY(0); opacity: 1; }
 
-        /* Media Queries para Responsividad y Ajustes Móviles */
         @media(max-width: 768px) {
             .grid-2 { grid-template-columns: 1fr; gap: 20px; }
             .corner-logo { height: 45px; top: 20px; }
@@ -240,9 +239,6 @@
             .tl-item { padding-left: 110px; }
             .tl-time { width: 60px; font-size: 1rem; }
             .tl-dot { left: 76px; }
-            
-            /* Ajuste específico para que "TZOMPANTLI" no se corte en celular */
-            .intro-title { font-size: 10vw; letter-spacing: 2px; }
         }
     </style>
 </head>
@@ -275,11 +271,11 @@
 
         <!-- BLOQUE INFORMATIVO MAIN -->
         <div class="main-event-info fade-in">
-            <span>Jueves 29 DE OCTUBRE</span>
+            <span>29 DE NOVIEMBRE</span>
             <span class="mei-divider">•</span>
             <span>EXPLANADA UATYG</span>
             <span class="mei-divider">•</span>
-            <span>INICIO DEL EVENTO: 17:00 HRS</span>
+            <span>RECORRIDO: 17:00 HRS</span>
         </div>
 
         <h2 class="main-instruction fade-in">Elige una puerta para entrar a la memoria.</h2>
@@ -522,7 +518,41 @@
         </div>
         <div class="scene-content">
             <h2 class="scene-title">Mercadito de Ánimas</h2>
-            <p class="serif-font" style="text-align:center; max-width:600px; margin:0 auto 50px; color:var(--bone-dark); font-size: 1.1rem;">Prioridad para estudiantes de la UATyG. Cupo limitado.</p>
+            
+            <!-- NUEVO BLOQUE EXPLICATIVO MERCADITO -->
+            <div class="premium-card" style="margin-bottom: 40px;">
+                <p class="serif-font" style="color:var(--bone-dark); font-size: 1.05rem; text-align: justify; margin-bottom: 20px;">
+                    El día del Tzompantli contaremos con la instalación del <strong>Mercadito de Ánimas</strong>, el cual podrá funcionar desde las 8:00 hrs hasta la conclusión del evento. Se asignarán espacios para la venta de productos para los altares (flores, papel picado, ornamentos), así como alimentos y bebidas (aguas frescas, elotes, tamales, etc.).
+                </p>
+                <p class="serif-font" style="color:var(--bone-dark); font-size: 1.05rem; text-align: justify; margin-bottom: 25px;">
+                    Se dará prioridad a los estudiantes de la UATyG, aunque también contaremos con espacios para personas externas que deseen ofertar sus productos.
+                </p>
+
+                <div class="grid-2" style="gap: 20px; margin-bottom: 25px;">
+                    <div style="background: rgba(207, 170, 103, 0.05); border: 1px solid rgba(207, 170, 103, 0.2); padding: 20px; border-radius: 2px;">
+                        <h4 class="title-font" style="color:var(--gold); font-size: 1.1rem; margin-bottom: 10px;">Alumnos UATyG</h4>
+                        <ul class="serif-font" style="color:var(--bone-dark); margin-left: 20px; font-size: 0.95rem;">
+                            <li style="margin-bottom: 5px;">Cuota de recuperación: <strong>$50.00 M.N.</strong></li>
+                            <li>Se asignará 1 tablón (por cada 2 alumnos) y 2 sillas.</li>
+                        </ul>
+                    </div>
+                    <div style="background: rgba(207, 170, 103, 0.05); border: 1px solid rgba(207, 170, 103, 0.2); padding: 20px; border-radius: 2px;">
+                        <h4 class="title-font" style="color:var(--gold); font-size: 1.1rem; margin-bottom: 10px;">Personas Externas</h4>
+                        <ul class="serif-font" style="color:var(--bone-dark); margin-left: 20px; font-size: 0.95rem;">
+                            <li style="margin-bottom: 5px;">Cuota de recuperación: <strong>$100.00 M.N.</strong></li>
+                            <li>Se asignará 1 tablón (por cada 2 personas) y 2 sillas.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="border-left: 3px solid #c94c4c; padding-left: 15px; background: rgba(201, 76, 76, 0.05); padding: 15px;">
+                    <p class="serif-font" style="color:#e88989; font-weight: 500; margin-bottom: 5px;">Avisos importantes:</p>
+                    <ul class="serif-font" style="color:var(--bone-dark); margin-left: 20px; font-size: 0.95rem;">
+                        <li style="margin-bottom: 5px;">No existen posibilidades de toldos; quien lo necesite deberá llevarlo por su cuenta.</li>
+                        <li><strong>Queda estrictamente prohibida la venta de alcohol.</strong></li>
+                    </ul>
+                </div>
+            </div>
 
             <div id="merc-form-container" class="premium-card">
                 <form id="form-mercadito" onsubmit="App.forms.submitMercadito(event)">
@@ -537,7 +567,6 @@
                         <div><label>Correo</label><input type="email" name="correo" required></div>
                     </div>
                     <div class="checkbox-group"><input type="checkbox" name="electricidad" id="m_elec"><label for="m_elec">Necesito electricidad</label></div>
-                    <div class="checkbox-group"><input type="checkbox" name="mesa" id="m_mesa"><label for="m_mesa">Solicito tablón</label></div>
                     <button type="submit" class="btn-primary" style="width:100%; padding: 18px;" id="btn-submit-mercadito">Solicitar Espacio</button>
                 </form>
             </div>
@@ -706,6 +735,7 @@
         import { getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // TUS CREDENCIALES DE FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyAiSgVMEnOD8f07X4lt3qLb7LEvqLQ3JHU",
             authDomain: "tzompantli-2026.firebaseapp.com",
