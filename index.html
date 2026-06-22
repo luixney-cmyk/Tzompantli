@@ -101,7 +101,7 @@
         }
         
         .intro-content { position: relative; z-index: 2; max-width: 900px; padding: 20px; width: 100%; }
-        .intro-title { font-size: clamp(2rem, 9vw, 7.5rem); color: var(--bone); text-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(207, 170, 103, 0.2); margin-bottom: 0; opacity: 0; animation: cinematicFadeIn 1.5s 0.2s forwards; line-height: 1; letter-spacing: clamp(2px, 1vw, 5px); }
+        .intro-title { font-size: clamp(3.5rem, 10vw, 7.5rem); color: var(--bone); text-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(207, 170, 103, 0.2); margin-bottom: 0; opacity: 0; animation: cinematicFadeIn 1.5s 0.2s forwards; line-height: 1; letter-spacing: 5px; }
         .intro-year-row { display: flex; justify-content: center; align-items: center; gap: clamp(20px, 5vw, 60px); margin: 20px 0 30px; opacity: 0; animation: cinematicFadeIn 1.5s 0.6s forwards; }
         .logo-img { height: clamp(40px, 6vw, 75px); width: auto; object-fit: contain; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)) brightness(0.9) sepia(0.2) hue-rotate(-10deg); opacity: 0.8; }
         .intro-year { font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--gold); font-family: var(--font-title); font-weight: 400; margin: 0; line-height: 1; letter-spacing: 4px; text-shadow: 0 5px 20px rgba(0,0,0,0.8); }
@@ -241,7 +241,7 @@
             .tl-time { width: 60px; font-size: 1rem; }
             .tl-dot { left: 76px; }
             
-            /* Ajuste específico para que "TZOMPANTLI" no se corte ni brinque de línea en celular */
+            /* Ajuste específico para que "TZOMPANTLI" no se corte en celular */
             .intro-title { font-size: 10vw; letter-spacing: 2px; }
         }
     </style>
@@ -700,7 +700,7 @@
     <!-- Mensaje Flotante -->
     <div id="toast">Notificación</div>
 
-    <!-- FIREBASE MODULAR JS -->
+    <!-- FIREBASE MODULAR JS CON TU CONFIGURACIÓN EXACTA -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -748,12 +748,16 @@
                     });
                 }
 
-                // NUEVO: Controlar el audio cuando la página se minimiza o se cambia de pestaña
+                // Controlar el audio y destruir notificación en móviles al salir de la pestaña/app
                 document.addEventListener('visibilitychange', () => {
                     if (document.hidden) {
                         const audioEl = document.getElementById('bg-audio');
-                        if (audioEl && App.audio.playing) {
+                        if (audioEl) {
                             audioEl.pause();
+                            // Eliminar la fuente para matar la notificación del celular
+                            audioEl.removeAttribute('src');
+                            audioEl.load();
+                            
                             document.getElementById('audio-icon').innerText = '🔇';
                             App.audio.playing = false;
                         }
@@ -766,11 +770,18 @@
                 toggle() {
                     const audioEl = document.getElementById('bg-audio');
                     if(!audioEl) return;
+                    
                     if(this.playing) {
                         audioEl.pause();
                         document.getElementById('audio-icon').innerText = '🔇';
                         this.playing = false;
                     } else {
+                        // Restaurar fuente si fue eliminada por salir del navegador
+                        if (!audioEl.getAttribute('src')) {
+                            audioEl.setAttribute('src', 'audio.mp3');
+                            audioEl.load();
+                        }
+
                         audioEl.play().then(() => {
                             document.getElementById('audio-icon').innerText = '🔊';
                             this.playing = true;
@@ -797,6 +808,8 @@
                 const scene = document.getElementById(sceneId);
                 scene.classList.add('active');
                 this.state.activeScene = sceneId;
+                
+                // Forzar scroll arriba
                 scene.scrollTop = 0; 
                 window.scrollTo(0,0);
             },
