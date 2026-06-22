@@ -187,6 +187,10 @@
         .checkbox-group input { width: auto; margin: 2px 0 0 0; accent-color: var(--gold); transform: scale(1.2); }
         .checkbox-group label { color: var(--bone-dark); text-transform: none; letter-spacing: 0.5px; font-family: var(--font-sans); }
         
+        .student-block { background: rgba(15, 15, 15, 0.5); border: 1px solid rgba(207, 170, 103, 0.1); padding: 25px 20px 5px; margin-bottom: 20px; border-radius: 2px; border-left: 2px solid var(--gold); }
+        .student-block-title { font-family: var(--font-title); color: var(--gold); font-size: 0.95rem; margin-bottom: 20px; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
+        .student-block-title::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.05); }
+
         .receipt { text-align: center; padding: 60px 40px; background: var(--wine-dark); border: 1px solid rgba(207, 170, 103, 0.3); border-top: 3px solid var(--gold); max-width: 600px; margin: 0 auto; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
         .receipt::after { content:''; position:absolute; top:10px; left:10px; right:10px; bottom:10px; border: 1px solid rgba(207, 170, 103, 0.1); pointer-events: none; }
         .folio-number { font-family: var(--font-title); font-size: 3.5rem; color: var(--gold); margin: 30px 0; letter-spacing: 6px; text-shadow: 0 0 20px rgba(207, 170, 103, 0.2); }
@@ -196,7 +200,7 @@
         .tl-item { position: relative; padding-left: 170px; margin-bottom: 50px; display: flex; align-items: center; }
         .tl-time { position: absolute; left: 0; top: 50%; transform: translateY(-50%); color: var(--gold); font-family: var(--font-title); font-size: 1.2rem; width: 100px; text-align: right; letter-spacing: 2px; }
         .tl-dot { position: absolute; left: 116px; top: 50%; transform: translateY(-50%); width: 9px; height: 9px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 15px var(--gold); }
-        .tl-content { background: rgba(15, 15, 15, 0.8); padding: 25px 30px; border-radius: 2px; width: 100%; border: 1px solid rgba(255,255,255,0.03); border-left: 2px solid transparent; transition: var(--transition); font-family: var(--font-serif); font-size: 1.1rem; }
+        .tl-content { background: rgba(15, 15, 15, 0.8); padding: 25px 30px; border-radius: 2px; width: 100%; border: 1px solid rgba(255,255,255,0.03); border-left: 2px solid transparent; transition: var(--transition); font-family: var(--font-serif); font-size: 1.1rem; color: var(--bone-dark); }
         .tl-item:hover .tl-content { border-left-color: var(--gold); background: rgba(20, 20, 20, 0.95); transform: translateX(5px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
 
         table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 0.9rem; background: rgba(10,10,10,0.5); }
@@ -475,6 +479,17 @@
 
                     <div class="form-row"><div style="width: 100%;"><label>Docente Tutor Propuesto</label><input type="text" name="tutor" required placeholder="Nombre completo"></div></div>
 
+                    <h3 class="title-font" style="color:var(--gold); margin:40px 0 25px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:15px; font-size: 1.2rem;">Integrantes del Equipo</h3>
+                    <div class="form-row">
+                        <div style="width: 100%;">
+                            <label>Cantidad de alumnos (Mínimo 15, Máximo 25)</label>
+                            <input type="number" id="num-alumnos" name="num_alumnos" min="15" max="25" required placeholder="Ej. 15" oninput="App.forms.generateStudentFields()">
+                        </div>
+                    </div>
+                    
+                    <!-- Contenedor dinámico de los campos de alumnos -->
+                    <div id="dynamic-students-list"></div>
+
                     <h3 class="title-font" style="color:var(--gold); margin:40px 0 25px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:15px; font-size: 1.2rem;">Datos del Representante</h3>
                     <div class="form-row">
                         <div><label>Nombre Completo</label><input type="text" name="rep_nombre" required></div>
@@ -589,7 +604,82 @@
         </div>
         <div class="scene-content">
             <h2 class="scene-title">Programa Cultural</h2>
-            <div class="timeline" id="timeline-container"></div>
+            
+            <div class="timeline" id="timeline-container">
+                <!-- Item 1 -->
+                <div class="tl-item fade-in">
+                    <div class="tl-time">08:00</div>
+                    <div class="tl-dot"></div>
+                    <div class="tl-content">
+                        <strong style="color:var(--gold); font-family:var(--font-title); font-weight:500; letter-spacing:1px; display:block; margin-bottom:5px;">Inicio de Montaje</strong>
+                        Apertura de la explanada para la instalación de altares y puestos del Mercadito de Ánimas.
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="tl-item fade-in" style="animation-delay: 0.1s;">
+                    <div class="tl-time">16:00</div>
+                    <div class="tl-dot"></div>
+                    <div class="tl-content">
+                        <strong style="color:var(--gold); font-family:var(--font-title); font-weight:500; letter-spacing:1px; display:block; margin-bottom:5px;">Cierre de Montaje</strong>
+                        Fin del tiempo permitido para montaje. Inicio de limpieza de pasillos. No se permitirá ingreso de materiales después de esta hora.
+                    </div>
+                </div>
+                <!-- Item 3 -->
+                <div class="tl-item fade-in" style="animation-delay: 0.2s;">
+                    <div class="tl-time">17:00</div>
+                    <div class="tl-dot"></div>
+                    <div class="tl-content">
+                        <strong style="color:var(--gold); font-family:var(--font-title); font-weight:500; letter-spacing:1px; display:block; margin-bottom:5px;">Inauguración y Encendido</strong>
+                        Ceremonia de apertura por parte de las autoridades universitarias y encendido oficial de velas de todos los altares.
+                    </div>
+                </div>
+                <!-- Item 4 -->
+                <div class="tl-item fade-in" style="animation-delay: 0.3s;">
+                    <div class="tl-time">17:30</div>
+                    <div class="tl-dot"></div>
+                    <div class="tl-content">
+                        <strong style="color:var(--gold); font-family:var(--font-title); font-weight:500; letter-spacing:1px; display:block; margin-bottom:5px;">Recorrido del Jurado</strong>
+                        Inicio de la evaluación de altares por parte del jurado calificador. Los representantes de cada altar deberán estar presentes para su explicación.
+                    </div>
+                </div>
+                <!-- Item 5 -->
+                <div class="tl-item fade-in" style="animation-delay: 0.4s;">
+                    <div class="tl-time">18:30</div>
+                    <div class="tl-dot"></div>
+                    <div class="tl-content">
+                        <strong style="color:var(--gold); font-family:var(--font-title); font-weight:500; letter-spacing:1px; display:block; margin-bottom:5px;">Concurso: Sabores de Ánimas</strong>
+                        Presentación y degustación de los Panes de Muerto elaborados con ingredientes endémicos de Nayarit.
+                    </div>
+                </div>
+                <!-- Item 6 -->
+                <div class="tl-item fade-in" style="animation-delay: 0.5s;">
+                    <div class="tl-time">19:30</div>
+                    <div class="tl-dot"></div>
+                    <div class="tl-content">
+                        <strong style="color:var(--gold); font-family:var(--font-title); font-weight:500; letter-spacing:1px; display:block; margin-bottom:5px;">Presentación Cultural</strong>
+                        Música en vivo, relatos y danzas folclóricas en memoria de las tradiciones de nuestro estado (Explanada principal).
+                    </div>
+                </div>
+                <!-- Item 7 -->
+                <div class="tl-item fade-in" style="animation-delay: 0.6s;">
+                    <div class="tl-time">20:30</div>
+                    <div class="tl-dot"></div>
+                    <div class="tl-content">
+                        <strong style="color:var(--gold); font-family:var(--font-title); font-weight:500; letter-spacing:1px; display:block; margin-bottom:5px;">Premiación</strong>
+                        Entrega de reconocimientos y anuncio de los equipos ganadores del Tzompantli 2026 y el Concurso de Pan de Muerto.
+                    </div>
+                </div>
+                <!-- Item 8 -->
+                <div class="tl-item fade-in" style="animation-delay: 0.7s;">
+                    <div class="tl-time">21:30</div>
+                    <div class="tl-dot"></div>
+                    <div class="tl-content">
+                        <strong style="color:var(--gold); font-family:var(--font-title); font-weight:500; letter-spacing:1px; display:block; margin-bottom:5px;">Clausura</strong>
+                        Despedida de ánimas y cierre oficial de actividades.
+                    </div>
+                </div>
+            </div>
+
             <div style="text-align: center; margin-top: 40px;"><button class="btn-back" onclick="App.backToMain()"><span>&#8592;</span> Volver</button></div>
         </div>
         <div class="footer-phrase">Nuestra mayor ofrenda es mantener viva la memoria de nuestra tierra.</div>
@@ -878,6 +968,41 @@
             },
 
             forms: {
+                generateStudentFields() {
+                    const container = document.getElementById('dynamic-students-list');
+                    const num = parseInt(document.getElementById('num-alumnos').value) || 0;
+                    container.innerHTML = '';
+
+                    // Límite de seguridad para que el DOM no se sature si escriben un número absurdo accidentalmente
+                    if (num > 50) return; 
+
+                    for (let i = 1; i <= num; i++) {
+                        const block = document.createElement('div');
+                        block.className = 'student-block fade-in';
+                        // Efecto cascada rápido al aparecer
+                        block.style.animationDelay = `${(i * 0.05)}s`; 
+                        block.innerHTML = `
+                            <div class="student-block-title">Alumno ${i}</div>
+                            <div class="form-row">
+                                <div><label>Apellidos</label><input type="text" name="al_${i}_apellidos" required></div>
+                                <div><label>Nombre(s)</label><input type="text" name="al_${i}_nombres" required></div>
+                            </div>
+                            <div class="form-row">
+                                <div><label>Matrícula</label><input type="text" name="al_${i}_matricula" required></div>
+                                <div>
+                                    <label>Licenciatura</label>
+                                    <select name="al_${i}_licenciatura" required>
+                                        <option value="">Selecciona...</option>
+                                        <option value="Gastronomía">Gastronomía</option>
+                                        <option value="Gestión e Innovación del Turismo">Gestión e Innovación del Turismo</option>
+                                    </select>
+                                </div>
+                                <div><label>Grupo</label><input type="text" name="al_${i}_grupo" required placeholder="Ej. 3ro A"></div>
+                            </div>
+                        `;
+                        container.appendChild(block);
+                    }
+                },
                 toggleFusion() {
                     const isChecked = document.getElementById('fus_toggle').checked;
                     const g1Title = document.getElementById('g1_title');
@@ -897,10 +1022,34 @@
                     document.getElementById('btn-submit-grupo').innerText = "Procesando...";
                     
                     const fd = new FormData(e.target);
-                    const data = Object.fromEntries(fd.entries());
-                    data.folio = App.utils.genFolio('TZ26');
-                    data.is_fusion = document.getElementById('fus_toggle').checked;
-                    data.timestamp = serverTimestamp();
+                    const flatData = Object.fromEntries(fd.entries());
+                    
+                    // Empaquetamos dinámicamente los integrantes en un arreglo para base de datos
+                    const numAlumnos = parseInt(flatData.num_alumnos) || 0;
+                    const integrantes = [];
+                    for(let i=1; i<=numAlumnos; i++) {
+                        integrantes.push({
+                            apellidos: flatData[`al_${i}_apellidos`],
+                            nombres: flatData[`al_${i}_nombres`],
+                            matricula: flatData[`al_${i}_matricula`],
+                            licenciatura: flatData[`al_${i}_licenciatura`],
+                            grupo: flatData[`al_${i}_grupo`]
+                        });
+                        // Eliminamos los campos sueltos para no ensuciar el documento principal
+                        delete flatData[`al_${i}_apellidos`];
+                        delete flatData[`al_${i}_nombres`];
+                        delete flatData[`al_${i}_matricula`];
+                        delete flatData[`al_${i}_licenciatura`];
+                        delete flatData[`al_${i}_grupo`];
+                    }
+
+                    const data = {
+                        ...flatData,
+                        integrantes: integrantes, // Arreglo guardado limpiamente
+                        folio: App.utils.genFolio('TZ26'),
+                        is_fusion: document.getElementById('fus_toggle').checked,
+                        timestamp: serverTimestamp()
+                    };
 
                     try {
                         await addDoc(getCol('tz26_grupos'), data);
