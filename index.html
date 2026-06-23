@@ -131,7 +131,6 @@
         .mei-divider { color: var(--wine); }
         .main-instruction { font-family: var(--font-serif); font-style: italic; color: var(--bone-dark); font-size: clamp(1.2rem, 4vw, 1.5rem); margin-bottom: 60px; text-align: center; font-weight: 400; letter-spacing: 1px; }
         
-        /* FIX MÓVIL: Cambié minmax(280px...) a minmax(250px...) para que quepan bien en pantallas estrechas */
         .tzompantli-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; width: 100%; max-width: 1100px; padding: 0 15px; }
         .skull-item { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: var(--transition); position: relative; padding: 40px 30px; background: rgba(12, 12, 12, 0.8); border: 1px solid rgba(207, 170, 103, 0.15); border-top: 2px solid rgba(207, 170, 103, 0.4); border-radius: 3px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         .skull-item:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
@@ -247,6 +246,9 @@
         @media screen and (max-width: 768px) {
             /* Evitar que iOS Safari haga zoom automático al tocar un input */
             input, select, textarea { font-size: 16px !important; }
+
+            /* CORRECCIÓN #1: Forzar una sola columna para que sea escroleable verticalmente en móviles */
+            .tzompantli-grid { grid-template-columns: 1fr; gap: 15px; }
 
             .grid-2, .modal-grid { grid-template-columns: 1fr; gap: 20px; }
             .corner-logo { height: 45px; top: 20px; }
@@ -1055,6 +1057,13 @@
                 }
 
                 ['form-grupo', 'form-mercadito', 'form-sabores'].forEach(fId => FormCache.restore(fId));
+
+                // CORRECCIÓN #2: Detener completamente el reproductor y cerrar la sesión de audio del OS al cambiar de pestaña o app.
+                document.addEventListener("visibilitychange", () => {
+                    if (document.hidden && this.audio.playing) {
+                        this.audio.stopComplete();
+                    }
+                });
             },
 
             audio: {
@@ -1063,12 +1072,28 @@
                     const audioEl = document.getElementById('bg-audio');
                     if (!audioEl) return;
                     if (this.playing) {
-                        audioEl.pause(); document.getElementById('audio-icon').textContent = '🔇'; this.playing = false;
+                        this.stopComplete();
                     } else {
-                        if (!audioEl.getAttribute('src')) { audioEl.setAttribute('src', 'audio.mp3'); audioEl.load(); }
-                        audioEl.play().then(() => { document.getElementById('audio-icon').textContent = '🔊'; this.playing = true; })
-                        .catch(() => { document.getElementById('audio-icon').textContent = '🔇'; this.playing = false; });
+                        audioEl.setAttribute('src', 'audio.mp3'); 
+                        audioEl.load();
+                        audioEl.play().then(() => { 
+                            document.getElementById('audio-icon').textContent = '🔊'; 
+                            this.playing = true; 
+                        }).catch(() => { 
+                            document.getElementById('audio-icon').textContent = '🔇'; 
+                            this.playing = false; 
+                        });
                     }
+                },
+                stopComplete() {
+                    const audioEl = document.getElementById('bg-audio');
+                    if (audioEl) {
+                        audioEl.pause();
+                        audioEl.removeAttribute('src'); // Obliga al OS (Android/iOS) a soltar el audio y borrar la notificación.
+                        audioEl.load();
+                    }
+                    document.getElementById('audio-icon').textContent = '🔇'; 
+                    this.playing = false;
                 }
             },
 
