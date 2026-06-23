@@ -195,12 +195,8 @@
         .admin-section.active { display: block; animation: cinematicFadeIn 0.4s forwards; }
 
         .status-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 0.7rem; font-family: var(--font-sans); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-        .status-pendiente { background: rgba(255,255,255,0.1); color: var(--bone); border: 1px solid rgba(255,255,255,0.2); }
-        .status-aprobado, .status-pagado { background: rgba(46, 125, 50, 0.2); color: #81c784; border: 1px solid rgba(46, 125, 50, 0.5); }
-        .status-observaciones, .status-parcial { background: rgba(245, 124, 0, 0.2); color: #ffb74d; border: 1px solid rgba(245, 124, 0, 0.5); }
+        .status-aprobado { background: rgba(46, 125, 50, 0.2); color: #81c784; border: 1px solid rgba(46, 125, 50, 0.5); }
         .status-rechazado { background: rgba(198, 40, 40, 0.2); color: #e57373; border: 1px solid rgba(198, 40, 40, 0.5); }
-
-        .admin-select { background: rgba(0,0,0,0.5); border: 1px solid rgba(207, 170, 103, 0.3); color: var(--bone); padding: 5px 10px; border-radius: 2px; font-size: 0.8rem; margin-bottom: 0; width: 100%; cursor: pointer; }
 
         /* Modal Detalles Admin */
         #admin-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.9); z-index: 2000; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 40px 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
@@ -440,9 +436,9 @@
                     <p class="serif-font text-muted-body mb-20" style="font-size: 0.95rem;">
                         <strong>IMPORTANTE:</strong> Para poder hacer tu registro es indispensable haber realizado el pago del total de los alumnos a inscribirse. Pasa a dirección con Tania, haz el pago y se te entregará un recibo con un código único para poder continuar con tu proceso de inscripción.
                     </p>
-                    <div style="display: flex; gap: 15px; justify-content: center; max-width: 400px; margin: 0 auto;">
-                        <input type="text" id="inp-codigo-pago" placeholder="Ej. TZ-A1B2C3" style="margin-bottom: 0; text-transform: uppercase;">
-                        <button type="button" class="btn-primary" onclick="App.forms.validateCode()" id="btn-validate-code">Validar</button>
+                    <div style="display: flex; gap: 15px; justify-content: center; max-width: 400px; margin: 0 auto; align-items: center;">
+                        <input type="text" id="inp-codigo-pago" placeholder="Ej. TZ-A1B2C3" style="margin-bottom: 0; text-transform: uppercase; flex: 1;">
+                        <button type="button" class="btn-primary" onclick="App.forms.validateCode()" id="btn-validate-code" style="white-space: nowrap; padding: 14px 20px; flex-shrink: 0;">Validar</button>
                     </div>
                     <div id="code-feedback" class="file-feedback" style="margin-top: 10px;"></div>
                 </div>
@@ -826,6 +822,7 @@
                     <button onclick="App.admin.showTab('ad-grupos', this)">Altares</button>
                     <button onclick="App.admin.showTab('ad-sabores', this)">Concurso Pan</button>
                     <button onclick="App.admin.showTab('ad-mercadito', this)">Mercadito</button>
+                    <button onclick="App.admin.showTab('ad-codigos', this)">Códigos</button>
                 </nav>
 
                 <div id="ad-resumen" class="admin-section active">
@@ -857,7 +854,7 @@
                 <div id="ad-grupos" class="admin-section">
                     <div class="premium-card" style="padding: 20px; overflow-x:auto;">
                         <table id="table-ad-grupos">
-                            <thead><tr><th scope="col">Folio</th><th scope="col">Lic/Grupo</th><th scope="col">Fusión</th><th scope="col">Tema</th><th scope="col">Representante</th><th scope="col">Archivo</th><th scope="col">Estado</th><th scope="col">Acción</th></tr></thead>
+                            <thead><tr><th scope="col">Folio</th><th scope="col">Lic/Grupo</th><th scope="col">Fusión</th><th scope="col">Tema</th><th scope="col">Representante</th><th scope="col">Archivo</th><th scope="col">Acción</th></tr></thead>
                             <tbody></tbody>
                         </table>
                     </div>
@@ -876,6 +873,16 @@
                     <div class="premium-card" style="padding: 20px; overflow-x:auto;">
                         <table id="table-ad-mercadito">
                             <thead><tr><th scope="col">Folio</th><th scope="col">Resp.</th><th scope="col">Producto</th><th scope="col">Tipo</th><th scope="col">Req.</th><th scope="col">Acción</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="ad-codigos" class="admin-section">
+                    <div class="premium-card" style="padding: 20px; overflow-x:auto;">
+                        <h3 class="title-font text-gold mb-20" style="font-size:1.1rem;">Listado de Códigos (Para Imprimir/Repartir)</h3>
+                        <table id="table-ad-codigos">
+                            <thead><tr><th scope="col">Código</th><th scope="col">Estado</th><th scope="col">Usado en Folio</th></tr></thead>
                             <tbody></tbody>
                         </table>
                     </div>
@@ -905,7 +912,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, deleteDoc, serverTimestamp, query, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, serverTimestamp, query, where, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
         const firebaseConfig = {
@@ -1004,7 +1011,6 @@
                 
                 if (formId === 'form-grupo' && data.is_fusion) App.forms.toggleFusion();
                 
-                // Si el borrador ya tenía un código, se lo dejamos en el input pero lo obligamos a validar
                 if (formId === 'form-grupo' && data.codigo_pago) {
                     const inpCode = document.getElementById('inp-codigo-pago');
                     if(inpCode) inpCode.value = data.codigo_pago;
@@ -1040,7 +1046,6 @@
             init() {
                 this.renderTzompantli();
                 
-                // --- Validaciones en Tiempo Real ---
                 document.querySelectorAll('input[type="tel"]').forEach(input => {
                     input.addEventListener('input', (e) => {
                         e.target.value = e.target.value.replace(/\D/g, '').substring(0, 10);
@@ -1064,7 +1069,6 @@
                         });
                     }
                 });
-                // -----------------------------------
 
                 ['form-grupo', 'form-mercadito', 'form-sabores'].forEach(fId => {
                     const form = document.getElementById(fId);
@@ -1302,7 +1306,6 @@
                             throw new Error('Este código de pago ya fue utilizado en un registro anterior.');
                         }
 
-                        // Código exitoso
                         feedback.textContent = '✅ Código válido. Puedes llenar tu registro de Altar.';
                         feedback.className = 'file-feedback success';
                         
@@ -1413,8 +1416,6 @@
                             archivo_integrantes_url: downloadUrl,
                             archivo_integrantes_size: file.size,
                             archivo_integrantes_type: file.type,
-                            estado_revision: "pendiente",
-                            estado_pago: "pagado", // Al estar atado a código, ya está pagado.
                             uid: auth.currentUser.uid,
                             createdAt: serverTimestamp()
                         };
@@ -1428,7 +1429,6 @@
                             throw new Error('Error al guardar en la base de datos. Se revirtió la subida del archivo Excel por seguridad.');
                         }
 
-                        // Ya guardado, quemamos el código para que no se use de nuevo
                         try {
                             const qCode = query(getCol('tz26_codigos'), where('codigo', '==', docData.codigo_pago));
                             const codeSnap = await getDocs(qCode);
@@ -1439,14 +1439,12 @@
                             console.warn('Advertencia: El registro se guardó pero falló al marcar el código como usado.', ce);
                         }
                         
-                        // IMPORTANTE: Limpiar formulario, caché y restablecer bloqueo
                         FormCache.clear('form-grupo');
                         form.reset();
                         document.getElementById('file-feedback').textContent = 'Solo formato Excel. Máximo 5 MB.';
                         document.getElementById('file-feedback').className = 'file-feedback';
                         App.forms.toggleFusion();
                         
-                        // Restablecer la sección de código de pago
                         document.getElementById('fieldset-grupo').disabled = true;
                         document.getElementById('fieldset-grupo').style.opacity = '0.4';
                         document.getElementById('hidden-codigo-pago').value = '';
@@ -1467,9 +1465,7 @@
                             ['Tema del Altar', docData.tema],
                             ['Municipio', docData.municipio],
                             ['Código Autorizado', docData.codigo_pago],
-                            ['Archivo subido', file.name],
-                            ['Estado de revisión', 'Pendiente'],
-                            ['Estado de pago', 'Pagado']
+                            ['Archivo subido', file.name]
                         ]);
 
                         document.getElementById('grupo-receipt-actions').innerHTML = `
@@ -1506,7 +1502,6 @@
                     try {
                         await addDoc(getCol('tz26_mercadito'), data);
                         
-                        // IMPORTANTE: Limpiar formulario y caché
                         FormCache.clear('form-mercadito');
                         e.target.reset();
 
@@ -1547,7 +1542,6 @@
                     try {
                         await addDoc(getCol('tz26_sabores'), data);
                         
-                        // IMPORTANTE: Limpiar formulario y caché
                         FormCache.clear('form-sabores');
                         e.target.reset();
 
@@ -1603,7 +1597,6 @@
                     btn.disabled = true;
 
                     try {
-                        // Generar 20 códigos únicos
                         for(let i=0; i<20; i++) {
                             const code = 'TZ-' + Math.random().toString(36).substring(2, 8).toUpperCase();
                             await addDoc(getCol('tz26_codigos'), {
@@ -1622,45 +1615,15 @@
                     }
                 },
 
-                async updateStatus(docId, field, value) {
-                    try {
-                        await updateDoc(doc(db, 'tz26_grupos', docId), { [field]: value });
-                        App.toast('✅ Estado actualizado correctamente');
-                        const item = App.dbCache.grupos.find(g => g._id === docId);
-                        if(item) item[field] = value;
-                    } catch(e) {
-                        App.toast('❌ Error al actualizar estado');
-                    }
-                },
-
                 openDetail(docId) {
                     const data = App.dbCache.grupos.find(g => g._id === docId);
                     if(!data) return;
 
                     const content = document.getElementById('admin-modal-content');
-                    
-                    const genStateOpts = (type, val) => {
-                        const opts = type === 'rev' ? ['pendiente', 'revisado', 'observaciones', 'aprobado', 'rechazado'] : ['pendiente', 'parcial', 'pagado'];
-                        return opts.map(o => `<option value="${o}" ${val===o?'selected':''}>${o.toUpperCase()}</option>`).join('');
-                    };
 
                     content.innerHTML = `
                         <div class="modal-section">
-                            <h4 class="title-font text-gold" style="margin-bottom:15px; font-size:1rem; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:5px;">Estados y Acciones Rápidas</h4>
-                            <div class="modal-grid">
-                                <div>
-                                    <div class="modal-label">Revisión:</div>
-                                    <select class="admin-select" onchange="App.admin.updateStatus('${docId}', 'estado_revision', this.value)">
-                                        ${genStateOpts('rev', data.estado_revision)}
-                                    </select>
-                                </div>
-                                <div>
-                                    <div class="modal-label">Pago:</div>
-                                    <select class="admin-select" onchange="App.admin.updateStatus('${docId}', 'estado_pago', this.value)">
-                                        ${genStateOpts('pago', data.estado_pago)}
-                                    </select>
-                                </div>
-                            </div>
+                            <h4 class="title-font text-gold" style="margin-bottom:15px; font-size:1rem; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:5px;">Acciones Rápidas</h4>
                             <div style="margin-top: 15px; display:flex; gap:10px; flex-wrap:wrap;">
                                 ${data.archivo_integrantes_url ? `<a href="${data.archivo_integrantes_url}" target="_blank" class="btn-link btn-sm">Descargar Excel</a>` : ''}
                                 <button class="btn-sm" onclick="navigator.clipboard.writeText('${data.rep_correo}'); App.toast('Correo copiado');">Copiar Correo</button>
@@ -1723,7 +1686,6 @@
                         document.getElementById('stat-mercadito').textContent = App.dbCache.mercadito.length;
                         document.getElementById('stat-sabores').textContent   = App.dbCache.sabores.length;
 
-                        // Estadísticas de Códigos de Pago
                         const lblCodigos = document.getElementById('stat-codigos');
                         const btnGenCodes = document.getElementById('btn-gen-codes');
                         if(lblCodigos) {
@@ -1738,8 +1700,6 @@
                         App.dbCache.grupos.forEach(g => {
                             const tr = tbG.insertRow();
                             
-                            const estadoRev = `<span class="status-badge status-${g.estado_revision||'pendiente'}">${g.estado_revision||'pend'}</span>`;
-                            const estadoPag = `<span class="status-badge status-${g.estado_pago||'pendiente'}">${g.estado_pago||'pend'}</span>`;
                             const linkArchivo = g.archivo_integrantes_url ? `<a href="${g.archivo_integrantes_url}" target="_blank" style="color:var(--gold); text-decoration:none;">💾 EXCEL</a>` : '<span style="color:#555">N/A</span>';
 
                             tr.innerHTML = `
@@ -1749,7 +1709,6 @@
                                 <td title="${Utils.escText(g.tema)}">${Utils.escText(g.tema).substring(0,20)}...</td>
                                 <td>${Utils.escText(g.rep_nombre)}<br><small style="color:var(--text-muted)">${Utils.escText(g.rep_tel)}</small></td>
                                 <td>${linkArchivo}</td>
-                                <td>${estadoRev}<br><div style="margin-top:4px;">${estadoPag}</div></td>
                                 <td>
                                     <button class="btn-sm" onclick="App.admin.openDetail('${g._id}')">Ver detalle</button><br>
                                     <button class="btn-sm" style="color:#e88989; border-color:transparent; margin-top:5px; padding: 5px;" onclick="App.admin.deleteRecord('tz26_grupos', '${g._id}', '${g.archivo_integrantes_storage_path || ''}')">Eliminar</button>
@@ -1785,6 +1744,20 @@
                             const tdAction = tr.insertCell();
                             tdAction.innerHTML = `<button class="btn-sm" style="color:#e88989; border-color:transparent; padding: 5px;" onclick="App.admin.deleteRecord('tz26_sabores', '${s._id}')">Eliminar</button>`;
                         });
+
+                        const tbC = document.querySelector('#table-ad-codigos tbody');
+                        if (tbC) {
+                            tbC.innerHTML = '';
+                            App.dbCache.codigos.forEach(c => {
+                                const tr = tbC.insertRow();
+                                const estado = c.usado ? `<span class="status-badge status-rechazado">USADO</span>` : `<span class="status-badge status-aprobado">DISPONIBLE</span>`;
+                                tr.innerHTML = `
+                                    <td style="color:var(--gold); font-family:var(--font-title); font-weight:600;">${c.codigo}</td>
+                                    <td>${estado}</td>
+                                    <td>${c.usadoEnFolio || '<span style="color:#555">N/A</span>'}</td>
+                                `;
+                            });
+                        }
 
                         if(showToast) App.toast(`Datos cargados exitosamente.`);
                     } catch (err) {
