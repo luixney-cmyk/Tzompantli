@@ -433,148 +433,166 @@
         <div class="scene-content">
             <h2 class="scene-title">Inscribe tu Altar</h2>
             <div id="grupo-form-container" class="premium-card">
+                
+                <!-- VALIDACIÓN DE CÓDIGO -->
+                <div id="code-validation-section" style="margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px dashed rgba(207, 170, 103, 0.3); text-align: center;">
+                    <h3 class="title-font text-gold mb-15">Código de Inscripción</h3>
+                    <p class="serif-font text-muted-body mb-20" style="font-size: 0.95rem;">
+                        <strong>IMPORTANTE:</strong> Para poder hacer tu registro es indispensable haber realizado el pago del total de los alumnos a inscribirse. Pasa a dirección con Tania, haz el pago y se te entregará un recibo con un código único para poder continuar con tu proceso de inscripción.
+                    </p>
+                    <div style="display: flex; gap: 15px; justify-content: center; max-width: 400px; margin: 0 auto;">
+                        <input type="text" id="inp-codigo-pago" placeholder="Ej. TZ-A1B2C3" style="margin-bottom: 0; text-transform: uppercase;">
+                        <button type="button" class="btn-primary" onclick="App.forms.validateCode()" id="btn-validate-code">Validar</button>
+                    </div>
+                    <div id="code-feedback" class="file-feedback" style="margin-top: 10px;"></div>
+                </div>
+
                 <form id="form-grupo" onsubmit="App.forms.submitGrupo(event)" novalidate>
-                    <h3 class="title-font section-heading">Datos Académicos</h3>
-
-                    <div class="checkbox-group" style="margin-bottom: 25px; background: rgba(207, 170, 103, 0.05); border-left: 2px solid var(--gold); padding: 20px;">
-                        <input type="checkbox" name="is_fusion" id="fus_toggle" onchange="App.forms.toggleFusion()">
-                        <label for="fus_toggle" class="text-gold" style="font-size: 1rem; font-weight: 500;">Nos fusionaremos con otro grupo (Para alcanzar el mínimo de 15 alumnos)</label>
-                    </div>
-
-                    <!-- GRUPO 1 -->
-                    <div id="grupo1_container">
-                        <h4 class="title-font hidden" id="g1_title" style="color:var(--bone); font-size: 1rem; margin-bottom: 15px;">Datos del Grupo Principal</h4>
-                        <div class="form-row">
-                            <div>
-                                <label for="sel-licenciatura">Licenciatura</label>
-                                <select name="licenciatura" id="sel-licenciatura" required aria-required="true">
-                                    <option value="">Selecciona...</option>
-                                    <option value="Gastronomía">Gastronomía</option>
-                                    <option value="Gestión e Innovación del Turismo">Gestión e Innovación del Turismo</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="sel-turno">Turno</label>
-                                <select name="turno" id="sel-turno" required aria-required="true">
-                                    <option value="">Selecciona...</option>
-                                    <option value="Matutino">Matutino</option>
-                                    <option value="Vespertino">Vespertino</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div>
-                                <label for="sel-semestre">Semestre</label>
-                                <select name="semestre" id="sel-semestre" required aria-required="true">
-                                    <option value="">Selecciona...</option>
-                                    <option value="1ro">1ro</option><option value="2do">2do</option><option value="3ro">3ro</option>
-                                    <option value="4to">4to</option><option value="5to">5to</option><option value="6to">6to</option>
-                                    <option value="7mo">7mo</option><option value="8vo">8vo</option><option value="9no">9no</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="inp-grupo">Grupo (Ej. D5, A2-2, E1)</label>
-                                <input type="text" name="grupo" id="inp-grupo" required aria-required="true" placeholder="Ej. D5, A2-2, E1" minlength="2" maxlength="4">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- GRUPO 2 (Fusión) -->
-                    <div id="grupo2_container" class="hidden fade-in" style="margin-bottom: 25px; padding-top: 25px; border-top: 1px dashed rgba(207, 170, 103, 0.3);">
-                        <h4 class="title-font" style="color:var(--bone); font-size: 1rem; margin-bottom: 15px;">Datos del Grupo Aliado (Fusión)</h4>
-                        <div class="form-row">
-                            <div>
-                                <label for="lic2">Licenciatura (Grupo Aliado)</label>
-                                <select name="licenciatura2" id="lic2">
-                                    <option value="">Selecciona...</option>
-                                    <option value="Gastronomía">Gastronomía</option>
-                                    <option value="Gestión e Innovación del Turismo">Gestión e Innovación del Turismo</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="turn2">Turno (Grupo Aliado)</label>
-                                <select name="turno2" id="turn2">
-                                    <option value="">Selecciona...</option>
-                                    <option value="Matutino">Matutino</option>
-                                    <option value="Vespertino">Vespertino</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div>
-                                <label for="sem2">Semestre (Grupo Aliado)</label>
-                                <select name="semestre2" id="sem2">
-                                    <option value="">Selecciona...</option>
-                                    <option value="1ro">1ro</option><option value="2do">2do</option><option value="3ro">3ro</option>
-                                    <option value="4to">4to</option><option value="5to">5to</option><option value="6to">6to</option>
-                                    <option value="7mo">7mo</option><option value="8vo">8vo</option><option value="9no">9no</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="grup2">Grupo (Ej. D5, A2-2, E1)</label>
-                                <input type="text" name="grupo2" id="grup2" placeholder="Ej. D5, A2-2, E1" minlength="2" maxlength="4">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div style="width: 100%;">
-                            <label for="inp-tutor">Docente Tutor Propuesto</label>
-                            <input type="text" name="tutor" id="inp-tutor" required aria-required="true" placeholder="Nombre completo del maestro">
-                        </div>
-                    </div>
-
-                    <h3 class="title-font section-heading-spaced">Integrantes del Equipo</h3>
-                    <div class="premium-card" style="background: rgba(207, 170, 103, 0.05); border: 1px solid rgba(207, 170, 103, 0.2); text-align: center; padding: 30px;">
-                        <p class="serif-font text-muted-body mb-20" style="font-size: 0.95rem;">Descarga el formato oficial de Excel (Listados Rubro III), llénalo con los datos de los 15 a 25 integrantes de tu equipo, y súbelo aquí.</p>
+                    <fieldset id="fieldset-grupo" disabled style="border: none; padding: 0; margin: 0; opacity: 0.4; transition: opacity 0.3s;">
+                        <input type="hidden" name="codigo_pago" id="hidden-codigo-pago">
                         
-                        <a href="https://github.com/luixney-cmyk/Tzompantli/raw/refs/heads/main/LISTADOS%20RUBRO%20III.xlsx" download="LISTADOS_RUBRO_III.xlsx" class="btn-download" style="margin-bottom: 25px;" target="_blank">
-                            ⬇ Descargar Formato Oficial
-                        </a>
+                        <h3 class="title-font section-heading">Datos Académicos</h3>
+
+                        <div class="checkbox-group" style="margin-bottom: 25px; background: rgba(207, 170, 103, 0.05); border-left: 2px solid var(--gold); padding: 20px;">
+                            <input type="checkbox" name="is_fusion" id="fus_toggle" onchange="App.forms.toggleFusion()">
+                            <label for="fus_toggle" class="text-gold" style="font-size: 1rem; font-weight: 500;">Nos fusionaremos con otro grupo (Para alcanzar el mínimo de 15 alumnos)</label>
+                        </div>
+
+                        <!-- GRUPO 1 -->
+                        <div id="grupo1_container">
+                            <h4 class="title-font hidden" id="g1_title" style="color:var(--bone); font-size: 1rem; margin-bottom: 15px;">Datos del Grupo Principal</h4>
+                            <div class="form-row">
+                                <div>
+                                    <label for="sel-licenciatura">Licenciatura</label>
+                                    <select name="licenciatura" id="sel-licenciatura" required aria-required="true">
+                                        <option value="">Selecciona...</option>
+                                        <option value="Gastronomía">Gastronomía</option>
+                                        <option value="Gestión e Innovación del Turismo">Gestión e Innovación del Turismo</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="sel-turno">Turno</label>
+                                    <select name="turno" id="sel-turno" required aria-required="true">
+                                        <option value="">Selecciona...</option>
+                                        <option value="Matutino">Matutino</option>
+                                        <option value="Vespertino">Vespertino</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div>
+                                    <label for="sel-semestre">Semestre</label>
+                                    <select name="semestre" id="sel-semestre" required aria-required="true">
+                                        <option value="">Selecciona...</option>
+                                        <option value="1ro">1ro</option><option value="2do">2do</option><option value="3ro">3ro</option>
+                                        <option value="4to">4to</option><option value="5to">5to</option><option value="6to">6to</option>
+                                        <option value="7mo">7mo</option><option value="8vo">8vo</option><option value="9no">9no</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="inp-grupo">Grupo (Ej. D5, A2-2, E1)</label>
+                                    <input type="text" name="grupo" id="inp-grupo" required aria-required="true" placeholder="Ej. D5, A2-2, E1" minlength="2" maxlength="4">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- GRUPO 2 (Fusión) -->
+                        <div id="grupo2_container" class="hidden fade-in" style="margin-bottom: 25px; padding-top: 25px; border-top: 1px dashed rgba(207, 170, 103, 0.3);">
+                            <h4 class="title-font" style="color:var(--bone); font-size: 1rem; margin-bottom: 15px;">Datos del Grupo Aliado (Fusión)</h4>
+                            <div class="form-row">
+                                <div>
+                                    <label for="lic2">Licenciatura (Grupo Aliado)</label>
+                                    <select name="licenciatura2" id="lic2">
+                                        <option value="">Selecciona...</option>
+                                        <option value="Gastronomía">Gastronomía</option>
+                                        <option value="Gestión e Innovación del Turismo">Gestión e Innovación del Turismo</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="turn2">Turno (Grupo Aliado)</label>
+                                    <select name="turno2" id="turn2">
+                                        <option value="">Selecciona...</option>
+                                        <option value="Matutino">Matutino</option>
+                                        <option value="Vespertino">Vespertino</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div>
+                                    <label for="sem2">Semestre (Grupo Aliado)</label>
+                                    <select name="semestre2" id="sem2">
+                                        <option value="">Selecciona...</option>
+                                        <option value="1ro">1ro</option><option value="2do">2do</option><option value="3ro">3ro</option>
+                                        <option value="4to">4to</option><option value="5to">5to</option><option value="6to">6to</option>
+                                        <option value="7mo">7mo</option><option value="8vo">8vo</option><option value="9no">9no</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="grup2">Grupo (Ej. D5, A2-2, E1)</label>
+                                    <input type="text" name="grupo2" id="grup2" placeholder="Ej. D5, A2-2, E1" minlength="2" maxlength="4">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div style="width: 100%;">
+                                <label for="inp-tutor">Docente Tutor Propuesto</label>
+                                <input type="text" name="tutor" id="inp-tutor" required aria-required="true" placeholder="Nombre completo del maestro">
+                            </div>
+                        </div>
+
+                        <h3 class="title-font section-heading-spaced">Integrantes del Equipo</h3>
+                        <div class="premium-card" style="background: rgba(207, 170, 103, 0.05); border: 1px solid rgba(207, 170, 103, 0.2); text-align: center; padding: 30px;">
+                            <p class="serif-font text-muted-body mb-20" style="font-size: 0.95rem;">Descarga el formato oficial de Excel (Listados Rubro III), llénalo con los datos de los 15 a 25 integrantes de tu equipo, y súbelo aquí.</p>
+                            
+                            <a href="https://github.com/luixney-cmyk/Tzompantli/raw/refs/heads/main/LISTADOS%20RUBRO%20III.xlsx" download="LISTADOS_RUBRO_III.xlsx" class="btn-download" style="margin-bottom: 25px;" target="_blank">
+                                ⬇ Descargar Formato Oficial
+                            </a>
+                            
+                            <div style="text-align: left;">
+                                <label for="archivo-integrantes">Subir formato lleno (Solo .xls, .xlsx)</label>
+                                <input type="file" id="archivo-integrantes" name="archivo_integrantes" accept=".xlsx, .xls, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required aria-required="true">
+                                <div id="file-feedback" class="file-feedback">Solo formato Excel. Máximo 5 MB.</div>
+                            </div>
+                        </div>
+
+                        <h3 class="title-font section-heading-spaced">Datos del Representante</h3>
+                        <div class="form-row">
+                            <div>
+                                <label for="rep-nombre">Nombre Completo</label>
+                                <input type="text" name="rep_nombre" id="rep-nombre" required aria-required="true" placeholder="Nombre del jefe de grupo">
+                            </div>
+                            <div>
+                                <label for="rep-tel">Teléfono</label>
+                                <input type="tel" name="rep_tel" id="rep-tel" required aria-required="true" placeholder="10 dígitos numéricos" maxlength="10">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="rep-correo">Correo Universitario</label>
+                            <input type="email" name="rep_correo" id="rep-correo" required aria-required="true" placeholder="usuario@uan.edu.mx">
+                        </div>
+
+                        <h3 class="title-font section-heading-spaced">Concepto del Altar</h3>
+                        <div class="form-row">
+                            <div>
+                                <label for="inp-tema">Tema o Título del Altar</label>
+                                <input type="text" name="tema" id="inp-tema" required aria-required="true" placeholder="Ej. El pescador de Mexcaltitán">
+                            </div>
+                            <div>
+                                <label for="inp-municipio">Municipio de Nayarit relacionado</label>
+                                <input type="text" name="municipio" id="inp-municipio" required aria-required="true" placeholder="Ej. Santiago Ixcuintla">
+                            </div>
+                        </div>
+                        <label for="inp-dedicatoria">A quién(es) o a qué se dedica (Persona homenajeada)</label>
+                        <input type="text" name="dedicatoria" id="inp-dedicatoria" required aria-required="true" placeholder="Nombre de la persona fallecida">
                         
-                        <div style="text-align: left;">
-                            <label for="archivo-integrantes">Subir formato lleno (Solo .xls, .xlsx)</label>
-                            <input type="file" id="archivo-integrantes" name="archivo_integrantes" accept=".xlsx, .xls, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required aria-required="true">
-                            <div id="file-feedback" class="file-feedback">Solo formato Excel. Máximo 5 MB.</div>
+                        <div class="checkbox-group" style="margin-top:40px;">
+                            <input type="checkbox" id="reglas" name="acepta_reglas" required aria-required="true">
+                            <label for="reglas" class="text-gold" style="font-size: 0.9rem; line-height: 1.5;">Acepto las reglas de participación, el horario estricto de 8:00 a 17:00, el uso exclusivo de velas en cristal, las medidas de altar y la cuota de recuperación.</label>
                         </div>
-                    </div>
 
-                    <h3 class="title-font section-heading-spaced">Datos del Representante</h3>
-                    <div class="form-row">
-                        <div>
-                            <label for="rep-nombre">Nombre Completo</label>
-                            <input type="text" name="rep_nombre" id="rep-nombre" required aria-required="true" placeholder="Nombre del jefe de grupo">
-                        </div>
-                        <div>
-                            <label for="rep-tel">Teléfono</label>
-                            <input type="tel" name="rep_tel" id="rep-tel" required aria-required="true" placeholder="10 dígitos numéricos" maxlength="10">
-                        </div>
-                    </div>
-                    <div>
-                        <label for="rep-correo">Correo Universitario</label>
-                        <input type="email" name="rep_correo" id="rep-correo" required aria-required="true" placeholder="usuario@uan.edu.mx">
-                    </div>
-
-                    <h3 class="title-font section-heading-spaced">Concepto del Altar</h3>
-                    <div class="form-row">
-                        <div>
-                            <label for="inp-tema">Tema o Título del Altar</label>
-                            <input type="text" name="tema" id="inp-tema" required aria-required="true" placeholder="Ej. El pescador de Mexcaltitán">
-                        </div>
-                        <div>
-                            <label for="inp-municipio">Municipio de Nayarit relacionado</label>
-                            <input type="text" name="municipio" id="inp-municipio" required aria-required="true" placeholder="Ej. Santiago Ixcuintla">
-                        </div>
-                    </div>
-                    <label for="inp-dedicatoria">A quién(es) o a qué se dedica (Persona homenajeada)</label>
-                    <input type="text" name="dedicatoria" id="inp-dedicatoria" required aria-required="true" placeholder="Nombre de la persona fallecida">
-                    
-                    <div class="checkbox-group" style="margin-top:40px;">
-                        <input type="checkbox" id="reglas" name="acepta_reglas" required aria-required="true">
-                        <label for="reglas" class="text-gold" style="font-size: 0.9rem; line-height: 1.5;">Acepto las reglas de participación, el horario estricto de 8:00 a 17:00, el uso exclusivo de velas en cristal, las medidas de altar y la cuota de recuperación.</label>
-                    </div>
-
-                    <button type="submit" class="btn-primary w-full" style="margin-top:10px; font-size:1.1rem; padding: 18px;" id="btn-submit-grupo">Formalizar Registro</button>
+                        <button type="submit" class="btn-primary w-full" style="margin-top:10px; font-size:1.1rem; padding: 18px;" id="btn-submit-grupo">Formalizar Registro</button>
+                    </fieldset>
                 </form>
             </div>
 
@@ -822,10 +840,16 @@
                             <div style="font-size:4rem; color:var(--gold); font-family:var(--font-title); line-height: 1; margin-bottom: 20px;" id="stat-sabores" aria-live="polite">0</div>
                             <button onclick="App.admin.exportCSV('tz26_sabores')" style="font-size:0.8rem; width: 100%;">Descargar CSV</button>
                         </div>
-                        <div class="premium-card" style="text-align: center; grid-column: span 2;">
+                        <div class="premium-card" style="text-align: center;">
                             <h3 class="title-font text-muted-body" style="font-size: 1.1rem; margin-bottom: 20px;">Mercadito</h3>
                             <div style="font-size:4rem; color:var(--gold); font-family:var(--font-title); line-height: 1; margin-bottom: 20px;" id="stat-mercadito" aria-live="polite">0</div>
                             <button onclick="App.admin.exportCSV('tz26_mercadito')" style="font-size:0.8rem; width: 100%; max-width:300px;">Descargar CSV</button>
+                        </div>
+                        <div class="premium-card" style="text-align: center;">
+                            <h3 class="title-font text-muted-body" style="font-size: 1.1rem; margin-bottom: 20px;">Códigos de Pago</h3>
+                            <div style="font-size:3rem; color:var(--gold); font-family:var(--font-title); line-height: 1; margin-bottom: 20px; margin-top: 10px;" id="stat-codigos" aria-live="polite" title="Usados / Total">0 / 0</div>
+                            <button id="btn-gen-codes" onclick="App.admin.generateCodes()" class="btn-primary" style="font-size:0.8rem; width: 100%; margin-bottom: 10px;">Generar 20 Códigos</button>
+                            <button onclick="App.admin.exportCSV('tz26_codigos')" style="font-size:0.8rem; width: 100%;">Descargar CSV</button>
                         </div>
                     </div>
                 </div>
@@ -881,7 +905,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, deleteDoc, serverTimestamp, query, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
         const firebaseConfig = {
@@ -975,9 +999,17 @@
                     const el = form.querySelector(`[name="${name}"]`);
                     if (!el) return;
                     if (el.type === 'checkbox') el.checked = value === 'on' || value === true;
-                    else if (el.type !== 'file') el.value = value;
+                    else if (el.type !== 'file' && el.type !== 'hidden') el.value = value;
                 });
+                
                 if (formId === 'form-grupo' && data.is_fusion) App.forms.toggleFusion();
+                
+                // Si el borrador ya tenía un código, se lo dejamos en el input pero lo obligamos a validar
+                if (formId === 'form-grupo' && data.codigo_pago) {
+                    const inpCode = document.getElementById('inp-codigo-pago');
+                    if(inpCode) inpCode.value = data.codigo_pago;
+                }
+
                 App.toast('Borrador restaurado desde tu sesión anterior.');
             },
             hasData(formId) {
@@ -1003,7 +1035,7 @@
 
         window.App = {
             state: { activeScene: null, pendingExit: null },
-            dbCache: { grupos: [], mercadito: [], sabores: [] },
+            dbCache: { grupos: [], mercadito: [], sabores: [], codigos: [] },
 
             init() {
                 this.renderTzompantli();
@@ -1238,6 +1270,57 @@
                     ).join('');
                 },
 
+                async validateCode() {
+                    const codeInp = document.getElementById('inp-codigo-pago');
+                    const btn = document.getElementById('btn-validate-code');
+                    const feedback = document.getElementById('code-feedback');
+                    const code = codeInp.value.trim().toUpperCase();
+
+                    if (!code) {
+                        feedback.textContent = '❌ Por favor ingresa el código de tu recibo.';
+                        feedback.className = 'file-feedback error';
+                        return;
+                    }
+
+                    btn.textContent = 'Validando...';
+                    btn.disabled = true;
+
+                    try {
+                        if (!auth.currentUser) throw new Error('Problema de conexión. Intenta de nuevo.');
+
+                        const q = query(getCol('tz26_codigos'), where('codigo', '==', code));
+                        const snap = await getDocs(q);
+
+                        if (snap.empty) {
+                            throw new Error('El código no existe. Verifica si está escrito correctamente.');
+                        }
+
+                        const docSnap = snap.docs[0];
+                        const data = docSnap.data();
+
+                        if (data.usado) {
+                            throw new Error('Este código de pago ya fue utilizado en un registro anterior.');
+                        }
+
+                        // Código exitoso
+                        feedback.textContent = '✅ Código válido. Puedes llenar tu registro de Altar.';
+                        feedback.className = 'file-feedback success';
+                        
+                        document.getElementById('fieldset-grupo').disabled = false;
+                        document.getElementById('fieldset-grupo').style.opacity = '1';
+                        document.getElementById('hidden-codigo-pago').value = code;
+                        
+                        codeInp.disabled = true;
+                        btn.textContent = 'Validado';
+
+                    } catch (err) {
+                        feedback.textContent = '❌ ' + err.message;
+                        feedback.className = 'file-feedback error';
+                        btn.textContent = 'Validar';
+                        btn.disabled = false;
+                    }
+                },
+
                 async submitGrupo(e) {
                     e.preventDefault();
                     if (!auth.currentUser) return App.toast('Error de conexión. Espera un momento.');
@@ -1245,18 +1328,22 @@
                     const form = e.target;
                     const btn = document.getElementById('btn-submit-grupo');
                     
-                    btn.textContent = 'Validando registro...';
+                    btn.textContent = 'Procesando registro...';
                     btn.disabled = true;
 
                     try {
+                        const fd = new FormData(form);
+                        const data = Object.fromEntries(fd.entries());
+                        const isFusion = document.getElementById('fus_toggle').checked;
+
+                        if (!data.codigo_pago) {
+                            throw new Error('Debes validar tu código de pago en la parte superior antes de continuar.');
+                        }
+
                         if(!form.checkValidity()) {
                             form.reportValidity();
                             throw new Error('Completa todos los campos obligatorios antes de continuar.');
                         }
-
-                        const fd = new FormData(form);
-                        const data = Object.fromEntries(fd.entries());
-                        const isFusion = document.getElementById('fus_toggle').checked;
 
                         for(const key in data) {
                             if(typeof data[key] === 'string') {
@@ -1311,7 +1398,7 @@
                             uploadedStoragePath = storagePath;
                             downloadUrl = await getDownloadURL(storageReference);
                         } catch (err) {
-                            throw new Error('Error al subir el archivo Excel. Revisa tu conexión.');
+                            throw new Error('Error al subir el archivo Excel. Revisa tu conexión a internet.');
                         }
 
                         btn.textContent = 'Guardando inscripción...';
@@ -1327,7 +1414,7 @@
                             archivo_integrantes_size: file.size,
                             archivo_integrantes_type: file.type,
                             estado_revision: "pendiente",
-                            estado_pago: "pendiente",
+                            estado_pago: "pagado", // Al estar atado a código, ya está pagado.
                             uid: auth.currentUser.uid,
                             createdAt: serverTimestamp()
                         };
@@ -1340,14 +1427,36 @@
                             }
                             throw new Error('Error al guardar en la base de datos. Se revirtió la subida del archivo Excel por seguridad.');
                         }
+
+                        // Ya guardado, quemamos el código para que no se use de nuevo
+                        try {
+                            const qCode = query(getCol('tz26_codigos'), where('codigo', '==', docData.codigo_pago));
+                            const codeSnap = await getDocs(qCode);
+                            if (!codeSnap.empty) {
+                                await updateDoc(doc(db, 'tz26_codigos', codeSnap.docs[0].id), { usado: true, usadoEnFolio: folio });
+                            }
+                        } catch(ce) {
+                            console.warn('Advertencia: El registro se guardó pero falló al marcar el código como usado.', ce);
+                        }
                         
-                        // IMPORTANTE: Limpiar formulario y caché
+                        // IMPORTANTE: Limpiar formulario, caché y restablecer bloqueo
                         FormCache.clear('form-grupo');
                         form.reset();
                         document.getElementById('file-feedback').textContent = 'Solo formato Excel. Máximo 5 MB.';
                         document.getElementById('file-feedback').className = 'file-feedback';
                         App.forms.toggleFusion();
                         
+                        // Restablecer la sección de código de pago
+                        document.getElementById('fieldset-grupo').disabled = true;
+                        document.getElementById('fieldset-grupo').style.opacity = '0.4';
+                        document.getElementById('hidden-codigo-pago').value = '';
+                        document.getElementById('inp-codigo-pago').value = '';
+                        document.getElementById('inp-codigo-pago').disabled = false;
+                        document.getElementById('btn-validate-code').textContent = 'Validar';
+                        document.getElementById('btn-validate-code').disabled = false;
+                        document.getElementById('code-feedback').textContent = '';
+                        document.getElementById('code-feedback').className = 'file-feedback';
+
                         document.getElementById('grupo-form-container').classList.add('hidden');
                         document.getElementById('grupo-folio-display').textContent = folio;
 
@@ -1357,9 +1466,10 @@
                             ['Semestre / Grupo', `${docData.semestre} ${docData.grupo}`],
                             ['Tema del Altar', docData.tema],
                             ['Municipio', docData.municipio],
+                            ['Código Autorizado', docData.codigo_pago],
                             ['Archivo subido', file.name],
                             ['Estado de revisión', 'Pendiente'],
-                            ['Estado de pago', 'Pendiente']
+                            ['Estado de pago', 'Pagado']
                         ]);
 
                         document.getElementById('grupo-receipt-actions').innerHTML = `
@@ -1483,6 +1593,35 @@
                     btn.classList.add('active-tab');
                 },
 
+                async generateCodes() {
+                    if (App.dbCache.codigos && App.dbCache.codigos.length >= 20) {
+                        App.toast('Ya existen 20 o más códigos en el sistema.');
+                        return;
+                    }
+                    const btn = document.getElementById('btn-gen-codes');
+                    btn.textContent = 'Generando...';
+                    btn.disabled = true;
+
+                    try {
+                        // Generar 20 códigos únicos
+                        for(let i=0; i<20; i++) {
+                            const code = 'TZ-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+                            await addDoc(getCol('tz26_codigos'), {
+                                codigo: code,
+                                usado: false,
+                                createdAt: serverTimestamp()
+                            });
+                        }
+                        App.toast('20 códigos generados exitosamente.');
+                        this.refreshData(false);
+                    } catch(e) {
+                        console.error(e);
+                        App.toast('Error al generar códigos.');
+                        btn.textContent = 'Generar 20 Códigos';
+                        btn.disabled = false;
+                    }
+                },
+
                 async updateStatus(docId, field, value) {
                     try {
                         await updateDoc(doc(db, 'tz26_grupos', docId), { [field]: value });
@@ -1568,19 +1707,31 @@
                 async refreshData(showToast = true) {
                     if(showToast) App.toast('Cargando registros...');
                     try {
-                        const [snapG, snapM, snapS] = await Promise.all([
+                        const [snapG, snapM, snapS, snapC] = await Promise.all([
                             getDocs(getCol('tz26_grupos')),
                             getDocs(getCol('tz26_mercadito')),
-                            getDocs(getCol('tz26_sabores'))
+                            getDocs(getCol('tz26_sabores')),
+                            getDocs(getCol('tz26_codigos'))
                         ]);
 
                         App.dbCache.grupos    = snapG.docs.map(d => ({...d.data(), _id: d.id}));
                         App.dbCache.mercadito = snapM.docs.map(d => ({...d.data(), _id: d.id}));
                         App.dbCache.sabores   = snapS.docs.map(d => ({...d.data(), _id: d.id}));
+                        App.dbCache.codigos   = snapC.docs.map(d => ({...d.data(), _id: d.id}));
 
                         document.getElementById('stat-grupos').textContent    = App.dbCache.grupos.length;
                         document.getElementById('stat-mercadito').textContent = App.dbCache.mercadito.length;
                         document.getElementById('stat-sabores').textContent   = App.dbCache.sabores.length;
+
+                        // Estadísticas de Códigos de Pago
+                        const lblCodigos = document.getElementById('stat-codigos');
+                        const btnGenCodes = document.getElementById('btn-gen-codes');
+                        if(lblCodigos) {
+                            const totalCodigos = App.dbCache.codigos.length;
+                            const usadosCodigos = App.dbCache.codigos.filter(c => c.usado).length;
+                            lblCodigos.textContent = `${usadosCodigos} / ${totalCodigos}`;
+                            if(btnGenCodes) btnGenCodes.style.display = totalCodigos >= 20 ? 'none' : 'inline-block';
+                        }
 
                         const tbG = document.querySelector('#table-ad-grupos tbody');
                         tbG.innerHTML = '';
@@ -1635,7 +1786,7 @@
                             tdAction.innerHTML = `<button class="btn-sm" style="color:#e88989; border-color:transparent; padding: 5px;" onclick="App.admin.deleteRecord('tz26_sabores', '${s._id}')">Eliminar</button>`;
                         });
 
-                        if(showToast) App.toast(`Datos cargados: ${App.dbCache.grupos.length} altares.`);
+                        if(showToast) App.toast(`Datos cargados exitosamente.`);
                     } catch (err) {
                         App.toast('No tienes permisos de Administrador para leer la base de datos.');
                     }
@@ -1664,7 +1815,7 @@
                 },
 
                 async deleteAllData(e) {
-                    const conf = prompt('PELIGRO: Se borrarán TODOS los altares, panes, puestos y archivos de Excel para siempre. Escribe "BORRAR TODO" para confirmar:');
+                    const conf = prompt('PELIGRO: Se borrarán TODOS los altares, panes, puestos, archivos Excel y Códigos generados. Escribe "BORRAR TODO" para confirmar:');
                     if (conf !== 'BORRAR TODO') {
                         if (conf !== null) App.toast('Operación cancelada. Palabra de seguridad incorrecta.');
                         return;
@@ -1692,8 +1843,12 @@
                             await deleteDoc(doc(db, 'tz26_sabores', s._id));
                             total++;
                         }
+                        for (const c of App.dbCache.codigos) {
+                            await deleteDoc(doc(db, 'tz26_codigos', c._id));
+                            total++;
+                        }
                         
-                        App.toast(`¡Base de datos vaciada por completo! Se eliminaron ${total} registros.`, 6000);
+                        App.toast(`¡Base de datos vaciada por completo! Se eliminaron ${total} elementos.`, 6000);
                         this.refreshData(false);
                     } catch(err) {
                         console.error(err);
