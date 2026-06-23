@@ -2,7 +2,6 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <!-- Meta tag estricto para evitar zoom out indeseado en móviles -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Tzompantli 2026 | Memoria, Territorio y Sabores de Nayarit</title>
     <!-- Fuentes Premium -->
@@ -28,7 +27,6 @@
             --transition: all 0.3s ease;
         }
 
-        /* Reseteo estricto para evitar desbordamientos horizontales en móvil */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { max-width: 100%; overflow-x: hidden; }
         
@@ -107,12 +105,10 @@
         @keyframes cinematicFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 
-        /* --- INTRO & MAIN --- */
         #intro { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; text-align: center; overflow: hidden; background: var(--black); }
         .intro-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('fondo.png') center/cover no-repeat; opacity: 0.6; }
         .intro-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(3,3,3,0.3) 0%, rgba(3,3,3,0.95) 100%), linear-gradient(180deg, rgba(3,3,3,0.8) 0%, transparent 40%, rgba(3,3,3,0.9) 100%); }
         .intro-content { position: relative; z-index: 2; max-width: 900px; padding: 20px; width: 100%; }
-        /* FIX MÓVIL: Reduje un poco el tamaño máximo y el valor vw para que no se parta la palabra */
         .intro-title { font-size: clamp(2.5rem, 11vw, 7.5rem); color: var(--bone); text-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(207, 170, 103, 0.2); margin-bottom: 0; opacity: 0; animation: cinematicFadeIn 1.5s 0.2s forwards; line-height: 1; letter-spacing: 5px; }
         .intro-year-row { display: flex; justify-content: center; align-items: center; gap: clamp(15px, 4vw, 60px); margin: 20px 0 30px; opacity: 0; animation: cinematicFadeIn 1.5s 0.6s forwards; }
         .logo-img { height: clamp(40px, 6vw, 75px); width: auto; object-fit: contain; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5)) brightness(0.9) sepia(0.2) hue-rotate(-10deg); opacity: 0.8; }
@@ -138,7 +134,6 @@
         .skull-title { font-family: var(--font-title); font-size: 1.6rem; color: var(--gold); margin-bottom: 12px; letter-spacing: 3px; font-weight: 500; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
         .skull-subtitle { font-size: 0.85rem; color: var(--bone-dark); text-transform: uppercase; letter-spacing: 2px; font-family: var(--font-sans); }
 
-        /* --- SCENES & CARDS --- */
         .scene { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: linear-gradient(to bottom, var(--black) 0%, var(--black-soft) 100%); z-index: 50; overflow-y: auto; overflow-x: hidden; padding: 60px 20px; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
         .scene::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('fondo.png') center/cover no-repeat; opacity: 0.05; pointer-events: none; }
         .scene.active { opacity: 1; pointer-events: auto; }
@@ -185,7 +180,6 @@
         .tl-content { background: rgba(15, 15, 15, 0.8); padding: 25px 30px; border-radius: 2px; width: 100%; border: 1px solid rgba(255,255,255,0.03); border-left: 2px solid transparent; transition: var(--transition); font-family: var(--font-serif); font-size: 1.1rem; color: var(--bone-dark); }
         .tl-item:hover .tl-content { border-left-color: var(--gold); background: rgba(20, 20, 20, 0.95); transform: translateX(5px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
 
-        /* --- ADMIN PANEL & MODALS --- */
         table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 0.85rem; background: rgba(10,10,10,0.5); }
         th, td { padding: 14px 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
         th { color: var(--gold); font-family: var(--font-title); text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.75rem; background: rgba(0,0,0,0.3); }
@@ -221,7 +215,6 @@
         .modal-label { font-family: var(--font-title); font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
         .modal-value { font-family: var(--font-serif); font-size: 1.05rem; color: var(--bone); word-break: break-word; }
 
-        /* --- OTHERS --- */
         .footer-phrase { text-align: center; padding: 60px 20px 40px; font-family: var(--font-serif); font-style: italic; color: rgba(227, 218, 201, 0.4); font-size: 1.1rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: auto; letter-spacing: 1px; }
 
         .audio-btn { position: fixed; bottom: 40px; left: 40px; z-index: 1000; background: rgba(10,10,10,0.8); border: 1px solid rgba(207, 170, 103, 0.3); color: var(--gold); width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: var(--transition); box-shadow: 0 5px 20px rgba(0,0,0,0.5); font-size: 1.2rem; }
@@ -237,17 +230,15 @@
         .confirm-box p { font-family: var(--font-serif); color: var(--bone-dark); margin-bottom: 30px; font-size: 1rem; }
         .confirm-actions { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
 
-        /* File Upload Feedback */
         .file-feedback { margin-top: -15px; margin-bottom: 25px; font-size: 0.85rem; font-family: var(--font-sans); min-height: 20px; transition: color 0.3s; word-break: break-all; }
         .file-feedback.error { color: #e88989; }
         .file-feedback.success { color: #81c784; }
 
-        /* REGLAS ESTRICTAS PARA MÓVILES (Evitan el desfasamiento y zoom-out) */
+        /* REGLAS ESTRICTAS PARA MÓVILES */
         @media screen and (max-width: 768px) {
-            /* Evitar que iOS Safari haga zoom automático al tocar un input */
             input, select, textarea { font-size: 16px !important; }
 
-            /* CORRECCIÓN #1: Forzar una sola columna para que sea escroleable verticalmente en móviles */
+            /* Grid siempre vertical en móvil */
             .tzompantli-grid { grid-template-columns: 1fr; gap: 15px; }
 
             .grid-2, .modal-grid { grid-template-columns: 1fr; gap: 20px; }
@@ -404,7 +395,7 @@
             </div>
             <div class="grid-2">
                 <div class="rule-block"><h4 class="rule-title"><span class="rule-number">8.</span> Inscripción y cuota</h4><p class="serif-font text-muted-body">Cuota de recuperación de <strong class="text-gold">$70.00 M.N. por alumno</strong>.</p></div>
-                <div class="rule-block"><h4 class="rule-title"><span class="rule-number">9.</span> Ficha cultural</h4><p class="serif-font text-muted-body">Cada equipo entregará una ficha cultural detallando nombre, historia, municipio y justificación.</p></div>
+                <div class="rule-block"><h4 class="rule-title"><span class="rule-number">9.</span> Ficha cultural</h4><p class="serif-font text-muted-body">Cada equipo entregará una ficha cultural detallando nombre, historia y municipio.</p></div>
             </div>
             <div class="rule-block" style="border-left-color: rgba(255, 50, 50, 0.5);">
                 <h4 class="rule-title text-bone"><span class="rule-number" style="color: #c94c4c;">10.</span> Montaje y espacio asignado</h4>
@@ -577,9 +568,7 @@
                     </div>
                     <label for="inp-dedicatoria">A quién(es) o a qué se dedica (Persona homenajeada)</label>
                     <input type="text" name="dedicatoria" id="inp-dedicatoria" required aria-required="true" placeholder="Nombre de la persona fallecida">
-                    <label for="inp-justificacion">Breve justificación cultural e integración gastronómica</label>
-                    <textarea name="justificacion" id="inp-justificacion" rows="4" required aria-required="true" placeholder="Explica la historia de la persona y cómo los ingredientes del altar representan su memoria."></textarea>
-
+                    
                     <div class="checkbox-group" style="margin-top:40px;">
                         <input type="checkbox" id="reglas" name="acepta_reglas" required aria-required="true">
                         <label for="reglas" class="text-gold" style="font-size: 0.9rem; line-height: 1.5;">Acepto las reglas de participación, el horario estricto de 8:00 a 17:00, el uso exclusivo de velas en cristal, las medidas de altar y la cuota de recuperación.</label>
@@ -595,7 +584,9 @@
                 <p class="serif-font text-muted-body mt-15">Tu inscripción ha sido enviada al comité.</p>
                 <div class="folio-number" id="grupo-folio-display">TZ26-0000</div>
                 <div class="receipt-summary" id="grupo-receipt-summary"></div>
-                <div id="grupo-receipt-actions" style="margin-top: 25px; display:flex; justify-content:center; gap:15px; flex-wrap:wrap;"></div>
+                <div id="grupo-receipt-actions" style="margin-top: 25px; display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">
+                    <!-- Los botones se insertan por JS, incluyendo Volver al Inicio -->
+                </div>
             </div>
             
             <div style="text-align: center; margin-top: 40px;"><button class="btn-back" onclick="App.backToMain('scene-grupo')"><span aria-hidden="true">&#8592;</span> Volver</button></div>
@@ -688,7 +679,10 @@
                 <h3 class="title-font text-bone">Solicitud Recibida</h3>
                 <div class="folio-number" id="merc-folio-display">MK26-0000</div>
                 <div class="receipt-summary" id="merc-receipt-summary"></div>
-                <button onclick="window.print()" style="margin-top:10px;">Imprimir</button>
+                <div style="margin-top: 25px; display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">
+                    <button onclick="window.print()">Imprimir Comprobante</button>
+                    <button class="btn-primary" onclick="App.backToMain('scene-mercadito')">Volver al Inicio</button>
+                </div>
             </div>
             
             <div style="text-align: center; margin-top: 40px;"><button class="btn-back" onclick="App.backToMain('scene-mercadito')"><span aria-hidden="true">&#8592;</span> Volver</button></div>
@@ -780,7 +774,10 @@
                 <h3 class="title-font text-bone">Inscripción Exitosa</h3>
                 <div class="folio-number" id="sabores-folio-display">PM26-0000</div>
                 <div class="receipt-summary" id="sabores-receipt-summary"></div>
-                <button onclick="window.print()" style="margin-top:10px;">Imprimir Comprobante</button>
+                <div style="margin-top: 25px; display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">
+                    <button onclick="window.print()">Imprimir Comprobante</button>
+                    <button class="btn-primary" onclick="App.backToMain('scene-sabores')">Volver al Inicio</button>
+                </div>
             </div>
             
             <div style="text-align: center; margin-top: 40px;"><button class="btn-back" onclick="App.backToMain('scene-sabores')"><span aria-hidden="true">&#8592;</span> Volver</button></div>
@@ -1058,7 +1055,6 @@
 
                 ['form-grupo', 'form-mercadito', 'form-sabores'].forEach(fId => FormCache.restore(fId));
 
-                // CORRECCIÓN #2: Detener completamente el reproductor y cerrar la sesión de audio del OS al cambiar de pestaña o app.
                 document.addEventListener("visibilitychange", () => {
                     if (document.hidden && this.audio.playing) {
                         this.audio.stopComplete();
@@ -1089,7 +1085,7 @@
                     const audioEl = document.getElementById('bg-audio');
                     if (audioEl) {
                         audioEl.pause();
-                        audioEl.removeAttribute('src'); // Obliga al OS (Android/iOS) a soltar el audio y borrar la notificación.
+                        audioEl.removeAttribute('src'); 
                         audioEl.load();
                     }
                     document.getElementById('audio-icon').textContent = '🔇'; 
@@ -1109,6 +1105,24 @@
 
             navigate(sceneId) {
                 if (this.state.activeScene) document.getElementById(this.state.activeScene).classList.remove('active');
+                
+                if (sceneId === 'scene-grupo') {
+                    document.getElementById('grupo-form-container').classList.remove('hidden');
+                    document.getElementById('grupo-receipt').classList.add('hidden');
+                    const btn = document.getElementById('btn-submit-grupo');
+                    if(btn) { btn.textContent = 'Formalizar Registro'; btn.disabled = false; }
+                } else if (sceneId === 'scene-mercadito') {
+                    document.getElementById('merc-form-container').classList.remove('hidden');
+                    document.getElementById('merc-receipt').classList.add('hidden');
+                    const btn = document.getElementById('btn-submit-mercadito');
+                    if(btn) { btn.textContent = 'Solicitar Espacio'; btn.disabled = false; }
+                } else if (sceneId === 'scene-sabores') {
+                    document.getElementById('sabores-form-container').classList.remove('hidden');
+                    document.getElementById('sabores-receipt').classList.add('hidden');
+                    const btn = document.getElementById('btn-submit-sabores');
+                    if(btn) { btn.textContent = 'Registrar Pan de Muerto'; btn.disabled = false; }
+                }
+
                 const scene = document.getElementById(sceneId);
                 scene.classList.add('active');
                 this.state.activeScene = sceneId;
@@ -1220,7 +1234,7 @@
                             }
                         }
 
-                        if(Utils.hasEmoji(data.tutor) || Utils.hasEmoji(data.rep_nombre) || Utils.hasEmoji(data.tema) || Utils.hasEmoji(data.municipio) || Utils.hasEmoji(data.dedicatoria) || Utils.hasEmoji(data.justificacion)) {
+                        if(Utils.hasEmoji(data.tutor) || Utils.hasEmoji(data.rep_nombre) || Utils.hasEmoji(data.tema) || Utils.hasEmoji(data.municipio) || Utils.hasEmoji(data.dedicatoria)) {
                             throw new Error('No se permiten emojis en los campos de texto.');
                         }
                         
@@ -1244,7 +1258,6 @@
                         data.rep_correo = data.rep_correo.toLowerCase();
 
                         if(!Utils.isValidText(data.tema, 5, 120)) throw new Error('El tema del altar debe tener entre 5 y 120 caracteres.');
-                        if(!Utils.isValidText(data.justificacion, 30, 1200)) throw new Error('La justificación debe ser clara (30 a 1200 caracteres).');
 
                         if(!data.acepta_reglas) throw new Error('Debes aceptar las reglas de participación para formalizar el registro.');
 
@@ -1283,7 +1296,13 @@
 
                         await addDoc(getCol('tz26_grupos'), docData);
                         
+                        // IMPORTANTE: Limpiar formulario y caché
                         FormCache.clear('form-grupo');
+                        form.reset();
+                        document.getElementById('file-feedback').textContent = 'Solo formato Excel. Máximo 5 MB.';
+                        document.getElementById('file-feedback').className = 'file-feedback';
+                        App.forms.toggleFusion();
+                        
                         document.getElementById('grupo-form-container').classList.add('hidden');
                         document.getElementById('grupo-folio-display').textContent = folio;
 
@@ -1301,6 +1320,7 @@
                         document.getElementById('grupo-receipt-actions').innerHTML = `
                             <button onclick="window.print()">Imprimir Constancia</button>
                             <a href="${downloadUrl}" target="_blank" class="btn-link">Ver archivo subido</a>
+                            <button class="btn-primary" onclick="App.backToMain('scene-grupo')">Volver al Inicio</button>
                         `;
 
                         document.getElementById('grupo-receipt').classList.remove('hidden');
@@ -1330,7 +1350,10 @@
 
                     try {
                         await addDoc(getCol('tz26_mercadito'), data);
+                        
+                        // IMPORTANTE: Limpiar formulario y caché
                         FormCache.clear('form-mercadito');
+                        e.target.reset();
 
                         document.getElementById('merc-form-container').classList.add('hidden');
                         document.getElementById('merc-folio-display').textContent = data.folio;
@@ -1368,7 +1391,10 @@
 
                     try {
                         await addDoc(getCol('tz26_sabores'), data);
+                        
+                        // IMPORTANTE: Limpiar formulario y caché
                         FormCache.clear('form-sabores');
+                        e.target.reset();
 
                         document.getElementById('sabores-form-container').classList.add('hidden');
                         document.getElementById('sabores-folio-display').textContent = data.folio;
@@ -1484,7 +1510,6 @@
                                 <div><div class="modal-label">Municipio</div><div class="modal-value">${Utils.escText(data.municipio)}</div></div>
                             </div>
                             <div class="mb-15"><div class="modal-label">Homenajeado</div><div class="modal-value">${Utils.escText(data.dedicatoria)}</div></div>
-                            <div><div class="modal-label">Justificación</div><div class="modal-value" style="font-size:0.9rem;">${Utils.escText(data.justificacion)}</div></div>
                         </div>
                     `;
                     document.getElementById('admin-modal').classList.add('active');
