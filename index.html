@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Tzompantli 2026 | Memoria, Territorio y Sabores de Nayarit</title>
-    <!-- Fuentes Premium -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;800&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -198,7 +197,6 @@
         .status-aprobado { background: rgba(46, 125, 50, 0.2); color: #81c784; border: 1px solid rgba(46, 125, 50, 0.5); }
         .status-rechazado { background: rgba(198, 40, 40, 0.2); color: #e57373; border: 1px solid rgba(198, 40, 40, 0.5); }
 
-        /* Modal Detalles Admin */
         #admin-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.9); z-index: 2000; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 40px 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
         #admin-modal.active { opacity: 1; pointer-events: auto; }
         .admin-modal-box { background: var(--black-soft); border: 1px solid rgba(207, 170, 103, 0.2); border-top: 3px solid var(--gold); padding: 40px; width: 100%; max-width: 800px; position: relative; border-radius: 3px; box-shadow: 0 20px 60px rgba(0,0,0,0.9); }
@@ -230,13 +228,9 @@
         .file-feedback.error { color: #e88989; }
         .file-feedback.success { color: #81c784; }
 
-        /* REGLAS ESTRICTAS PARA MÓVILES */
         @media screen and (max-width: 768px) {
             input, select, textarea { font-size: 16px !important; }
-
-            /* Grid siempre vertical en móvil */
             .tzompantli-grid { grid-template-columns: 1fr; gap: 15px; }
-
             .grid-2, .modal-grid { grid-template-columns: 1fr; gap: 20px; }
             .corner-logo { height: 45px; top: 20px; }
             .logo-left { left: 20px; }
@@ -667,24 +661,31 @@
                             </select>
                         </div>
                     </div>
-                    <label for="merc-producto">Producto a Vender</label>
-                    <input type="text" name="producto" id="merc-producto" required aria-required="true">
-                    <label for="merc-descripcion">Descripción</label>
-                    <input type="text" name="descripcion" id="merc-descripcion" required aria-required="true">
                     <div class="form-row">
+                        <div>
+                            <label for="merc-producto">Producto a Vender</label>
+                            <input type="text" name="producto" id="merc-producto" required aria-required="true">
+                        </div>
                         <div>
                             <label for="merc-tel">Teléfono</label>
                             <input type="tel" name="telefono" id="merc-tel" required aria-required="true" maxlength="10">
                         </div>
-                        <div>
-                            <label for="merc-correo">Correo</label>
-                            <input type="email" name="correo" id="merc-correo" required aria-required="true">
-                        </div>
                     </div>
-                    <div class="checkbox-group">
+                    <div class="checkbox-group" style="margin-bottom: 15px;">
                         <input type="checkbox" name="electricidad" id="m_elec">
                         <label for="m_elec">Necesito electricidad</label>
                     </div>
+                    <div class="checkbox-group" style="margin-bottom: 15px;">
+                        <input type="checkbox" name="whatsapp_acuerdo" id="m_whatsapp" required aria-required="true">
+                        <label for="m_whatsapp" class="text-gold" style="font-size: 0.9rem;">Estoy de acuerdo que seré agregado a un grupo de WhatsApp para uso exclusivo de temas del mercadito.</label>
+                    </div>
+                    <div class="checkbox-group" style="margin-bottom: 25px;">
+                        <input type="checkbox" name="pago_acuerdo" id="m_pago" required aria-required="true">
+                        <label for="m_pago" class="text-gold" style="font-size: 0.9rem;">El pago de mi espacio lo haré una semana antes a más tardar para asegurar mi espacio, si no hago el pago estoy informado que no tendré un lugar asignado.</label>
+                    </div>
+                    
+                    <p class="serif-font text-center text-muted-body mb-20" style="font-size: 0.85rem; font-style: italic;">Nota: El pago se hace con Tania o con cualquier miembro del comité.</p>
+
                     <button type="submit" class="btn-primary w-full" style="padding: 18px;" id="btn-submit-mercadito">Solicitar Espacio</button>
                 </form>
             </div>
@@ -1490,11 +1491,18 @@
                     e.preventDefault();
                     if (!auth.currentUser) return App.toast('Error de conexión.');
 
+                    const form = e.target;
                     const btn = document.getElementById('btn-submit-mercadito');
+                    
+                    if(!form.checkValidity()) {
+                        form.reportValidity();
+                        return App.toast('Completa todos los campos y acepta los términos.');
+                    }
+
                     btn.textContent = 'Procesando...';
                     btn.disabled = true;
 
-                    const fd = new FormData(e.target);
+                    const fd = new FormData(form);
                     const data = Object.fromEntries(fd.entries());
                     data.folio = Utils.genFolio('MK26');
                     data.timestamp = serverTimestamp();
@@ -1502,8 +1510,9 @@
                     try {
                         await addDoc(getCol('tz26_mercadito'), data);
                         
+                        // IMPORTANTE: Limpiar formulario y caché
                         FormCache.clear('form-mercadito');
-                        e.target.reset();
+                        form.reset();
 
                         document.getElementById('merc-form-container').classList.add('hidden');
                         document.getElementById('merc-folio-display').textContent = data.folio;
