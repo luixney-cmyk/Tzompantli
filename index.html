@@ -842,7 +842,7 @@
                 <div id="ad-sabores" class="admin-section">
                     <div class="premium-card" style="padding: 20px; overflow-x:auto;">
                         <table id="table-ad-sabores">
-                            <thead><tr><th scope="col">Folio</th><th scope="col">Participante</th><th scope="col">Lic/Sem</th><th scope="col">Ingrediente</th><th scope="col">Contacto</th></tr></thead>
+                            <thead><tr><th scope="col">Folio</th><th scope="col">Participante</th><th scope="col">Lic/Sem</th><th scope="col">Ingrediente</th><th scope="col">Contacto</th><th scope="col">Acción</th></tr></thead>
                             <tbody></tbody>
                         </table>
                     </div>
@@ -851,10 +851,14 @@
                 <div id="ad-mercadito" class="admin-section">
                     <div class="premium-card" style="padding: 20px; overflow-x:auto;">
                         <table id="table-ad-mercadito">
-                            <thead><tr><th scope="col">Folio</th><th scope="col">Resp.</th><th scope="col">Producto</th><th scope="col">Tipo</th><th scope="col">Req.</th></tr></thead>
+                            <thead><tr><th scope="col">Folio</th><th scope="col">Resp.</th><th scope="col">Producto</th><th scope="col">Tipo</th><th scope="col">Req.</th><th scope="col">Acción</th></tr></thead>
                             <tbody></tbody>
                         </table>
                     </div>
+                </div>
+
+                <div style="text-align: right; margin-top: 60px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
+                    <button onclick="App.admin.deleteAllData(event)" style="background: transparent; border: none; color: rgba(255,255,255,0.15); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: color 0.3s;" onmouseover="this.style.color='#e88989'" onmouseout="this.style.color='rgba(255,255,255,0.15)'">Peligro: Vaciar Base de Datos</button>
                 </div>
             </div>
             
@@ -877,8 +881,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+        import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAiSgVMEnOD8f07X4lt3qLb7LEvqLQ3JHU",
@@ -1554,7 +1558,10 @@
                                 <td>${Utils.escText(g.rep_nombre)}<br><small style="color:var(--text-muted)">${Utils.escText(g.rep_tel)}</small></td>
                                 <td>${linkArchivo}</td>
                                 <td>${estadoRev}<br><div style="margin-top:4px;">${estadoPag}</div></td>
-                                <td><button class="btn-sm" onclick="App.admin.openDetail('${g._id}')">Ver detalle</button></td>
+                                <td>
+                                    <button class="btn-sm" onclick="App.admin.openDetail('${g._id}')">Ver detalle</button><br>
+                                    <button class="btn-sm" style="color:#e88989; border-color:transparent; margin-top:5px; padding: 5px;" onclick="App.admin.deleteRecord('tz26_grupos', '${g._id}', '${g.archivo_integrantes_storage_path || ''}')">Eliminar</button>
+                                </td>
                             `;
                         });
 
@@ -1570,6 +1577,8 @@
                                 td.textContent = val || '';
                                 if (idx === 0) td.style.color = 'var(--gold)';
                             });
+                            const tdAction = tr.insertCell();
+                            tdAction.innerHTML = `<button class="btn-sm" style="color:#e88989; border-color:transparent; padding: 5px;" onclick="App.admin.deleteRecord('tz26_mercadito', '${m._id}')">Eliminar</button>`;
                         });
 
                         const tbS = document.querySelector('#table-ad-sabores tbody');
@@ -1581,11 +1590,76 @@
                                 td.textContent = val || '';
                                 if (idx === 0) td.style.color = 'var(--gold)';
                             });
+                            const tdAction = tr.insertCell();
+                            tdAction.innerHTML = `<button class="btn-sm" style="color:#e88989; border-color:transparent; padding: 5px;" onclick="App.admin.deleteRecord('tz26_sabores', '${s._id}')">Eliminar</button>`;
                         });
 
                         if(showToast) App.toast(`Datos cargados: ${App.dbCache.grupos.length} altares.`);
                     } catch (err) {
                         App.toast('No tienes permisos de Administrador para leer la base de datos.');
+                    }
+                },
+
+                async deleteRecord(colName, docId, storagePath = '') {
+                    const conf = prompt('Escribe "ELIMINAR" para borrar este registro permanentemente:');
+                    if (conf !== 'ELIMINAR') {
+                        if (conf !== null) App.toast('Cancelado. Palabra de seguridad incorrecta.');
+                        return;
+                    }
+                    try {
+                        App.toast('Eliminando registro...');
+                        await deleteDoc(doc(db, colName, docId));
+                        if (storagePath) {
+                            try { await deleteObject(ref(storage, storagePath)); } 
+                            catch(se) { console.warn('Archivo no encontrado o ya eliminado', se); }
+                        }
+                        App.toast('Registro eliminado exitosamente.');
+                        document.getElementById('admin-modal').classList.remove('active');
+                        this.refreshData(false);
+                    } catch(e) {
+                        console.error(e);
+                        App.toast('Error al intentar eliminar el registro.');
+                    }
+                },
+
+                async deleteAllData(e) {
+                    const conf = prompt('PELIGRO: Se borrarán TODOS los altares, panes, puestos y archivos de Excel para siempre. Escribe "BORRAR TODO" para confirmar:');
+                    if (conf !== 'BORRAR TODO') {
+                        if (conf !== null) App.toast('Operación cancelada. Palabra de seguridad incorrecta.');
+                        return;
+                    }
+                    
+                    const btn = e.target;
+                    const originalText = btn.textContent;
+                    btn.textContent = 'Borrando base de datos...';
+                    btn.disabled = true;
+
+                    try {
+                        let total = 0;
+                        for (const g of App.dbCache.grupos) {
+                            await deleteDoc(doc(db, 'tz26_grupos', g._id));
+                            if(g.archivo_integrantes_storage_path) {
+                                try { await deleteObject(ref(storage, g.archivo_integrantes_storage_path)); } catch(err){}
+                            }
+                            total++;
+                        }
+                        for (const m of App.dbCache.mercadito) {
+                            await deleteDoc(doc(db, 'tz26_mercadito', m._id));
+                            total++;
+                        }
+                        for (const s of App.dbCache.sabores) {
+                            await deleteDoc(doc(db, 'tz26_sabores', s._id));
+                            total++;
+                        }
+                        
+                        App.toast(`¡Base de datos vaciada por completo! Se eliminaron ${total} registros.`, 6000);
+                        this.refreshData(false);
+                    } catch(err) {
+                        console.error(err);
+                        App.toast('Ocurrió un error al vaciar la base de datos.');
+                    } finally {
+                        btn.textContent = originalText;
+                        btn.disabled = false;
                     }
                 },
 
