@@ -1045,6 +1045,16 @@
             dbCache: { grupos: [], mercadito: [], sabores: [], codigos: [] },
 
             init() {
+                // Configurar History API para manejar el botón de "Atrás" del navegador
+                history.replaceState({ scene: 'main' }, '', window.location.pathname + window.location.search);
+                window.addEventListener('popstate', (e) => {
+                    if (e.state && e.state.scene && e.state.scene !== 'main') {
+                        this._showScene(e.state.scene);
+                    } else {
+                        this._doBackToMain();
+                    }
+                });
+
                 this.renderTzompantli();
                 
                 document.querySelectorAll('input[type="tel"]').forEach(input => {
@@ -1171,6 +1181,12 @@
             },
 
             navigate(sceneId) {
+                if (this.state.activeScene === sceneId) return;
+                history.pushState({ scene: sceneId }, '', '#' + sceneId);
+                this._showScene(sceneId);
+            },
+
+            _showScene(sceneId) {
                 if (this.state.activeScene) document.getElementById(this.state.activeScene).classList.remove('active');
                 
                 if (sceneId === 'scene-grupo') {
@@ -1206,7 +1222,7 @@
                     document.getElementById('confirm-modal').classList.add('active');
                     return;
                 }
-                this._doBackToMain();
+                history.back(); // En lugar de llamar a _doBackToMain directo, disparamos el historial
             },
 
             confirmExit(yes) {
@@ -1214,7 +1230,7 @@
                 if (yes) {
                     const formIds = { 'scene-grupo': 'form-grupo', 'scene-mercadito': 'form-mercadito', 'scene-sabores': 'form-sabores' };
                     if (formIds[this.state.pendingExit]) FormCache.clear(formIds[this.state.pendingExit]);
-                    this._doBackToMain();
+                    history.back(); // Navegamos hacia atrás de forma nativa
                 }
                 this.state.pendingExit = null;
             },
