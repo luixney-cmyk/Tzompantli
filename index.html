@@ -473,8 +473,8 @@
                                 </select>
                             </div>
                             <div>
-                                <label for="inp-grupo">Grupo (Ej. A, B)</label>
-                                <input type="text" name="grupo" id="inp-grupo" required aria-required="true" placeholder="Letra del grupo (ej. A)">
+                                <label for="inp-grupo">Grupo (Ej. D5, A2-2, E1)</label>
+                                <input type="text" name="grupo" id="inp-grupo" required aria-required="true" placeholder="Ej. D5, A2-2, E1" minlength="2" maxlength="4">
                             </div>
                         </div>
                     </div>
@@ -511,8 +511,8 @@
                                 </select>
                             </div>
                             <div>
-                                <label for="grup2">Grupo (Ej. A, B)</label>
-                                <input type="text" name="grupo2" id="grup2" placeholder="Letra del grupo (ej. A)">
+                                <label for="grup2">Grupo (Ej. D5, A2-2, E1)</label>
+                                <input type="text" name="grupo2" id="grup2" placeholder="Ej. D5, A2-2, E1" minlength="2" maxlength="4">
                             </div>
                         </div>
                     </div>
@@ -547,7 +547,7 @@
                         </div>
                         <div>
                             <label for="rep-tel">Teléfono</label>
-                            <input type="tel" name="rep_tel" id="rep-tel" required aria-required="true" placeholder="10 dígitos numéricos">
+                            <input type="tel" name="rep_tel" id="rep-tel" required aria-required="true" placeholder="10 dígitos numéricos" maxlength="10">
                         </div>
                     </div>
                     <div>
@@ -660,7 +660,7 @@
                     <div class="form-row">
                         <div>
                             <label for="merc-tel">Teléfono</label>
-                            <input type="tel" name="telefono" id="merc-tel" required aria-required="true">
+                            <input type="tel" name="telefono" id="merc-tel" required aria-required="true" maxlength="10">
                         </div>
                         <div>
                             <label for="merc-correo">Correo</label>
@@ -699,7 +699,7 @@
             <h2 class="scene-title">Programa Cultural</h2>
             <div class="timeline">
                 <div class="tl-item fade-in"><div class="tl-time">08:00</div><div class="tl-dot" aria-hidden="true"></div><div class="tl-content"><strong class="text-gold" style="font-family:var(--font-title); font-weight:500; letter-spacing:1px; display:block; margin-bottom:5px;">Inicio de Montaje</strong>Apertura de la explanada para la instalación de altares y puestos del Mercadito de Ánimas.</div></div>
-                <div class="tl-item fade-in" style="animation-delay: 0.1s;"><div class="tl-time">16:00</div><div class="tl-dot" aria-hidden="true"></div><div class="tl-content"><strong class="text-gold" style="font-family:var(--font-title); font-weight:500; letter-spacing:1px; display:block; margin-bottom:5px;">Cierre de Montaje</strong>Fin del tiempo permitido para montaje. Inicio de limpieza de pasillos. No se permitirá ingreso de materiales después de esta hora.</div></div>
+                <div class="tl-item fade-in" style="animation-delay: 0.1s;"><div class="tl-time">17:00</div><div class="tl-dot" aria-hidden="true"></div><div class="tl-content"><strong class="text-gold" style="font-family:var(--font-title); font-weight:500; letter-spacing:1px; display:block; margin-bottom:5px;">Cierre de Montaje</strong>Fin del tiempo permitido para montaje. Inicio de limpieza de pasillos. No se permitirá ingreso de materiales después de esta hora.</div></div>
                 <div class="tl-item fade-in" style="animation-delay: 0.2s;"><div class="tl-time">17:00</div><div class="tl-dot" aria-hidden="true"></div><div class="tl-content"><strong class="text-gold" style="font-family:var(--font-title); font-weight:500; letter-spacing:1px; display:block; margin-bottom:5px;">Inauguración y Encendido</strong>Ceremonia de apertura por parte de las autoridades universitarias y encendido oficial de velas de todos los altares.</div></div>
                 <div class="tl-item fade-in" style="animation-delay: 0.3s;"><div class="tl-time">17:30</div><div class="tl-dot" aria-hidden="true"></div><div class="tl-content"><strong class="text-gold" style="font-family:var(--font-title); font-weight:500; letter-spacing:1px; display:block; margin-bottom:5px;">Recorrido del Jurado</strong>Inicio de la evaluación de altares por parte del jurado calificador. Los representantes de cada altar deberán estar presentes para su explicación.</div></div>
                 <div class="tl-item fade-in" style="animation-delay: 0.4s;"><div class="tl-time">18:30</div><div class="tl-dot" aria-hidden="true"></div><div class="tl-content"><strong class="text-gold" style="font-family:var(--font-title); font-weight:500; letter-spacing:1px; display:block; margin-bottom:5px;">Concurso: Sabores de Ánimas</strong>Presentación y degustación de los Panes de Muerto elaborados con ingredientes endémicos de Nayarit.</div></div>
@@ -759,7 +759,7 @@
                     <div class="form-row">
                         <div>
                             <label for="sab-tel">Teléfono</label>
-                            <input type="tel" name="telefono" id="sab-tel" required aria-required="true">
+                            <input type="tel" name="telefono" id="sab-tel" required aria-required="true" maxlength="10">
                         </div>
                         <div>
                             <label for="sab-correo">Correo</label>
@@ -1008,6 +1008,32 @@
             init() {
                 this.renderTzompantli();
                 
+                // --- Validaciones en Tiempo Real ---
+                document.querySelectorAll('input[type="tel"]').forEach(input => {
+                    input.addEventListener('input', (e) => {
+                        e.target.value = e.target.value.replace(/\D/g, '').substring(0, 10);
+                    });
+                });
+
+                ['inp-grupo', 'grup2'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) {
+                        el.addEventListener('input', (e) => {
+                            e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9\-]/g, '').substring(0, 4);
+                        });
+                    }
+                });
+
+                ['inp-tutor', 'rep-nombre', 'sab-nombre', 'merc-responsable'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) {
+                        el.addEventListener('input', (e) => {
+                            e.target.value = e.target.value.replace(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ\.\s]/g, '');
+                        });
+                    }
+                });
+                // -----------------------------------
+
                 ['form-grupo', 'form-mercadito', 'form-sabores'].forEach(fId => {
                     const form = document.getElementById(fId);
                     if (!form) return;
@@ -1246,7 +1272,7 @@
                         if(!Utils.isValidName(data.rep_nombre)) throw new Error('El nombre del representante es inválido.');
                         
                         data.grupo = data.grupo.toUpperCase();
-                        if(!Utils.isValidGroupCode(data.grupo)) throw new Error('El grupo principal es inválido (ej. A, 3A, 1-B).');
+                        if(!Utils.isValidGroupCode(data.grupo)) throw new Error('El grupo principal es inválido (ej. A2-2, D5). Mínimo 2 caracteres.');
                         
                         if(isFusion) {
                             data.grupo2 = data.grupo2.toUpperCase();
@@ -1277,8 +1303,16 @@
                         const storagePath = `tzompantli_2026/altares/${folio}/integrantes_${folio}_${Date.now()}${safeExt}`;
                         const storageReference = ref(storage, storagePath);
                         
-                        await uploadBytes(storageReference, file);
-                        const downloadUrl = await getDownloadURL(storageReference);
+                        let uploadedStoragePath = null;
+                        let downloadUrl = null;
+
+                        try {
+                            await uploadBytes(storageReference, file);
+                            uploadedStoragePath = storagePath;
+                            downloadUrl = await getDownloadURL(storageReference);
+                        } catch (err) {
+                            throw new Error('Error al subir el archivo Excel. Revisa tu conexión.');
+                        }
 
                         btn.textContent = 'Guardando inscripción...';
                         delete data.archivo_integrantes; 
@@ -1298,7 +1332,14 @@
                             createdAt: serverTimestamp()
                         };
 
-                        await addDoc(getCol('tz26_grupos'), docData);
+                        try {
+                            await addDoc(getCol('tz26_grupos'), docData);
+                        } catch (dbErr) {
+                            if (uploadedStoragePath) {
+                                try { await deleteObject(ref(storage, uploadedStoragePath)); } catch (e) { console.warn('Rollback del archivo falló', e); }
+                            }
+                            throw new Error('Error al guardar en la base de datos. Se revirtió la subida del archivo Excel por seguridad.');
+                        }
                         
                         // IMPORTANTE: Limpiar formulario y caché
                         FormCache.clear('form-grupo');
