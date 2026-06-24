@@ -670,6 +670,12 @@
                 </div>
             </div>
 
+            <!-- Nuevo contenedor para el contador -->
+            <div class="premium-card" style="text-align: center; padding: 25px; margin-bottom: 30px;">
+                <h3 class="title-font text-gold" style="font-size: 1.1rem; margin-bottom: 10px; letter-spacing: 2px;">Disponibilidad de Espacios</h3>
+                <div id="mercadito-counter" class="serif-font text-bone" style="font-size: 1.3rem;">Consultando disponibilidad...</div>
+            </div>
+
             <div id="merc-form-container" class="premium-card">
                 <form id="form-mercadito" onsubmit="App.forms.submitMercadito(event)" novalidate>
                     <div class="form-row">
@@ -1137,6 +1143,9 @@
                     document.getElementById('merc-receipt').classList.add('hidden');
                     const btn = document.getElementById('btn-submit-mercadito');
                     if(btn) { btn.textContent = 'Solicitar Espacio'; btn.disabled = false; }
+                    
+                    // Consultar espacios disponibles al abrir el mercadito
+                    App.forms.checkMercaditoAvailability();
                 }
 
                 const scene = document.getElementById(sceneId);
@@ -1222,6 +1231,48 @@
                             <span class="receipt-summary-value">${Utils.escText(value)}</span>
                         </div>`
                     ).join('');
+                },
+
+                async checkMercaditoAvailability() {
+                    const counterDisplay = document.getElementById('mercadito-counter');
+                    const formContainer = document.getElementById('merc-form-container');
+                    const btn = document.getElementById('btn-submit-mercadito');
+                    
+                    if (!counterDisplay) return;
+                    
+                    counterDisplay.innerHTML = '<span style="opacity:0.7;">Consultando disponibilidad...</span>';
+                    
+                    try {
+                        const snap = await getDocs(getCol('tz26_mercadito'));
+                        const count = snap.size;
+                        const MAX_LIMIT = 12;
+                        const available = MAX_LIMIT - count;
+
+                        if (available <= 0) {
+                            counterDisplay.innerHTML = '<span class="text-danger" style="font-weight:600; font-size: 1.4rem;">¡AGOTADO! No hay más espacios disponibles.</span>';
+                            if (formContainer) {
+                                formContainer.style.pointerEvents = 'none';
+                                formContainer.style.opacity = '0.3';
+                            }
+                            if(btn) {
+                                btn.textContent = 'Espacios Agotados';
+                                btn.disabled = true;
+                            }
+                        } else {
+                            counterDisplay.innerHTML = `Quedan <strong class="text-gold" style="font-size:2rem; margin:0 8px;">${available}</strong> de ${MAX_LIMIT} espacios`;
+                            if (formContainer) {
+                                formContainer.style.pointerEvents = 'auto';
+                                formContainer.style.opacity = '1';
+                            }
+                            if(btn) {
+                                btn.textContent = 'Solicitar Espacio';
+                                btn.disabled = false;
+                            }
+                        }
+                    } catch (e) {
+                        console.warn('Error al verificar mercadito:', e);
+                        counterDisplay.innerHTML = '<span style="color:#e88989;">Error de conexión. Revisa tu internet.</span>';
+                    }
                 },
 
                 async validateCode() {
@@ -1455,14 +1506,24 @@
                     btn.textContent = 'Procesando...';
                     btn.disabled = true;
 
-                    const fd = new FormData(form);
-                    const data = Object.fromEntries(fd.entries());
-                    data.folio = Utils.genFolio('MK26');
-                    data.timestamp = serverTimestamp();
-
                     try {
+                        // Doble validación de seguridad antes de guardar
+                        const snap = await getDocs(getCol('tz26_mercadito'));
+                        if (snap.size >= 12) {
+                            App.toast('Lo sentimos, los espacios se acaban de agotar en este instante.', 6000);
+                            App.forms.checkMercaditoAvailability();
+                            if(btn) { btn.textContent = 'Espacios Agotados'; btn.disabled = true; }
+                            return;
+                        }
+
+                        const fd = new FormData(form);
+                        const data = Object.fromEntries(fd.entries());
+                        data.folio = Utils.genFolio('MK26');
+                        data.timestamp = serverTimestamp();
+
                         await addDoc(getCol('tz26_mercadito'), data);
                         
+                        // IMPORTANTE: Limpiar formulario y caché
                         FormCache.clear('form-mercadito');
                         form.reset();
 
@@ -1479,6 +1540,10 @@
 
                         document.getElementById('merc-receipt').classList.remove('hidden');
                         App.toast('Solicitud guardada exitosamente.');
+                        
+                        // Actualizar el contador para reflejar el nuevo lugar ocupado
+                        this.checkMercaditoAvailability();
+
                     } catch (err) {
                         console.error(err);
                         App.toast('Error al guardar. Intenta de nuevo.');
